@@ -1,0 +1,240 @@
+source_type: ODPS
+name: contract_asset_attribute_v2
+description: Asset attributes at the contract level including negative list flag per agreement
+entity: contract
+ttl: 3650d
+feature_fields:
+  - name: agreement_number
+    type: STRING
+    description: Unique identifier for each contract
+    business_logic: This is the agreement number that links asset attributes to a specific contract
+  - name: asset_age_newest
+    type: INTEGER
+    description: Age of the newest financed asset in years
+    business_logic: Years since manufacturing year to current event timestamp date
+  - name: asset_code_nunique
+    type: INTEGER
+    description: Count of unique asset codes associated with the contract
+    business_logic: Cumulative distinct count of asset codes ordered by event timestamp
+  - name: asset_condition_newest
+    type: STRING
+    description: Condition status of the newest financed asset (e.g., New, Used)
+    business_logic: Asset condition evaluated based on the newest manufacturing year and latest event timestamp
+  - name: asset_negative_list_flag_max
+    type: INTEGER
+    description: Maximum negative list flag indicating if any asset has been blacklisted or flagged
+    business_logic: Cumulative maximum flag value where higher value implies restriction
+  - name: asset_price_max
+    type: DOUBLE
+    description: Maximum average market price among all assets under the agreement
+    business_logic: Cumulative maximum of avg_market_price ordered by event timestamp
+  - name: asset_price_newest
+    type: DOUBLE
+    description: Average market price of the newest financed asset under the contract
+    business_logic: Market price evaluated based on the newest manufacturing year and latest event timestamp
+  - name: asset_price_std
+    type: DOUBLE
+    description: Standard deviation of average market prices for assets under the contract
+    business_logic: Cumulative population or sample standard deviation of avg_market_price
+  - name: asset_seqno_count
+    type: INTEGER
+    description: Cumulative count of asset sequence numbers associated with the contract
+    business_logic: Forward-filled total count of sequence numbers ordered by event timestamp
+  - name: asset_usage_newest
+    type: STRING
+    description: Primary usage type of the newest financed asset (e.g., Commercial, Private)
+    business_logic: Asset usage evaluated based on the newest manufacturing year and latest event timestamp
+  - name: asset_validation_days_ago
+    type: INTEGER
+    description: Days elapsed since the asset validation date relative to the event timestamp
+    business_logic: DATEDIFF between event_timestamp and assetvalidation_date in days
+  - name: bpkb_ownership_newest
+    type: STRING
+    description: Ownership status on the BPKB (vehicle ownership document) for the newest asset
+    business_logic: BPKB ownership evaluated based on the newest manufacturing year and latest event timestamp
+  - name: bpkb_status_newest
+    type: STRING
+    description: Status of the BPKB document (e.g., On Hand, Collateral) for the newest asset
+    business_logic: BPKB status evaluated based on the newest manufacturing year and latest event timestamp
+  - name: brand_newest
+    type: STRING
+    description: Brand name of the newest financed asset under the contract
+    business_logic: Brand evaluated based on the newest manufacturing year and latest event timestamp
+  - name: product_type_newest
+    type: STRING
+    description: Product type category for the newest financed asset
+    business_logic: Product type evaluated based on the newest manufacturing year and latest event timestamp
+  - name: stnk_date_days_ago
+    type: INTEGER
+    description: Days elapsed since the STNK (registration certificate) date relative to the event timestamp
+    business_logic: DATEDIFF between event_timestamp and stnk_date in days
+  - name: stnk_status_newest
+    type: STRING
+    description: Status of the vehicle registration certificate for financed asset
+    business_logic: Active; Inactive
+  - name: sub_category_newest
+    type: STRING
+    description: Sub-category classification for the newest financed asset
+    business_logic: Sub-category evaluated based on the newest manufacturing year and latest event timestamp
+  - name: tax_status_newest
+    type: STRING
+    description: Annual vehicle tax payment status for the financed asset
+    business_logic: Paid off; Expired
+  - name: event_timestamp
+    type: TIMESTAMP
+    description: Snapshot date as feature timestamp
+    business_logic: Snapshot date used as the feature timestamp since no specific event timestamp is available
+tags:
+  domain: contract
+  confidentiality: public
+sql: |-
+  WITH one_source_agreement AS (
+      SELECT  dt
+              ,agreement_number
+      FROM    wsdatainnovation.cdp_identity_resolution
+      WHERE   dt = CASE   WHEN '{bizdate}' < '20100101' THEN '20100101'
+              ELSE '{bizdate}'
+      END
+      AND     NULLIF(TRIM(agreement_number), '') IS NOT NULL
+      GROUP BY dt, agreement_number
+  )
+  ,asset_prep1 AS (
+      SELECT  t1.agreement_number
+              ,t2.* EXCEPT(dt, agreement_number)
+              ,ROW_NUMBER() OVER(PARTITION BY t1.agreement_number ORDER BY created_timestamp DESC) rn
+      FROM one_source_agreement t1
+      INNER JOIN wsDataInnovation.cdp_asset t2
+      ON    t1.dt = t2.dt
+      AND   t1.agreement_number = t2.agreement_number
+  )
+  ,asset_prep2 AS (
+      SELECT  agreement_number
+              ,TO_CHAR(CAST(created_timestamp AS DATETIME), 'yyyymmdd') AS ts_id
+              ,CAST(asset_seq_no AS INT) asset_seq_no
+              ,asset_code
+              ,brand
+              ,CAST(manufacturing_year AS INT) manufacturing_year
+              ,NULLIF(avg_market_price, 0) AS avg_market_price
+              ,stnk_status
+              ,tax_status
+              ,asset_negative_list_flag
+              ,NULLIF(TRIM(asset_usage), '') asset_usage
+              ,asset_condition
+              ,bpkb_ownership
+              ,document_track AS bpkb_status
+              ,product_type
+              ,sub_category
+              ,CAST(stnk_date AS DATETIME) stnk_date
+              ,CAST(assetvalidation_date AS DATETIME) assetvalidation_date
+              ,created_timestamp AS event_timestamp
+      FROM asset_prep1
+      UNION ALL
+      SELECT  agreement_number
+              ,'{bizdate}' AS ts_id
+              ,CAST(NULL AS INT) asset_seq_no
+              ,CAST(NULL AS STRING) asset_code
+              ,CAST(NULL AS STRING) brand
+              ,CAST(NULL AS INT) manufacturing_year
+              ,CAST(NULL AS DOUBLE) AS avg_market_price
+              ,CAST(NULL AS STRING) stnk_status
+              ,CAST(NULL AS STRING) tax_status
+              ,CAST(NULL AS INT) AS asset_negative_list_flag
+              ,CAST(NULL AS STRING) asset_usage
+              ,CAST(NULL AS STRING) asset_condition
+              ,CAST(NULL AS STRING) bpkb_ownership
+              ,CAST(NULL AS STRING) bpkb_status
+              ,CAST(NULL AS STRING) product_type
+              ,CAST(NULL AS STRING) sub_category
+              ,CAST(NULL AS DATETIME) stnk_date
+              ,CAST(NULL AS DATETIME) assetvalidation_date
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS event_timestamp
+      FROM asset_prep1 t2
+      WHERE t2.rn = 1 
+      AND CAST(t2.created_timestamp AS DATETIME) < CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS DATETIME)
+  )
+  ,contract_asset_feat AS (
+      SELECT
+          agreement_number
+          --,ts_id -- for join multiple views
+          ,COUNT(asset_seq_no) OVER(PARTITION BY agreement_number
+              ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+          ) asset_seqno_count
+          ,COUNT(DISTINCT asset_code) OVER(PARTITION BY agreement_number
+              ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+          ) asset_code_nunique
+          ,MAX(manufacturing_year) OVER(PARTITION BY agreement_number
+              ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+          ) manufacturing_year_newest
+          ,MIN(YEAR(event_timestamp) - manufacturing_year) OVER(PARTITION BY agreement_number
+              ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+          ) asset_age_newest
+          ,MAX(avg_market_price) OVER(PARTITION BY agreement_number 
+              ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+          ) asset_price_max
+          ,STDDEV(avg_market_price) OVER(PARTITION BY agreement_number
+              ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+          ) asset_price_std
+          ,MAX(asset_negative_list_flag) OVER(PARTITION BY agreement_number
+              ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+          ) asset_negative_list_flag_max
+          ,FIRST_VALUE(brand) OVER(PARTITION BY agreement_number
+              ORDER BY manufacturing_year DESC, event_timestamp DESC 
+          ) brand_newest          
+          ,FIRST_VALUE(avg_market_price) OVER(PARTITION BY agreement_number
+              ORDER BY manufacturing_year DESC, event_timestamp DESC 
+          ) asset_price_newest
+          ,FIRST_VALUE(stnk_status) OVER(PARTITION BY agreement_number
+              ORDER BY manufacturing_year DESC, event_timestamp DESC 
+          ) stnk_status_newest
+          ,FIRST_VALUE(tax_status) OVER(PARTITION BY agreement_number
+              ORDER BY manufacturing_year DESC, event_timestamp DESC 
+          ) tax_status_newest
+          ,FIRST_VALUE(asset_usage) OVER(PARTITION BY agreement_number
+              ORDER BY manufacturing_year DESC, event_timestamp DESC 
+          ) asset_usage_newest
+          ,FIRST_VALUE(asset_condition) OVER(PARTITION BY agreement_number
+              ORDER BY manufacturing_year DESC, event_timestamp DESC 
+          ) asset_condition_newest
+          ,FIRST_VALUE(bpkb_ownership) OVER(PARTITION BY agreement_number
+              ORDER BY manufacturing_year DESC, event_timestamp DESC 
+          ) bpkb_ownership_newest
+          ,FIRST_VALUE(bpkb_status) OVER(PARTITION BY agreement_number
+              ORDER BY manufacturing_year DESC, event_timestamp DESC 
+          ) bpkb_status_newest
+          ,FIRST_VALUE(product_type) OVER(PARTITION BY agreement_number
+              ORDER BY manufacturing_year DESC, event_timestamp DESC 
+          ) product_type_newest
+          ,FIRST_VALUE(sub_category) OVER(PARTITION BY agreement_number
+              ORDER BY manufacturing_year DESC, event_timestamp DESC 
+          ) sub_category_newest
+          ,DATEDIFF(CAST(event_timestamp AS DATETIME), stnk_date, 'dd') stnk_date_days_ago
+          ,DATEDIFF(CAST(event_timestamp AS DATETIME), assetvalidation_date, 'dd') asset_validation_days_ago
+          
+          ,MAX(event_timestamp) OVER(PARTITION BY agreement_number, ts_id) event_timestamp
+          ,ROW_NUMBER() OVER(PARTITION BY agreement_number, ts_id ORDER BY event_timestamp DESC) rn
+      FROM
+      asset_prep2
+  ) 
+  SELECT  agreement_number
+          -- forward_fill
+          ,LAST_VALUE(asset_age_newest, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS asset_age_newest
+          ,LAST_VALUE(asset_code_nunique, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS asset_code_nunique
+          ,LAST_VALUE(asset_condition_newest, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS asset_condition_newest
+          ,LAST_VALUE(asset_negative_list_flag_max, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS asset_negative_list_flag_max
+          ,LAST_VALUE(asset_price_max, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS asset_price_max
+          ,LAST_VALUE(asset_price_newest, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS asset_price_newest
+          ,LAST_VALUE(asset_price_std, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS asset_price_std
+          ,LAST_VALUE(asset_seqno_count, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS asset_seqno_count
+          ,LAST_VALUE(asset_usage_newest, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS asset_usage_newest
+          ,LAST_VALUE(asset_validation_days_ago, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS asset_validation_days_ago
+          ,LAST_VALUE(bpkb_ownership_newest, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS bpkb_ownership_newest
+          ,LAST_VALUE(bpkb_status_newest, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS bpkb_status_newest
+          ,LAST_VALUE(brand_newest, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS brand_newest
+          ,LAST_VALUE(product_type_newest, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS product_type_newest
+          ,LAST_VALUE(stnk_date_days_ago, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS stnk_date_days_ago
+          ,LAST_VALUE(stnk_status_newest, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS stnk_status_newest
+          ,LAST_VALUE(sub_category_newest, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS sub_category_newest
+          ,LAST_VALUE(tax_status_newest, true) OVER(PARTITION BY agreement_number ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS tax_status_newest
+          ,event_timestamp
+  FROM    contract_asset_feat
+  WHERE   rn = 1

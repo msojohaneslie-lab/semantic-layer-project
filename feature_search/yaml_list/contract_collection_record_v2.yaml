@@ -1,0 +1,286 @@
+source_type: ODPS
+name: contract_collection_record_v2
+description: >-
+  Collection record (ever30/60/90, default status, fid, inventory, repossession) per contract, reconstructed as a point-in-time historical series. ts_id combines two sources: cdp_loan's origination date (real history back to 1993) and cdp_collection's daily delinquency tracking (only real data from ~April 2026 onward). Counters default to 0 (not NULL) before tracking existed, since a contract genuinely has zero delinquency events until then.
+entity: contract
+feature_fields:
+  - name: agreement_number
+    type: STRING
+    description: Unique identifier for each contract
+    business_logic: here's we refer to agreement_number in cdp_loan table
+  - name: number_ever30
+    type: INTEGER
+    description: >-
+      Flag (0/1) indicating whether this contract has EVER reached 30+ days overdue, as observed
+      up to this point in time. This is a boolean flag, not a count of distinct delinquency episodes.
+    business_logic: Running MAX of the 30+ days overdue flag up to this point in time; 0 before any collection data exists
+  - name: number_ever60
+    type: INTEGER
+    description: >-
+      Flag (0/1) indicating whether this contract has EVER reached 60+ days overdue, as observed
+      up to this point in time. Same clarification as number_ever30.
+    business_logic: Running MAX of the 60+ days overdue flag up to this point in time; 0 before any collection data exists
+  - name: number_ever90
+    type: INTEGER
+    description: >-
+      Flag (0/1) indicating whether this contract has EVER reached 90+ days overdue, as observed
+      up to this point in time. Same clarification as number_ever30.
+    business_logic: Running MAX of the 90+ days overdue flag up to this point in time; 0 before any collection data exists
+  - name: default_status
+    type: STRING
+    description: The worse default status of the contract, as observed up to this point in time
+    business_logic: Write Off (WO); Non Performing Loan (NPL); Normal (NM); UNKNOWN before any loan record exists at that ts_id
+  - name: fid
+    type: INTEGER
+    description: The earliest First Installment Default of the contract, as observed up to this point in time
+    business_logic: Minimum of First Installment Default (from cdp_collection.fid). NULL (not 0) before collection data exists -- fid is an installment number, not a counter, so 0 would be misleading
+  - name: max_dpd
+    type: INTEGER
+    description: The highest number of days this contract has ever been past due, as observed up to this point in time
+    business_logic: Maximum days past due value; 0 before any collection data exists
+  - name: max_bucket
+    type: STRING
+    description: Which delinquency bucket this contract currently falls into, as of this point in time
+    business_logic: Ranges from Current (0 days late) to Bucket 210+; UNKNOWN before any collection data exists
+  - name: wo_contract
+    type: INTEGER
+    description: Whether this contract was ever written off as uncollectable, as observed up to this point in time
+    business_logic: 0/1 flag; 0 before any collection data exists
+  - name: npl_contract
+    type: INTEGER
+    description: Whether this contract is classified as non-performing loan, as observed up to this point in time
+    business_logic: 0/1 flag; 0 before any collection data exists
+  - name: inventory
+    type: INTEGER
+    description: Whether the asset financed under this contract has ever been in inventory, as observed up to this point in time
+    business_logic: 0/1 flag; 0 before any collection data exists
+  - name: repossess
+    type: INTEGER
+    description: Whether the asset financed under this contract has ever been repossessed, as observed up to this point in time
+    business_logic: 0/1 flag; 0 before any collection data exists
+  - name: lor_gor_amount
+    type: DOUBLE
+    description: The net amount of gain or loss on repossession, as observed up to this point in time
+    business_logic: Inventory selling amount minus outstanding principal; 0 before any collection data exists
+  - name: latest_collection_effect
+    type: STRING
+    description: How effective our collection efforts have been on this contract, as of this point in time
+    business_logic: coll. effect ie back to current; same aging; roll back; roll rate; settlement; repossess; inventory. NULL before any collection data exists
+  - name: latest_persona
+    type: STRING
+    description: Collection customer segmentation in delinquency before NPL, as of this point in time
+    business_logic: Self cure; Short-term relief seeker; Distressed customer; Evasive and un-cooperative. NULL before any collection data exists
+  - name: collection_expenses
+    type: DOUBLE
+    description: How much money has been spent trying to collect overdue payments on this contract, as observed up to this point in time
+    business_logic: Sum of all costs associated with collection activities; 0 before any collection data exists
+  - name: event_timestamp
+    type: TIMESTAMP
+    description: Reconstructed snapshot date (ts_id) for this point in time
+    business_logic: Derived from cdp_collection/cdp_loan's event timestamp where available, falling back to loan origination timestamp, falling back to ts_id itself
+tags:
+  domain: contract
+  confidentiality: public
+sql: |-
+  WITH loan_snapshot AS
+  (
+      SELECT  TRIM(agreement_number) AS agreement_number
+              ,created_timestamp AS loan_created_timestamp
+      FROM    wsDataInnovation.cdp_loan
+      WHERE   dt = '{bizdate}'
+      AND     agreement_number IS NOT NULL
+      AND     TO_CHAR(created_timestamp,'yyyy') <> '1900'
+  )
+  ,loan_ts_grid AS
+  (
+      SELECT agreement_number, TO_CHAR(loan_created_timestamp,'yyyymmdd') AS ts_id
+      FROM   loan_snapshot
+      WHERE  loan_created_timestamp IS NOT NULL
+  )
+  ,collection_scan AS
+  (
+      SELECT  TRIM(agreement_number) AS agreement_number
+              ,dt AS ts_id
+              ,fid
+              ,dpd
+              ,latest_bucket
+              ,product
+              ,inventory_date
+              ,repossess_date
+              ,lor_gor_amount
+              ,collection_effectiveness
+              ,persona
+              ,collection_expenses
+              ,COALESCE(
+                  CASE WHEN TO_CHAR(GREATEST(updated_timestamp,created_timestamp),'yyyy') = '1900' THEN NULL
+                       ELSE GREATEST(updated_timestamp,created_timestamp) END
+                  ,CAST(TO_DATE(dt,'yyyymmdd') AS TIMESTAMP)
+              ) AS raw_event_timestamp
+      FROM    wsDataInnovation.cdp_collection
+      WHERE   dt <= '{bizdate}'
+      AND     agreement_number IS NOT NULL
+  )
+  ,loan_scan AS
+  (
+      SELECT  TRIM(agreement_number) AS agreement_number
+              ,dt AS ts_id
+              ,ever_30
+              ,ever_60
+              ,ever_90
+              ,default_status
+              ,COALESCE(
+                  CASE WHEN TO_CHAR(created_timestamp,'yyyy') = '1900' THEN NULL ELSE created_timestamp END
+                  ,CAST(TO_DATE(dt,'yyyymmdd') AS TIMESTAMP)
+              ) AS raw_event_timestamp
+      FROM    wsDataInnovation.cdp_loan
+      WHERE   dt <= '{bizdate}'
+      AND     agreement_number IS NOT NULL
+  )
+  ,collection_ts_grid AS
+  (
+      SELECT DISTINCT agreement_number, ts_id FROM collection_scan
+      UNION ALL
+      SELECT DISTINCT agreement_number, ts_id FROM loan_scan
+  )
+  ,combined_ts_grid AS
+  (
+      SELECT agreement_number, ts_id FROM loan_ts_grid
+      UNION ALL
+      SELECT agreement_number, ts_id FROM collection_ts_grid
+      UNION ALL
+      SELECT agreement_number, '{bizdate}' AS ts_id
+      FROM   loan_snapshot
+  )
+  ,collection_agg AS
+  (
+      SELECT
+          agreement_number
+          ,ts_id
+          ,MIN(fid) AS fid
+          ,MAX(dpd) AS max_dpd
+          ,MAX(
+              CASE    WHEN latest_bucket LIKE '%210+' THEN 6
+                      WHEN latest_bucket LIKE '%180+' THEN 5
+                      WHEN latest_bucket LIKE '%90+' THEN 4
+                      WHEN latest_bucket LIKE '%60+' THEN 3
+                      WHEN latest_bucket LIKE '%30+' THEN 2
+                      WHEN latest_bucket LIKE '%0+' THEN 1
+                      WHEN latest_bucket LIKE '0' THEN 0
+                      ELSE -1
+              END
+          ) AS bucket_code
+          ,MAX(CASE WHEN product = 'NDF2W' AND dpd > 180 THEN 1 WHEN product = 'NDF4W' AND dpd > 210 THEN 1 ELSE 0 END) AS wo_contract
+          ,MAX(CASE WHEN product = 'NDF2W' AND dpd BETWEEN 91 AND 180 THEN 1 WHEN product = 'NDF4W' AND dpd BETWEEN 91 AND 210 THEN 1 ELSE 0 END) AS npl_contract
+          ,MAX(CASE WHEN inventory_date IS NOT NULL THEN 1 ELSE 0 END) AS inventory
+          ,MAX(CASE WHEN repossess_date IS NOT NULL THEN 1 ELSE 0 END) AS repossess
+          ,SUM(lor_gor_amount) AS lor_gor_amount
+          ,MAX(collection_effectiveness) AS latest_collection_effect
+          ,MAX(persona) AS latest_persona
+          ,SUM(collection_expenses) AS collection_expenses
+          ,MAX(raw_event_timestamp) AS collection_event_timestamp
+      FROM    collection_scan
+      GROUP BY agreement_number, ts_id
+  )
+  ,loan_agg AS
+  (
+      SELECT
+          agreement_number
+          ,ts_id
+          ,MAX(CASE WHEN ever_30 = 1 THEN 1 ELSE 0 END) AS number_ever30
+          ,MAX(CASE WHEN ever_60 = 1 THEN 1 ELSE 0 END) AS number_ever60
+          ,MAX(CASE WHEN ever_90 = 1 THEN 1 ELSE 0 END) AS number_ever90
+          ,MAX(
+              CASE    WHEN default_status = 'WO' THEN 3
+                      WHEN default_status = 'NA' THEN 2
+                      WHEN default_status = 'NM' THEN 1
+                      ELSE 0
+              END
+          ) AS default_code
+          ,MAX(raw_event_timestamp) AS loan_event_timestamp
+      FROM    loan_scan
+      GROUP BY agreement_number, ts_id
+  )
+  ,joined AS
+  (
+      SELECT
+          g.agreement_number
+          ,g.ts_id
+          ,COALESCE(ca.fid, NULL) AS fid
+          ,COALESCE(ca.max_dpd, 0) AS max_dpd
+          ,ca.bucket_code
+          ,COALESCE(ca.wo_contract, 0) AS wo_contract
+          ,COALESCE(ca.npl_contract, 0) AS npl_contract
+          ,COALESCE(ca.inventory, 0) AS inventory
+          ,COALESCE(ca.repossess, 0) AS repossess
+          ,COALESCE(ca.lor_gor_amount, 0) AS lor_gor_amount
+          ,ca.latest_collection_effect
+          ,ca.latest_persona
+          ,COALESCE(ca.collection_expenses, 0) AS collection_expenses
+          ,COALESCE(la.number_ever30, 0) AS number_ever30
+          ,COALESCE(la.number_ever60, 0) AS number_ever60
+          ,COALESCE(la.number_ever90, 0) AS number_ever90
+          ,la.default_code
+          ,COALESCE(ca.collection_event_timestamp, la.loan_event_timestamp, CAST(TO_DATE(g.ts_id,'yyyymmdd') AS TIMESTAMP)) AS raw_event_timestamp
+      FROM    (SELECT DISTINCT agreement_number, ts_id FROM combined_ts_grid) g
+      LEFT JOIN collection_agg ca
+      ON      g.agreement_number = ca.agreement_number
+      AND     g.ts_id = ca.ts_id
+      LEFT JOIN loan_agg la
+      ON      g.agreement_number = la.agreement_number
+      AND     g.ts_id = la.ts_id
+  )
+  ,forward_filled AS
+  (
+      SELECT
+          agreement_number
+          ,ts_id
+          ,MIN(fid) OVER (w) AS fid
+          ,MAX(COALESCE(max_dpd, 0)) OVER (w) AS max_dpd
+          ,LAST_VALUE(bucket_code, true) OVER (w) AS bucket_code
+          ,MAX(COALESCE(wo_contract, 0)) OVER (w) AS wo_contract
+          ,MAX(COALESCE(npl_contract, 0)) OVER (w) AS npl_contract
+          ,MAX(COALESCE(inventory, 0)) OVER (w) AS inventory
+          ,MAX(COALESCE(repossess, 0)) OVER (w) AS repossess
+          ,SUM(COALESCE(lor_gor_amount, 0)) OVER (w) AS lor_gor_amount
+          ,LAST_VALUE(latest_collection_effect, true) OVER (w) AS latest_collection_effect
+          ,LAST_VALUE(latest_persona, true) OVER (w) AS latest_persona
+          ,SUM(COALESCE(collection_expenses, 0)) OVER (w) AS collection_expenses
+          ,MAX(COALESCE(number_ever30, 0)) OVER (w) AS number_ever30
+          ,MAX(COALESCE(number_ever60, 0)) OVER (w) AS number_ever60
+          ,MAX(COALESCE(number_ever90, 0)) OVER (w) AS number_ever90
+          ,MAX(COALESCE(default_code, 0)) OVER (w) AS default_code
+          ,LAST_VALUE(raw_event_timestamp, true) OVER (w) AS event_timestamp
+      FROM joined
+      WINDOW w AS (PARTITION BY agreement_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  )
+  SELECT
+      agreement_number
+      ,fid
+      ,max_dpd
+      ,wo_contract
+      ,npl_contract
+      ,inventory
+      ,repossess
+      ,lor_gor_amount
+      ,latest_collection_effect
+      ,latest_persona
+      ,collection_expenses
+      ,number_ever30
+      ,number_ever60
+      ,number_ever90
+      ,CASE   WHEN bucket_code = 6 THEN 'Bucket 210+'
+              WHEN bucket_code = 5 THEN 'Bucket 181-210'
+              WHEN bucket_code = 4 THEN 'Bucket 91-180'
+              WHEN bucket_code = 3 THEN 'Bucket 61-90'
+              WHEN bucket_code = 2 THEN 'Bucket 31-60'
+              WHEN bucket_code = 1 THEN 'Bucket 1-30'
+              WHEN bucket_code = 0 THEN 'Current'
+              ELSE 'UNKNOWN'
+      END AS max_bucket
+      ,CASE   WHEN default_code = 3 THEN 'WO'
+              WHEN default_code = 2 THEN 'NPL'
+              WHEN default_code = 1 THEN 'NM'
+              ELSE 'UNKNOWN'
+      END AS default_status
+      ,event_timestamp
+  FROM forward_filled

@@ -1,0 +1,55 @@
+source_type: ODPS
+name: testing2
+description: 2nd testing
+entity: testing
+feature_fields:
+- name: abc5dasar
+  type: buat testing
+  description: STRING
+  business_logic: SUM(A) + B
+- name: ni_jiao
+  type: Integer
+  description: again, for testing for the third times
+  business_logic: just get it from testing
+- name: ni_jiao2
+  type: Integer
+  description: again, for testing for the third times
+  business_logic: just get it from testing
+- name: boom123
+  type: INTEGER
+  description: I want to test new feature
+  business_logic: 67 + 76
+tags:
+- domain: testing
+  confidentiality: public
+sql: |-
+  WITH p AS (
+    SELECT
+      SUM(a.lol - b.XD) AS ni_jiao2
+    FROM LEFT
+    JOIN testTb AS b
+      ON a.id = b.id AND flag = (
+        SELECT
+          MAX(id)
+        FROM testTc
+      )
+    WHERE
+      a.lol < 5
+  ), p AS (
+    SELECT
+      SUM(a.67attr) - MIN(b.76attr) AS boom123
+    FROM 
+    JOIN testTb AS b
+      ON a.id = b.id AND flag = (
+        SELECT
+          MAX(id)
+        FROM testTc
+      )
+    WHERE
+      a.lol < 5
+  )
+  SELECT
+    SUM(A) + b AS abc5dasar,
+    ni_jiao2,
+    boom123
+  FROM p

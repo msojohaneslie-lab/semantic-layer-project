@@ -1,0 +1,230 @@
+source_type: ODPS
+name: cdp_collection_record
+description: Customer collection record including DPD, default status, inventory and repossession aggregated per customer
+entity: customer_cdp
+ttl: 7300d # 20 Years (20 * 365 days)
+feature_fields:
+  - name: cdp_uid
+    type: STRING
+    description: 1. Unique customer identifier from the CDP platform
+    business_logic: Distinct cdp_uid extracted from the identity resolution mapping table
+  - name: fid
+    type: INTEGER
+    description: 2. The shortest First Installment Default of Customer
+    business_logic: The earliest instalment default number across all of the customer's contracts
+  - name: max_dpd
+    type: INTEGER
+    description: 3. The highest number of days they have ever been past due on any payment
+    business_logic: Maximum days past due value across all of the customer's contracts
+  - name: max_dpd_last_1_month
+    type: INTEGER
+    description: 4. Maximum days past due in last month
+    business_logic: Maximum days past due in last month across all of the customer's contracts
+  - name: max_dpd_last_3_month
+    type: INTEGER
+    description: 5. Maximum days past due in last 3 months
+    business_logic: Maximum days past due in last 3 months across all of the customer's contracts
+  - name: latest_collection_effectiveness
+    type: STRING
+    description: 6. Most recent metrics indicating the effectiveness of collection recovery actions
+    business_logic: Extracted using FIRST_VALUE ordered by the latest interaction or update timestamp (event_ts) descending
+  - name: latest_persona
+    type: STRING
+    description: 7. Most recent behavioral or payment risk profile category assigned to the customer
+    business_logic: Extracted using FIRST_VALUE ordered by the latest interaction or update timestamp (event_ts) descending
+  - name: lor_gor_amount
+    type: DOUBLE
+    description: 8. The net amount of gain or loss on repossession
+    business_logic: Inventory selling amount minus outstanding principal, summed across all of the customer's contracts
+  - name: max_bucket
+    type: STRING
+    description: 9. Which delinquency bucket they currently fall into based on their most overdue contract    
+    business_logic: This ranges from Current (0 days late) to Bucket 210+
+  - name: number_ever30
+    type: INTEGER
+    description: 10. How many times they have ever been 30 days or more overdue
+    business_logic: We count distinct contracts where days past due reached at least 30 days
+  - name: number_ever60
+    type: INTEGER
+    description: 11. How many times they have ever been 60 days or more overdue
+    business_logic: We count distinct contracts where days past due reached at least 60 days
+  - name: number_ever90
+    type: INTEGER
+    description: 12. How many times they have ever been 90 days or more overdue
+    business_logic: We count distinct contracts where days past due reached at least 90 days
+  - name: default_status
+    type: STRING
+    description: 13. The worse default status of customer
+    business_logic: Write Off (WO); Non Performing Loan (NPL); Normal (NM)
+  - name: wo_contract
+    type: INTEGER
+    description: 14. Whether they have ever had a contract that was written off as uncollectable
+    business_logic: Number of write-off contracts across all of the customer's contracts
+  - name: npl_contract
+    type: INTEGER
+    description: 15. Whether they have any contract that is classified as non-performing loan
+    business_logic: Number of Non Performing Loan contracts across all of the customer's contracts
+  - name: collection_expenses
+    type: DOUBLE
+    description: 16. How much money we have spent trying to collect overdue payments from this customer
+    business_logic: We add up all costs associated with collection activities across all of the customer's contracts
+  - name: event_timestamp
+    type: TIMESTAMP
+    description: 17. Snapshot date as feature timestamp
+    business_logic: Snapshot date used as the feature timestamp since no specific event timestamp is available
+  - name: max_days_overdue_tolerance
+    type: INTEGER
+    description: 18. Maximum number of days a customer can be overdue before being classified into a specific delinquency bucket
+    business_logic: This value is used to determine which delinquency bucket a customer falls into based on their most overdue contract
+tags:
+  domain: customer_cdp
+  confidentiality: public
+sql: |-
+  WITH unified_customer AS 
+  (
+      SELECT  DISTINCT tb1.cdp_uid
+              ,tb1.lead_id
+              ,tb1.application_id
+              ,NULLIF(TRIM(tb1.agreement_number),"") AS agreement_number
+              ,tb1.dt
+              ,LEAST(COALESCE(tb2.created_timestamp, CURRENT_TIMESTAMP()), COALESCE(tb3.created_timestamp, CURRENT_TIMESTAMP()), COALESCE(tb4.created_timestamp, CURRENT_TIMESTAMP())) event_ts
+              -- ,GREATEST(tb2.created_timestamp, tb3.created_timestamp, tb4.created_timestamp) event_ts
+      FROM    wsDataInnovation.cdp_identity_resolution tb1
+      LEFT JOIN wsDataInnovation.cdp_lead tb2
+      ON tb1.lead_id = tb2.lead_id
+      AND tb1.dt = tb2.dt
+      LEFT JOIN wsDataInnovation.cdp_loan tb3
+      ON TRIM(tb1.agreement_number) = TRIM(tb3.agreement_number)
+      AND tb1.dt = tb3.dt
+      LEFT JOIN wsDataInnovation.cdp_collection tb4
+      ON TRIM(tb1.agreement_number) = TRIM(tb4.agreement_number)
+      AND tb1.dt = tb4.dt
+      WHERE   tb1.dt = CASE 
+        WHEN '{bizdate}' < '20100101' THEN '20100101'
+        ELSE '{bizdate}'
+        END
+      -- WHERE tb1.dt = '20260621' 
+      AND     NULLIF(TRIM(tb1.agreement_number), '') IS NOT NULL
+  )
+    ,window_feature1 AS 
+    (
+        SELECT  cdp_uid
+                ,uc.agreement_number
+                ,COALESCE(co.updated_timestamp,co.created_timestamp) AS event_ts--last updated timestamp of collection record
+                ,dpd
+                ,collection_effectiveness
+                ,persona
+        FROM    unified_customer uc
+        INNER JOIN wsDataInnovation.cdp_collection co
+        ON      uc.dt = co.dt
+        AND     uc.agreement_number = TRIM(co.agreement_number)
+        WHERE  co.dt = '{bizdate}'-- '20260621' -- 
+        AND    NULLIF(TRIM(co.agreement_number),"") IS NOT NULL
+    )
+    ,window_feature2 AS 
+    (
+        SELECT  cdp_uid
+                ,MAX(dpd) OVER (PARTITION BY cdp_uid ORDER BY event_ts ASC RANGE BETWEEN INTERVAL '1' MONTH PRECEDING AND CURRENT ROW ) AS max_dpd_l1m-- raw
+                ,MAX(dpd) OVER (PARTITION BY cdp_uid ORDER BY event_ts ASC RANGE BETWEEN INTERVAL '3' MONTH PRECEDING AND CURRENT ROW ) AS max_dpd_l3m
+                ,FIRST_VALUE(collection_effectiveness) OVER (PARTITION BY cdp_uid ORDER BY event_ts DESC ) AS latest_collection_effectiveness
+                ,FIRST_VALUE(persona) OVER (PARTITION BY cdp_uid ORDER BY event_ts DESC ) AS latest_persona
+                ,ROW_NUMBER() OVER (PARTITION BY cdp_uid ORDER BY event_ts DESC ) AS rn
+        FROM    window_feature1
+    )
+    ,collection_view AS 
+    (
+        SELECT  uc.cdp_uid
+                ,MIN(co.fid) AS fid
+                ,MAX(co.dpd) AS max_dpd -- column current_bucket missing; alternatively replaced by latest_bucket
+                ,MAX(
+                    CASE    WHEN TOUPPER(TRIM(co.latest_bucket)) LIKE 'CURRENT' THEN 0 -- current
+                            WHEN TOUPPER(TRIM(co.latest_bucket)) LIKE '%1-30' THEN 1 -- 1-30
+                            WHEN TOUPPER(TRIM(co.latest_bucket)) LIKE '%31-60' THEN 2 -- 31-60
+                            WHEN TOUPPER(TRIM(co.latest_bucket)) LIKE '%61-90' THEN 3 -- 61-90
+                            WHEN TOUPPER(TRIM(co.latest_bucket)) LIKE '%91-180' THEN 4 -- 91-180
+                            WHEN TOUPPER(TRIM(co.latest_bucket)) LIKE '%181-210' THEN 5 -- 181-210
+                            WHEN TOUPPER(TRIM(co.latest_bucket)) LIKE '%210+' THEN 6 -- greater than 210
+                            ELSE -1
+                    END
+                ) AS bucket_code
+                ,SUM(
+                    CASE    WHEN TOUPPER(TRIM(co.product)) LIKE '%MOTORCYCLE' AND co.dpd > 180 THEN 1
+                            WHEN (TOUPPER(TRIM(co.product)) LIKE '%CAR' OR TOUPPER(TRIM(co.product)) IN ('DF')) AND co.dpd > 210 THEN 1
+                            WHEN cl.default_status = 'WO' THEN 1 
+                            ELSE 0
+                    END
+                ) AS wo_contract
+                ,SUM(
+                    CASE    WHEN TOUPPER(TRIM(co.product)) LIKE '%MOTORCYCLE' AND co.dpd BETWEEN 91 AND 180 THEN 1
+                            WHEN (TOUPPER(TRIM(co.product)) LIKE '%CAR' OR TOUPPER(TRIM(co.product)) IN ('DF')) AND co.dpd BETWEEN 91 AND 210 THEN 1
+                            WHEN cl.default_status = 'NA' THEN 1 
+                            ELSE 0
+                    END
+                ) AS npl_contract
+                ,COUNT(co.inventory_date) AS inventory
+                ,COUNT(co.repossess_date) AS repossess
+                ,SUM(co.lor_gor_amount) AS lor_gor_amount
+                ,SUM(co.collection_expenses) AS collection_expenses
+                ,SUM(COALESCE(CAST(cl.ever_30 AS INT),0)) AS number_ever30
+                ,SUM(COALESCE(CAST(cl.ever_60 AS INT),0)) AS number_ever60
+                ,SUM(COALESCE(CAST(cl.ever_90 AS INT),0)) AS number_ever90
+                ,MAX(
+                    CASE    WHEN cl.default_status = 'NM' THEN 1
+                            WHEN cl.default_status = 'NA' THEN 2
+                            WHEN cl.default_status = 'WO' THEN 3
+                            ELSE 0
+                    END
+                ) AS default_code
+                ,MAX(co.max_dpd_last_1_month) AS max_dpd_last_1_month-- precompute
+                ,MAX(co.max_dpd_last_3_month) AS max_dpd_last_3_month
+                ,MAX(
+                    GREATEST(uc.event_ts, cl.created_timestamp, CAST(cl.application_date AS TIMESTAMP))
+                ) AS event_timestamp
+                --,CAST(TO_DATE(uc.dt,'yyyymmdd') AS TIMESTAMP)
+                ,MAX(co.days_overdue_tolerance) AS max_days_overdue_tolerance
+        FROM    unified_customer uc
+        INNER JOIN wsDataInnovation.cdp_loan cl
+        ON      cl.dt = uc.dt
+        AND     uc.agreement_number = TRIM(cl.agreement_number)
+        INNER JOIN wsDataInnovation.cdp_collection co
+        ON      co.dt = uc.dt
+        AND     uc.agreement_number = TRIM(co.agreement_number)
+        INNER JOIN window_feature1 wf1
+        ON wf1.agreement_number = uc.agreement_number 
+        AND wf1.cdp_uid = uc.cdp_uid
+        GROUP BY uc.cdp_uid
+    )
+    ,feature_subset1 AS 
+    (
+        SELECT  * EXCEPT (bucket_code,default_code)
+                ,CONCAT('Bucket ',
+                    CASE    WHEN bucket_code = 6 THEN '210+'
+                            WHEN bucket_code = 5 THEN '180+'
+                            WHEN bucket_code = 4 THEN '90+'
+                            WHEN bucket_code = 3 THEN '60+'
+                            WHEN bucket_code = 2 THEN '30+'
+                            WHEN bucket_code = 1 THEN '0+'
+                            WHEN bucket_code = 0 THEN 'current'
+                            ELSE 'UNKNOWN'
+                    END
+                ) AS max_bucket
+                ,CASE   WHEN default_code = 3 THEN 'WO'
+                        WHEN default_code = 2 THEN 'NPL'
+                        WHEN default_code = 1 THEN 'NM'
+                        ELSE 'UNKNOWN'
+                END AS default_status
+        FROM    collection_view
+    )
+    SELECT  fs1.*
+            ,tb2.* EXCEPT (cdp_uid,rn)
+    FROM    feature_subset1 fs1
+    LEFT JOIN   (
+                    SELECT  *
+                    FROM    window_feature2
+                    WHERE   rn = 1
+                ) tb2
+    ON      fs1.cdp_uid = tb2.cdp_uid
+    -- WHERE   max_dpd_l1m IS NOT NULL
+    -- OR      max_dpd_l3m IS NOT NULL
+    -- OR      latest_collection_effectiveness IS NOT NULL
+    -- OR      latest_persona IS NOT NULL

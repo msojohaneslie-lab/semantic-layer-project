@@ -1,0 +1,5 @@
+name: customer
+field_name: confins_customer_id
+type: STRING
+description: Identifier for a customer
+business_logic: This comes from confins_customer_id

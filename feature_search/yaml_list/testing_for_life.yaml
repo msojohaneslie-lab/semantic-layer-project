@@ -1,0 +1,62 @@
+source_type: ODPS
+name: testing_for_life
+description: just testing for final product
+entity: testing
+feature_fields:
+- name: kanina
+  type: view for testing
+  description: DOUBLE
+  business_logic: testing++
+- name: teletabis
+  type: INTEGER
+  description: I am tired, please make this right
+  business_logic: haha + hihi
+tags:
+- domain: testing
+  confidentiality: public
+sql: |-
+  WITH cte_level_1 AS (
+    SELECT
+      *
+    FROM transactions
+  ), cte_level_2 AS (
+    SELECT
+      *,
+      amount * 0.1 AS tax_amount
+    FROM cte_level_1
+  ), cte_level_3 AS (
+    SELECT
+      *,
+      amount + tax_amount AS total_amount
+    FROM cte_level_2
+  ), cte_level_4 AS (
+    SELECT
+      *,
+      CASE WHEN amount >= 1000 THEN 'HIGH' WHEN amount >= 500 THEN 'MEDIUM' ELSE 'LOW' END AS amount_category
+    FROM cte_level_3
+  ), cte_level_5 AS (
+    SELECT
+      *,
+      DATEDIFF(CURRENT_DATE, transaction_date) AS days_since_transaction
+    FROM cte_level_4
+  ), cte_level_6 AS (
+    SELECT
+      *,
+      CASE WHEN days_since_transaction <= 30 THEN 1 ELSE 0 END AS recent_transaction_flag
+    FROM cte_level_5
+  ), cte_level_7 AS (
+    SELECT
+      CONCAT(customer_id, '_', transaction_id) AS kanina,
+      CASE
+        WHEN NOT tinkiwinki IS NULL
+        THEN dipsi
+        WHEN NOT dipsi IS NULL
+        THEN lala
+        ELSE PUH
+      END AS teletabis
+    FROM cte_level_6
+  )
+  SELECT
+    kanina,
+    teletabis
+  FROM cte_level_7

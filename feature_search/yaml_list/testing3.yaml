@@ -1,0 +1,78 @@
+source_type: ODSP
+name: testing3
+description: testing456
+entity: testing
+feature_fields:
+- name: testing_value
+  type: testing456
+  description: INTEGER
+  business_logic: good luck
+- name: fan hua
+  type: INTEGER
+  description: Another testing
+  business_logic: testing123
+- name: walawe
+  type: DOUBLE
+  description: testing feature for the 100th times
+  business_logic: testing 1 + testing 2
+- name: walawe2
+  type: INTEGER
+  description: walaw walaw we
+  business_logic: "MIN(67_attr) - (\n        SUM(69attr) * 0.67\n      ) AS walawe2"
+tags:
+- domain: testing
+  confidentiality: public
+sql: |-
+  WITH cte_level_1 AS (
+    SELECT
+      customer_id,
+      amount,
+      67attr,
+      69attr,
+      67_attr,
+      69_attr
+    FROM transactions
+    WHERE
+      amount > 0
+  ), cte_level_2 AS (
+    SELECT
+      customer_id,
+      total_amount,
+      SUM(67attr - 69attr) AS fan_hua,
+      MAX(67_attr) + (
+        SUM(69_attr) * 0.5
+      ) AS walawe,
+      MIN(67_attr) - (
+        SUM(69attr) * 0.67
+      ) AS walawe2
+    FROM cte_level_1
+    GROUP BY
+      customer_id
+  ), cte_level_3 AS (
+    SELECT
+      customer_id,
+      total_amount,
+      fan_hua,
+      walawe,
+      walawe2
+    FROM cte_level_2
+    WHERE
+      total_amount > 100
+  ), cte_level_4 AS (
+    SELECT
+      customer_id,
+      fan_hua * 100 AS fan_hua,
+      (
+        walawe * 67
+      ) / 100 AS walawe,
+      (
+        walawe2 * 67
+      ) / 100 * 19 AS walawe2
+    FROM cte_level_3
+  )
+  SELECT
+    testing_value,
+    fan_hua,
+    walawe,
+    walawe2
+  FROM cte_level_4

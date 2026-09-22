@@ -1,0 +1,11 @@
+name: asset_code
+field_name: asset_code
+type: STRING
+description: >
+  A unique compound identifier used as a secondary entity key. It combines the raw asset/collateral code 
+  with the vehicle's manufacturing year to partition historical lifecycle events and compute dynamic 
+  time-series features (such as EMA, EWM, and rolling windows) cleanly without cross-year asset contamination.
+business_logic: >
+  CONCAT(asset_code, '#', manufacturing_year) derived from the raw asset reference code 
+  and the parsed vehicle production year (cast to integer). Used extensively as a partition key 
+  across all downstream window and aggregation CTEs.

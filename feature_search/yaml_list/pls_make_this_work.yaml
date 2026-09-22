@@ -1,0 +1,12 @@
+source_type: odps
+name: pls_make_this_work
+description: Sequence number identifying the individual asset within a single agreement.
+entity: asset_code
+feature_fields:
+- name: asset_seq_no
+  type: Sequence number identifying the individual asset within a single agreement.
+  description: integer
+  business_logic: CAST(SPLIT_PART(collateral_id, '-', 3) AS INT)
+tags:
+- asset_code
+sql: XDXDXD

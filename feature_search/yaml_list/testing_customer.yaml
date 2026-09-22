@@ -1,0 +1,48 @@
+source_type: odps
+name: testing_customer
+description: this is for the 2nd testing
+entity: testing
+feature_fields:
+- name: test123
+  type: Aku suka MBG
+  description: String
+  business_logic: M + B + G
+- name: walawe
+  type: STRING
+  description: WALAWE
+  business_logic: ZZZZZZ
+- name: another_testing_kappa
+  type: STRING
+  description: just testing again and again
+  business_logic: COALESCE(test67,0)
+- name: akuaku
+  type: INTEGER
+  description: testing untuk ke 7 kalinya
+  business_logic: SUM(ROUND(hihi,2)) + MAX(haha) AS akuaku
+- name: dang_ding_dung_deng_dong
+  type: INTEGER
+  description: testing1234567
+  business_logic: MAX(mbg) - MIN(mbg)
+- name: p3_67
+  type: INTEGER
+  description: another testing attribute
+  business_logic: got from 67 table field joined with 69 table, + MAX(lol)
+- name: ppp
+  type: Integer
+  description: another testing attribute
+  business_logic: get from 67 table joined by 69 table then - MIN(XD)
+- name: mbgTheSecond
+  type: INTEGER
+  description: again, just for a nother testing
+  business_logic: get from joining 67 and 69 tables, find the value of max value -
+    min value
+- name: abc5dasar2
+  type: STRING
+  description: buat testing
+  business_logic: SUM(A) + B
+tags:
+- domain: testing
+sql: "WITH cteA AS (\n  SELECT\n    SUM(M + B + G) AS test123,\n    MAX(walawe) AS\
+  \ walawe,\n    COALESCE(testing67, 0) AS another_testing_kappa,\n    SUM(ROUND(hihi,\
+  \ 2)) + MAX(haha) AS akuaku,\n    MAX(mbg) - MIN(mbg) AS dang_ding_dung_deng_dong\n\
+  \  FROM hidup\n)\nSELECT\n  *\nFROM cteA"

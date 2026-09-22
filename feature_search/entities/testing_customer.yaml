@@ -1,0 +1,5 @@
+name: testing_customer
+field_name: testing_customer
+type: STRING
+description: Just for testing_customer
+business_logic: testing123 for customer

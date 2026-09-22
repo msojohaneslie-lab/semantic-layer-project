@@ -1,0 +1,1056 @@
+source_type: ODPS
+name: cdp_phone_history_v2
+description: Phone call history features, incl. wa business message for CDP users
+entity: customer_cdp
+ttl: 7300d # 20 Years (20 * 365 days)
+feature_fields:
+  - name: cdp_uid
+    type: STRING
+    description: Unique identifier for each customer
+    business_logic: This is the unique identifier for each customer in the CDP system
+  - name: bfi_response_sla_creating_schedule_median
+    type: INTEGER
+    description: Our typical response time in minutes when replying to customers about schedule creation
+    business_logic: take the median of how long our agents respond to customer messages about schedule creation
+  - name: bfi_response_sla_median
+    type: INTEGER
+    description: Our typical response time in minutes when replying to customers
+    business_logic: We take the middle value (median) of how long our agents took to respond to customer messages
+  - name: bfi_response_sla_ops_creating_schedule_median
+    type: INTEGER
+    description: Our operations team's typical response time in minutes for schedule creation inquiries
+    business_logic: take median of how long operations team specifically respond to schedule creation messages
+  - name: bfi_response_sla_ops_median
+    type: INTEGER
+    description: Our operations team's typical response time in minutes for  inquiries
+    business_logic: take the median of how long operations team specifically took to respond to customer messages
+  - name: call_answered_total
+    type: INTEGER
+    description: Total number of times they actually answered our calls
+    business_logic: We count only the call attempts where the customer picked up the phone
+  - name: call_attempt_total
+    type: INTEGER
+    description: Total number of times we tried to call them
+    business_logic: We count all outbound call attempts regardless of whether they answered or not
+  - name: call_timespent_minute_median
+    type: INTEGER
+    description: The typical length of our phone calls with them in minutes
+    business_logic: We take the middle value (median) of call durations for all completed calls where they answered
+  - name: call_timespent_minute_total
+    type: INTEGER
+    description: Total amount of time we have spent on the phone with them in minutes    
+    business_logic: We add up the duration of all completed calls where they answered
+  - name: call_unanswered_total
+    type: INTEGER
+    description: Total number of times they did not answer our calls
+    business_logic: We count call attempts that went to voicemail
+  - name: creating_schedule_follow_up_received_flag_max
+    type: INTEGER
+    description: Whether they have ever received a schedule creation follow-up message (duplicate flag)
+    business_logic: another ver. of the schedule creation follow-up indicator used for different reporting purposes
+  - name: creating_schedule_follow_up_received_total
+    type: INTEGER
+    description: Total number of schedule creation follow-up messages received by the customer
+    business_logic: Summation of all schedule creation follow-up alerts sent to and received by the customer 
+  - name: customer_response_attend_flag_max
+    type: INTEGER
+    description: Whether they have ever responded that they would attend a scheduled payment or meeting
+    business_logic: This is marked as 1 if they have ever given an affirmative response to attend
+  - name: customer_response_attend_total
+    type: INTEGER
+    description: How many times they responded to say they would attend a scheduled payment or meeting
+    business_logic: We count customer responses that indicated agreement or confirmation of attendance
+  - name: customer_response_auto_total
+    type: INTEGER
+    description: How many times they responded to our automated follow-up messages
+    business_logic: We count customer replies that came in response to automated follow-up messages
+  - name: customer_response_cancel_flag_max
+    type: INTEGER
+    description: Whether they have ever requested to cancel a scheduled payment or meeting
+    business_logic: This is marked as 1 if they have ever asked to cancel a scheduled activity
+  - name: customer_response_cancel_total
+    type: INTEGER
+    description: How many times they responded to cancel a scheduled payment or meeting
+    business_logic: We count customer responses that asked to cancel
+  - name: customer_response_creating_schedule_auto_total
+    type: INTEGER
+    description: How many times they responded to our automated schedule creation messages
+    business_logic: We count customer replies that came in response to automated schedule creation messages
+  - name: customer_response_creating_schedule_flag_max
+    type: INTEGER
+    description: Whether they have ever responded to a schedule creation message
+    business_logic: This is marked as 1 if they have replied to any of our schedule creation follow-ups
+  - name: customer_response_creating_schedule_manual_free_total
+    type: INTEGER
+    description: How many times they responded to manual free-text schedule creation messages
+    business_logic: count n times customer replies to the manually sent free-text schedule creation messages 
+  - name: customer_response_creating_schedule_manual_template_1_total
+    type: INTEGER
+    description: How many times they responded to manual Template 1 schedule creation messages
+    business_logic: count n times customer replies to manually sent schedule creation messages using Template 1
+  - name: customer_response_creating_schedule_manual_template_2_total
+    type: INTEGER
+    description: How many times they responded to manual Template 2 schedule creation messages
+    business_logic: count n times customer replies to manually sent schedule creation messages using Template 2
+  - name: customer_response_creating_schedule_manual_template_3_total
+    type: INTEGER
+    description: How many times they responded to manual Template 3 schedule creation messages
+    business_logic: count n times customer replies to manually sent schedule creation messages using Template 3 
+  - name: customer_response_creating_schedule_manual_total
+    type: INTEGER
+    description: How many times they responded to our manual schedule creation messages
+    business_logic: We count customer replies that came in response to manually sent schedule creation messages
+  - name: customer_response_creating_schedule_total
+    type: INTEGER
+    description: How many times they responded to our schedule creation messages
+    business_logic: We count all customer replies that came in response to schedule creation follow-ups
+  - name: customer_response_flag_max
+    type: INTEGER
+    description: Whether they have ever responded to any collection message
+    business_logic: This is marked as 1 if they have replied to any of our collection follow-ups
+  - name: customer_response_manual_free_total
+    type: INTEGER
+    description: How many times they responded to our manual free-text follow-up messages
+    business_logic: count n times customer replies to manually sent follow-up messages that were free text
+  - name: customer_response_manual_template_total
+    type: INTEGER
+    description: How many times they responded to our manual template follow-up messages
+    business_logic: count n times customer replies to manually sent follow-up messages that used standard templates
+  - name: customer_response_manual_total
+    type: INTEGER
+    description: How many times they responded to our manual follow-up messages
+    business_logic: We count customer replies that came in response to manually sent follow-up messages
+  - name: customer_response_reschedule_flag_max
+    type: INTEGER
+    description: Whether they have ever requested to reschedule a payment or meeting
+    business_logic: This is marked as 1 if they have ever asked to move a scheduled activity to a different time
+  - name: customer_response_reschedule_total
+    type: INTEGER
+    description: How many times they responded to request rescheduling of a payment or meeting
+    business_logic: We count customer responses that asked to move a payment or meeting to a different date or time
+  - name: customer_response_sla_creating_schedule_median
+    type: INTEGER
+    description: The customer's typical response time in minutes when we message them about schedule creation
+    business_logic: take median of how long the customer typically reply to our schedule creation messages
+  - name: customer_response_sla_median
+    type: INTEGER
+    description: The customer's typical response time in minutes when we message them
+    business_logic: We take the middle value (median) of how long the customer took to reply to our messages
+  - name: customer_response_total
+    type: INTEGER
+    description: Total number of times they have responded to any of our follow-up messages
+    business_logic: We count all customer replies across all follow-up message threads
+  - name: error_most
+    type: STRING
+    description: The most common or most recent error code encountered when trying to communicate with this customer
+    business_logic: This comes from failed message delivery attempts or invalid contact information errors
+  - name: first_call_days_ago
+    type: INTEGER
+    description: How many days ago we first called them
+    business_logic: days diff. between event_timestamp and the earliest outbound call attempt to the number
+  - name: first_customer_response_creating_schedule_days_ago
+    type: INTEGER
+    description: How many days ago the customer first responded to a schedule creation message
+    business_logic: days diff. between event_timestamp and the earliest customer response to any schedule creation follow-up
+  - name: first_customer_response_days_ago
+    type: INTEGER
+    description: How many days ago the customer first responded to any of our messages
+    business_logic: days diff. between event_timestamp and the earliest customer response to any follow-up message 
+  - name: first_follow_up_creating_schedule_days_ago
+    type: INTEGER
+    description: How many days ago they first received a follow-up asking them to create a payment schedule
+    business_logic: days diff. between event_timestamp and the earliest schedule creation follow-up message
+  - name: first_follow_up_days_ago
+    type: INTEGER
+    description: How many days ago they first received any follow-up message
+    business_logic: days diff. between event_timestamp and the earliest follow-up message sent to them
+  - name: first_time_initiate_appointment_days_ago
+    type: INTEGER
+    description: How many days ago they first initiated an appointment scheduling request
+    business_logic: days diff. between event_timestamp and the earliest appointment request they made
+  - name: follow_up_creating_schedule_flag_max
+    type: INTEGER
+    description: Whether they have ever been sent a schedule creation follow-up message
+    business_logic: simply yes/no flag set to 1 if any schedule creation follow-up exists for this customer
+  - name: follow_up_creating_schedule_flag_group_1_max
+    type: INTEGER
+    description: Whether they received schedule creation follow-ups classified under Group 1
+    business_logic: marks customer who receive schedule creation messages under 1st prio. grouping for collection
+  - name: follow_up_creating_schedule_flag_group_2_max
+    type: INTEGER
+    description: Whether they received schedule creation follow-ups classified under Group 2
+    business_logic: marks customers who receive schedule creation messages under 2nd prio. grouping for collection
+  - name: follow_up_flag_max
+    type: INTEGER
+    description: Whether they have ever received any collection follow-up message at all
+    business_logic: This is a general indicator set to 1 if any collection follow-up message has been sent to them
+  - name: follow_up_flag_group_1_max
+    type: INTEGER
+    description: Whether they received collection follow-ups classified under Group 1
+    business_logic: marks customers who receive collection messages under 1st prio. grouping strategy
+  - name: follow_up_flag_group_2_max
+    type: INTEGER
+    description: Whether they received collection follow-ups classified under Group 2
+    business_logic: markss customers who receive collection messages under 2nd prio. grouping strategy 
+  - name: follow_up_received_flag_max
+    type: INTEGER
+    description: Whether they have ever received any collection follow-up (alternate indicator)
+    business_logic: another ver. of the general follow-up indicator used for different reporting purposes
+  - name: follow_up_received_total
+    type: INTEGER
+    description: Total collection follow-up alerts sent to the customer across channels
+    business_logic: Cumulative count of general follow-ups generated for this specific customer entity
+  - name: last_conversation_days_ago
+    type: INTEGER
+    description: Number of days since the last documented interaction in any message or phone string
+    business_logic: days diff. between event_timestamp and the time when last message sent or received in any comm. thread
+  - name: last_conversation_on_side
+    type: STRING
+    description: The last party who sent a message in the conversation footprint
+    business_logic: Captures whether the customer or the business sent the last message
+  - name: last_wab_sent_days_ago
+    type: INTEGER
+    description: Number of days since the most recent outbound WhatsApp template broadcast
+    business_logic: days diff. between event_timestamp and the last wab outbound
+  - name: message_creating_schedule_auto_total
+    type: INTEGER
+    description: How many automated messages we sent them about creating a payment schedule
+    business_logic: count only the schedule creation messages that were sent automatically by the system
+  - name: message_creating_schedule_manual_free_total
+    type: INTEGER
+    description: How many manual free-text messages we sent about schedule creation
+    business_logic: count schedule creation messages sent manually that used custom free text
+  - name: message_creating_schedule_manual_template_1_total
+    type: INTEGER
+    description: How many manual messages using Template 1 we sent about schedule creation
+    business_logic: We count schedule creation messages sent manually that used our standard Template 1 wording
+  - name: message_creating_schedule_manual_template_2_total
+    type: INTEGER
+    description: How many manual messages using Template 2 we sent about schedule creation
+    business_logic: We count schedule creation messages sent manually that used our standard Template 2 wording
+  - name: message_creating_schedule_manual_template_3_total
+    type: INTEGER
+    description: How many manual messages using Template 3 we sent about schedule creation
+    business_logic: We count schedule creation messages sent manually that used our standard Template 3 wording
+  - name: message_creating_schedule_manual_total
+    type: INTEGER
+    description: How many manual messages we sent them about creating a payment schedule
+    business_logic: We count only the schedule creation messages that were sent manually by our agents
+  - name: message_creating_schedule_total
+    type: INTEGER
+    description: Total number of messages we sent them about creating a payment schedule
+    business_logic: We count all messages related to schedule creation across all communication channels
+  - name: message_follow_up_auto_total
+    type: INTEGER
+    description: How many automated follow-up messages we sent them
+    business_logic: count only the follow-up messages that were sent automatically by the system
+  - name: message_follow_up_manual_free_total
+    type: INTEGER
+    description: How many manual free-text follow-up messages we sent
+    business_logic: count manually sent follow-up messages that used custom free text instead of a standard template
+  - name: message_follow_up_manual_template_total
+    type: INTEGER
+    description: How many manual follow-up messages using standard templates we sent
+    business_logic: We count manually sent follow-up messages that used any of our standard response templates
+  - name: message_follow_up_manual_total
+    type: INTEGER
+    description: How many manual follow-up messages we sent them
+    business_logic: We count only the follow-up messages that were sent manually by our agents
+  - name: message_follow_up_total
+    type: INTEGER
+    description: Total number of follow-up messages we sent them
+    business_logic: We count all messages related to follow-up activity
+  - name: phone_age_max
+    type: INTEGER
+    description: The longest age / oldest phone number associated with this customer in months
+    business_logic: We calculate how long we've had the phone number on file for this customer by taking the difference among phone registered time
+  - name: phone_age_min
+    type: INTEGER
+    description: The shortest age / newest phone number associated with this customer in months
+    business_logic: We calculate how long we've had the phone number on file for this customer by taking the difference among phone registered time
+  - name: phone_count
+    type: INTEGER
+    description: The number of distinct phone numbers associated with this customer in our records
+    business_logic: We count how many unique phone numbers we have on file for this customer, including both lead and spouse numbers
+  - name: response_total
+    type: INTEGER
+    description: Total number of responses they have made across all communication channels
+    business_logic: We add up every customer response to any message we have sent them
+  - name: wab_deliver_l3m_rate
+    type: DOUBLE
+    description: Calculated performance tier tracking message-to-delivery reliability over the last 3 months
+    business_logic: Rate calculation based on successful network message drops against outbound submittal attempts
+  - name: wab_read_l3m_count
+    type: INTEGER
+    description: How many WhatsApp messages they read in the last 3 months
+    business_logic: We count all WhatsApp Business messages delivered to them that received a read receipt within the past 90 days
+  - name: wab_read_l3m_rate
+    type: DOUBLE
+    description: The percentage of WhatsApp messages they actually read in the last 3 months
+    business_logic: We divide the number of messages they read by the total number we sent them within the past 90 days
+  - name: wab_read_per_delivered_l3m_rate
+    type: DOUBLE
+    description: Evaluation of visual capture metric over baseline delivered communications in the rolling 90-day bucket
+    business_logic: Divides total read messages over successfully acknowledged deliveries
+  - name: wab_reply_l3m_count
+    type: INTEGER
+    description: How many WhatsApp messages they replied to in the last 3 months
+    business_logic: We count all WhatsApp Business messages that received a customer response within the past 90 days
+  - name: wab_reply_l3m_rate
+    type: DOUBLE
+    description: The percentage of WhatsApp messages they replied to in the last 3 months
+    business_logic: We divide the number of messages they responded to by the total number we sent them within the past 90 days
+  - name: wab_sent_l3m_count
+    type: INTEGER
+    description: How many WhatsApp messages we sent them in the last 3 months
+    business_logic: We count all WhatsApp Business messages sent to their number within the past 90 days
+  - name: wab_submit_l3m_rate
+    type: DOUBLE
+    description: Submission pipeline evaluation track for external customer targets
+    business_logic: Evaluation of submittal pipelines over baseline sent numbers
+  - name: event_timestamp
+    type: TIMESTAMP
+    description: The most recent transaction or operational modification timestamp registered across phone profiles or system touchpoints
+    business_logic: Captured by selecting the historical maximum between outbound follow-up logs, contact initiation, and physical registration updates
+tags:
+  domain: customer_cdp
+  confidentiality: public
+sql: |-
+  WITH cdp_identity_resolution AS 
+  (
+      SELECT  dt
+              ,lead_id
+              ,cdp_uid
+              ,application_id
+      FROM    wsDataInnovation.cdp_identity_resolution
+      WHERE   dt = CASE   WHEN '{bizdate}' < '20100101' THEN '20100101'
+            ELSE '{bizdate}'
+      END 
+      AND     cdp_uid IS NOT NULL
+      AND     lead_id IS NOT NULL
+      GROUP BY dt
+             ,cdp_uid
+             ,lead_id
+             ,application_id
+  )
+  ,all_phone_stored AS 
+  (
+      SELECT t1.*
+             ,TRIM(phone_number) AS phone_number
+             ,COALESCE(t2.updated_timestamp,t2.created_timestamp) AS phone_registered_time
+      FROM cdp_identity_resolution t1
+      LEFT JOIN wsDataInnovation.cdp_lead t2
+      ON        t1.dt = t2.dt
+      AND       t1.lead_id = t2.lead_id
+      WHERE NULLIF(TRIM(phone_number), '') IS NOT NULL
+      UNION ALL
+      SELECT t1.*
+             ,TRIM(spouse_phone_number) AS phone_number
+             ,COALESCE(t2.updated_timestamp,t2.created_timestamp) AS phone_registered_time
+      FROM cdp_identity_resolution t1
+      LEFT JOIN wsDataInnovation.cdp_lead t2
+      ON        t1.dt = t2.dt
+      AND       t1.lead_id = t2.lead_id
+      WHERE NULLIF(TRIM(spouse_phone_number), '') IS NOT NULL
+  )
+  ,phone_unique_record AS (
+      SELECT * EXCEPT(rn)
+      FROM (
+          SELECT *
+                 ,ROW_NUMBER() OVER(PARTITION BY cdp_uid, lead_id, application_id, phone_number, UNIX_TIMESTAMP(phone_registered_time) ORDER BY phone_registered_time) rn
+          FROM all_phone_stored
+      ) sq
+      WHERE sq.rn = 1 
+  )
+  ,phone_record_tab2 AS (
+      -- register the bizdate as also available data
+      SELECT  cdp_uid
+              ,TO_CHAR(phone_registered_time, 'yyyymmdd') AS ts_id
+              ,phone_number
+              ,phone_registered_time
+      FROM phone_unique_record
+      UNION ALL
+      SELECT  cdp_uid
+              ,'{bizdate}' AS ts_id
+              ,phone_number
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS phone_registered_time
+      FROM  (
+          -- only consider entity that not yet have the bizdate update
+          SELECT
+              cdp_uid -- single copy
+              ,MAX_BY(phone_number, phone_registered_time) AS phone_number-- last phone number
+              ,MAX(phone_registered_time) AS phone_registered_time
+          FROM phone_unique_record
+          GROUP BY cdp_uid
+      ) t2
+      -- no latest phone registered time newer than the bizdate
+      WHERE DATEDIFF(CAST(TO_DATE('{bizdate}') AS DATETIME), CAST(t2.phone_registered_time AS DATETIME), 'dd') > 0
+  )
+  ,customer_phone_tab3 AS 
+  (
+      SELECT  *
+              ,COALESCE(LAST_VALUE(phone_registered_time, true) OVER (PARTITION BY cdp_uid 
+                  ORDER BY phone_registered_time ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
+              ), phone_registered_time) AS prev_phone_registered_time
+              ,ROW_NUMBER() OVER(PARTITION BY cdp_uid, ts_id ORDER BY phone_registered_time DESC) rn
+      FROM    phone_record_tab2      
+  )
+  ,customer_phone_aggregate AS 
+  (
+      -- pick last copy of each entity snapshot
+      SELECT  cdp_uid
+              ,ts_id
+              ,COUNT(DISTINCT phone_number) OVER(PARTITION BY cdp_uid
+                  ORDER BY phone_registered_time ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS phone_count
+              ,MIN(ROUND(DATEDIFF(phone_registered_time,prev_phone_registered_time,'hh') / 24.0,2)) OVER(PARTITION BY cdp_uid
+                  ORDER BY phone_registered_time ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS phone_age_min
+              ,MAX(ROUND(DATEDIFF(phone_registered_time,prev_phone_registered_time,'hh') / 24.0,2)) OVER(PARTITION BY cdp_uid
+                  ORDER BY phone_registered_time ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS phone_age_max
+              ,phone_registered_time AS created_timestamp
+      FROM    customer_phone_tab3
+      --GROUP BY cdp_uid-- removed
+      WHERE rn = 1
+  )
+  ,wab_message_prep1 AS 
+  (
+      SELECT  t2.cdp_uid
+              ,t1.lead_id
+              ,direction AS wab_direction
+              ,'sent' AS record_type
+              ,sent_at AS created_timestamp
+      FROM    wsDataInnovation.cdp_wab_message t1
+      INNER JOIN cdp_identity_resolution t2
+      ON      t1.dt = t2.dt
+      AND     t1.lead_id = t2.lead_id
+      UNION ALL
+      SELECT  t2.cdp_uid
+              ,t1.lead_id
+              ,direction AS wab_direction
+              ,'submitted' AS record_type
+              ,submitted_at AS created_timestamp
+      FROM    wsDataInnovation.cdp_wab_message t1
+      INNER JOIN cdp_identity_resolution t2
+      ON      t1.dt = t2.dt
+      AND     t1.lead_id = t2.lead_id
+      UNION ALL
+      SELECT  t2.cdp_uid
+              ,t1.lead_id
+              ,direction AS wab_direction
+              ,'delivered' AS record_type
+              ,delivered_at AS created_timestamp
+      FROM    wsDataInnovation.cdp_wab_message t1
+      INNER JOIN cdp_identity_resolution t2
+      ON      t1.dt = t2.dt
+      AND     t1.lead_id = t2.lead_id
+      UNION ALL
+      SELECT  t2.cdp_uid
+              ,t1.lead_id
+              ,direction AS wab_direction
+              ,'read' AS record_type
+              ,read_at AS created_timestamp
+      FROM    wsDataInnovation.cdp_wab_message t1
+      INNER JOIN cdp_identity_resolution t2
+      ON      t1.dt = t2.dt
+      AND     t1.lead_id = t2.lead_id
+  )
+  ,wab_message_prep2 AS (
+      SELECT * EXCEPT(lead_id)
+             ,TO_CHAR(created_timestamp, 'yyyymmdd') AS ts_id
+             ,CASE    WHEN TOUPPER(TRIM(wab_direction)) = 'OUTBOUND' AND record_type = 'sent' THEN 1 ELSE 0 END AS wab_sent_count
+             ,CASE    WHEN TOUPPER(TRIM(wab_direction)) = 'OUTBOUND' AND record_type = 'read' THEN 1 ELSE 0 END AS wab_read_count
+             ,CASE    WHEN TOUPPER(TRIM(wab_direction)) = 'INBOUND' AND record_type = 'sent' THEN 1 ELSE 0 END AS wab_reply_count
+             ,CASE    WHEN record_type = 'submitted' THEN 1 ELSE 0 END AS submission_count -- all direction are outbound
+             ,CASE    WHEN record_type = 'delivered' THEN 1 ELSE 0 END AS delivery_count -- all direction are outbound                          
+            ,ROW_NUMBER() OVER(PARTITION BY cdp_uid, lead_id, wab_direction, record_type, UNIX_TIMESTAMP(created_timestamp) ORDER BY created_timestamp) rn
+      FROM wab_message_prep1
+      WHERE created_timestamp IS NOT NULL
+  )
+  ,wab_message_prep2b AS (
+      SELECT
+          cdp_uid
+          ,ts_id
+          ,wab_sent_count
+          ,wab_read_count
+          ,wab_reply_count
+          ,record_type
+          ,submission_count
+          ,delivery_count
+          ,created_timestamp
+      FROM wab_message_prep2
+      WHERE rn = 1 -- unique record
+  )
+  ,wab_message_prep3 AS (
+      SELECT cdp_uid
+             -- ,lead_id
+             ,ts_id
+             ,SUM(wab_sent_count) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp 
+                  RANGE BETWEEN INTERVAL '3' MONTH PRECEDING AND CURRENT ROW
+             ) AS wab_sent_l3m_count
+             ,SUM(wab_read_count) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  RANGE BETWEEN INTERVAL '3' MONTH PRECEDING AND CURRENT ROW
+             ) AS wab_read_l3m_count
+             ,SUM(wab_reply_count) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  RANGE BETWEEN INTERVAL '3' MONTH PRECEDING AND CURRENT ROW
+             ) AS wab_reply_l3m_count
+             ,MAX(CASE WHEN record_type = 'sent' THEN created_timestamp END) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+             ) AS last_wab_sent_at
+             ,SUM(submission_count) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  RANGE BETWEEN INTERVAL '3' MONTH PRECEDING AND CURRENT ROW
+             ) AS submission_l3m_count
+             ,SUM(delivery_count) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  RANGE BETWEEN INTERVAL '3' MONTH PRECEDING AND CURRENT ROW
+             ) AS delivery_l3m_count
+             ,MAX(created_timestamp) OVER(PARTITION BY cdp_uid, ts_id) AS created_timestamp
+             ,ROW_NUMBER() OVER(PARTITION BY cdp_uid, ts_id ORDER BY created_timestamp) rn
+      FROM (
+          SELECT * FROM wab_message_prep2b
+          UNION ALL
+          SELECT
+              cdp_uid
+              ,MAX(ts_id) AS ts_id
+              ,0 AS wab_sent_count
+              ,0 AS wab_read_count
+              ,0 AS wab_reply_count
+              ,'{bizdate}' AS record_type -- last record_type
+              ,0 AS submission_count
+              ,0 AS delivery_count
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS created_timestamp
+          FROM wab_message_prep2b
+          GROUP BY cdp_uid
+          HAVING CAST(ts_id AS INT) < CAST('{bizdate}' AS INT)
+      )
+  )
+  ,wab_message_feat4 AS (
+      SELECT
+          * EXCEPT(rn)
+          ,ROUND(100 * (CAST(wab_read_l3m_count AS DECIMAL(10,2)) / NULLIF(CAST(wab_sent_l3m_count AS DECIMAL(10,2)), 0)), 2) AS wab_read_l3m_rate -- 4/1
+          ,ROUND(100 * (CAST(wab_reply_l3m_count AS DECIMAL(10,2)) / NULLIF(CAST(wab_read_l3m_count AS DECIMAL(10,2)), 0)), 2) AS wab_reply_l3m_rate -- 5/4
+          ,ROUND(100 * (CAST(wab_read_l3m_count AS DECIMAL(10,2)) / NULLIF(CAST(delivery_l3m_count AS DECIMAL(10,2)), 0)), 2) AS wab_read_per_delivered_l3m_rate -- 4/3
+          ,ROUND(100 * (CAST(delivery_l3m_count AS DECIMAL(10,2)) / NULLIF(CAST(submission_l3m_count AS DECIMAL(10,2)), 0)), 2) AS wab_deliver_l3m_rate -- 3/2
+          ,ROUND(100 * (CAST(submission_l3m_count AS DECIMAL(10,2)) / NULLIF(CAST(wab_sent_l3m_count AS DECIMAL(10,2)), 0)), 2) AS wab_submit_l3m_rate -- 2/1          
+      FROM    wab_message_prep3
+      WHERE   rn = 1 -- single copy of each entity
+      -- WHERE       
+      --    wab.dt >= TO_CHAR(DATEADD(TO_DATE('{bizdate}','yyyymmdd'),-3,'mm'),'yyyymmdd')
+      --    AND     wab.dt <= '{bizdate}'
+      -- wab.dt >= TO_CHAR(DATEADD(TO_DATE('20260621','yyyymmdd'),-3,'mm'),'yyyymmdd')
+      -- AND     wab.dt <= '20260621'
+      -- GROUP BY aps.cdp_uid
+  )
+  ,followup_summary_prep1 AS (
+      SELECT
+          t2.cdp_uid
+          ,TO_CHAR(created_timestamp, 'yyyymmdd') AS ts_id
+          ,t1.* EXCEPT(created_timestamp)
+          ,t1.created_timestamp
+          ,ROW_NUMBER() OVER(PARTITION BY cdp_uid ORDER BY created_timestamp DESC) rn
+      FROM wsDataInnovation.cdp_loan_engagement_follow_up_summary t1
+      INNER JOIN cdp_identity_resolution t2
+      ON    t1.dt = t2.dt
+      AND   t1.application_id = t2.application_id
+  )
+  ,followup_summary_prep2 AS (
+      SELECT * EXCEPT(rn)
+      FROM followup_summary_prep1
+      UNION
+      SELECT  cdp_uid
+              ,'{bizdate}' AS ts_id
+              ,* EXCEPT(cdp_uid, ts_id, created_timestamp, rn)
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS created_timestamp
+      FROM followup_summary_prep1 t2
+      WHERE t2.rn = 1
+      AND  CAST(t2.ts_id AS INT) < CAST('{bizdate}' AS INT)-- only refresh the old one 
+  )
+  ,followup_summary_prep3 AS 
+  (
+      SELECT  cdp_uid
+              ,TO_CHAR(created_timestamp, 'yyyymmdd') AS ts_id
+
+              ,SUM(fu.total_call_attempt) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS call_attempt_total
+              ,SUM(fu.total_call_answered) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS call_answered_total
+              ,SUM(fu.total_call_unanswered) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS call_unanswered_total 
+              ,PERCENTILE_CONT(fu.median_call_timespent_minute, 0.5) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS call_timespent_minute_median
+              ,SUM(fu.total_call_timespent_minute) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS call_timespent_minute_total
+
+              ,SUM(fu.total_message_creating_schedule) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_creating_schedule_total
+              ,SUM(fu.creating_schedule_follow_up_received) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS creating_schedule_follow_up_received_total
+              ,SUM(fu.total_customer_response_creating_schedule) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_creating_schedule_total
+              ,SUM(fu.total_message_creating_schedule_auto) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_creating_schedule_auto_total
+              ,SUM(fu.total_customer_response_creating_schedule_auto) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_creating_schedule_auto_total
+              ,SUM(fu.total_message_creating_schedule_manual) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_creating_schedule_manual_total
+              ,SUM(fu.total_customer_response_creating_schedule_manual) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_creating_schedule_manual_total
+              ,SUM(fu.total_message_creating_schedule_manual_template_1) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_creating_schedule_manual_template_1_total
+              ,SUM(fu.total_customer_response_creating_schedule_manual_template_1) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_creating_schedule_manual_template_1_total
+              ,SUM(fu.total_message_creating_schedule_manual_template_2) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_creating_schedule_manual_template_2_total
+              ,SUM(fu.total_customer_response_creating_schedule_manual_template_2) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_creating_schedule_manual_template_2_total
+              ,SUM(fu.total_message_creating_schedule_manual_template_3) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_creating_schedule_manual_template_3_total
+              ,SUM(fu.total_customer_response_creating_schedule_manual_template_3) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_creating_schedule_manual_template_3_total
+              ,SUM(fu.total_message_creating_schedule_manual_free) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_creating_schedule_manual_free_total
+              ,SUM(fu.total_customer_response_creating_schedule_manual_free) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_creating_schedule_manual_free_total 
+              ,PERCENTILE_CONT(fu.median_bfi_response_sla_creating_schedule,0.5) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS bfi_response_sla_creating_schedule_median
+              ,PERCENTILE_CONT(fu.median_bfi_response_sla_ops_creating_schedule,0.5) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS bfi_response_sla_ops_creating_schedule_median
+              ,PERCENTILE_CONT(fu.median_customer_response_sla_creating_schedule,0.5) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_sla_creating_schedule_median
+
+              ,SUM(fu.total_message_follow_up) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_follow_up_total
+              ,SUM(fu.follow_up_received) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS follow_up_received_total
+              ,SUM(fu.total_customer_response) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_total
+              ,SUM(fu.total_message_follow_up_auto) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_follow_up_auto_total
+              ,SUM(fu.total_customer_response_auto) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_auto_total
+              ,SUM(fu.total_message_follow_up_manual) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_follow_up_manual_total
+              ,SUM(fu.total_customer_response_manual) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_manual_total
+              ,SUM(fu.total_message_follow_up_manual_template) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_follow_up_manual_template_total
+              ,SUM(fu.total_customer_response_manual_template) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_manual_template_total
+              ,SUM(fu.total_message_follow_up_manual_free) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS message_follow_up_manual_free_total
+              ,SUM(fu.total_customer_response_manual_free) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_manual_free_total
+              ,SUM(fu.total_customer_response_attend) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_attend_total
+              ,SUM(fu.total_customer_response_reschedule) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_reschedule_total
+              ,SUM(fu.total_customer_response_cancel) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_cancel_total
+              ,PERCENTILE_CONT(fu.median_bfi_response_sla,0.5) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS bfi_response_sla_median
+              ,PERCENTILE_CONT(fu.median_bfi_response_sla_ops,0.5) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS bfi_response_sla_ops_median
+              ,PERCENTILE_CONT(fu.median_customer_response_sla,0.5) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_sla_median
+              ,LAST_VALUE(last_conversation, true) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS last_conversation_on_side
+              ,MAX(fu.follow_up_creating_schedule_flag) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS follow_up_creating_schedule_flag_max
+              ,MAX(fu.follow_up_creating_schedule_flag_group_1) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS follow_up_creating_schedule_flag_group_1_max
+              ,MAX(fu.follow_up_creating_schedule_flag_group_2) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS follow_up_creating_schedule_flag_group_2_max
+              ,MAX(fu.creating_schedule_follow_up_received_flag) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS creating_schedule_follow_up_received_flag_max
+              ,MAX(fu.customer_response_creating_schedule_flag) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_creating_schedule_flag_max
+              ,MAX(fu.follow_up_flag) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS follow_up_flag_max
+              ,MAX(fu.follow_up_flag_group_1) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS follow_up_flag_group_1_max
+              ,MAX(fu.follow_up_flag_group_2) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS follow_up_flag_group_2_max
+              ,MAX(fu.follow_up_received_flag) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS follow_up_received_flag_max
+              ,MAX(fu.customer_response_flag) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_flag_max
+              ,MAX(fu.customer_response_attend_flag) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_attend_flag_max
+              ,MAX(fu.customer_response_reschedule_flag) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_reschedule_flag_max
+              ,MAX(fu.customer_response_cancel_flag) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS customer_response_cancel_flag_max
+              ,SUM(fu.total_response) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS total_response
+              ,MIN(first_call_at) OVER(PARTITION BY cdp_uid 
+                  ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS first_call_at
+              ,MIN(first_follow_up_creating_schedule) OVER(PARTITION BY cdp_uid 
+                  ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS first_follow_up_creating_schedule
+              ,MIN(first_customer_response_creating_schedule) OVER(PARTITION BY cdp_uid 
+                  ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS first_customer_response_creating_schedule
+              ,MIN(first_follow_up) OVER(PARTITION BY cdp_uid 
+                  ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS first_follow_up
+              ,MIN(first_customer_response) OVER(PARTITION BY cdp_uid 
+                  ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS first_customer_response
+              ,MIN(first_time_initiate_appointment_at) OVER(PARTITION BY cdp_uid 
+                  ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS first_time_initiate_appointment_at
+              ,MAX(created_timestamp) OVER(PARTITION BY cdp_uid, ts_id) AS created_timestamp
+              ,ROW_NUMBER() OVER(PARTITION BY cdp_uid, ts_id ORDER BY created_timestamp DESC) rn
+      FROM    followup_summary_prep2 fu
+  )
+  ,last_conversation_tab1 AS (
+      SELECT
+          cdp_uid
+          ,GREATEST(created_timestamp, first_call_at) AS created_timestamp
+          ,first_call_at AS last_conversation_recorded_at
+      FROM followup_summary_prep2
+      WHERE first_call_at IS NOT NULL
+      UNION ALL
+      SELECT
+          cdp_uid
+          ,GREATEST(created_timestamp, first_follow_up_creating_schedule) AS created_timestamp
+          ,first_follow_up_creating_schedule AS last_conversation_recorded_at
+      FROM followup_summary_prep2
+      WHERE first_follow_up_creating_schedule IS NOT NULL
+      UNION ALL
+      SELECT
+          cdp_uid
+          ,GREATEST(created_timestamp, first_customer_response_creating_schedule) AS created_timestamp
+          ,first_customer_response_creating_schedule AS last_conversation_recorded_at
+      FROM followup_summary_prep2
+      UNION ALL
+      SELECT
+          cdp_uid
+          ,GREATEST(created_timestamp, first_follow_up) AS created_timestamp
+          ,first_follow_up AS last_conversation_recorded_at
+      FROM followup_summary_prep2
+      WHERE first_follow_up IS NOT NULL
+      UNION ALL
+      SELECT
+          cdp_uid
+          ,GREATEST(created_timestamp, first_customer_response) AS created_timestamp
+          ,first_customer_response AS last_conversation_recorded_at
+      FROM followup_summary_prep2
+      WHERE first_customer_response IS NOT NULL
+      UNION ALL
+      SELECT
+          cdp_uid
+          ,GREATEST(created_timestamp, first_time_initiate_appointment_at) AS created_timestamp
+          ,first_time_initiate_appointment_at AS last_conversation_recorded_at
+      FROM followup_summary_prep2
+      WHERE first_time_initiate_appointment_at IS NOT NULL  
+  )
+  ,last_conversation_tab2 AS (
+      SELECT  * EXCEPT(last_conversation_recorded_at)
+              ,TO_CHAR(created_timestamp, 'yyyymmdd') AS ts_id
+              ,MAX(last_conversation_recorded_at) OVER(PARTITION BY cdp_uid
+                  ORDER BY created_timestamp
+              ) AS last_conversation_recorded_at
+      FROM last_conversation_tab1
+  )
+  ,last_conversation_tab3 AS (
+      SELECT  * 
+              ,ROW_NUMBER() OVER(PARTITION BY cdp_uid, ts_id ORDER BY created_timestamp DESC) rn
+      FROM last_conversation_tab2
+  )
+  ,error_frequencies AS 
+  (
+      SELECT  t1.cdp_uid
+              ,TO_CHAR(CAST(t2.created_timestamp AS DATETIME),'yyyymmdd') AS ts_id
+              ,t2.error_code
+              ,t2.created_timestamp
+              ,COUNT(1) OVER (PARTITION BY t1.cdp_uid,t2.error_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS error_count 
+              ,MAX(created_timestamp) OVER (PARTITION BY t1.cdp_uid,t2.error_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS latest_ts
+      FROM    cdp_identity_resolution t1
+      INNER JOIN wsDataInnovation.cdp_loan_engagement_follow_up_summary t2
+      ON      t1.dt = t2.dt
+      AND     t1.application_id = t2.application_id
+      WHERE   t2.error_code IS NOT NULL
+  )
+  ,ranked_error_per_row AS 
+  (
+      SELECT  cdp_uid
+              ,ts_id
+              ,FIRST_VALUE(error_code) OVER(PARTITION BY cdp_uid ORDER BY error_count DESC, latest_ts DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS error_most
+              ,ROW_NUMBER() OVER (PARTITION BY cdp_uid,ts_id ORDER BY created_timestamp DESC) rn
+              ,created_timestamp
+      FROM    error_frequencies
+      UNION ALL
+      SELECT  cdp_uid
+              ,'{bizdate}' AS ts_id 
+              ,error_most
+              ,1 AS rn
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS created_timestamp
+      FROM (
+          -- only consider entity that not yet have the bizdate update
+          SELECT  cdp_uid
+                  ,MAX(CAST(ts_id AS INT)) AS ts_id
+                  ,MAX_BY(error_code, STRUCT(error_count, latest_ts)) AS error_most
+                  -- ,MAX(created_timestamp) AS created_timestamp
+          FROM error_frequencies
+          GROUP BY cdp_uid
+      ) t2
+      WHERE CAST(t2.ts_id AS INT) < CAST('{bizdate}' AS INT)
+  )
+  ,cdp_combination_ts AS (
+      SELECT cdp_uid, ts_id
+      FROM customer_phone_aggregate
+      UNION ALL
+      SELECT cdp_uid, ts_id
+      FROM wab_message_feat4
+      UNION ALL
+      SELECT cdp_uid, ts_id
+      FROM followup_summary_prep3
+      WHERE rn = 1
+  )
+  ,feature_subset1 AS (
+      -- join following tables 
+      -- customer_phone_aggregate(cdp_uid, ts_id, created_timestamp) 
+      -- wab_message_feat4(cdp_uid, ts_id, created_timestamp)
+      -- followup_summary_prep3(cdp_uid, ts_id, created_timestamp, rn) 
+      -- last_conversation_tab3(cdp_uid, ts_id, created_timestamp, rn) 
+      -- ranked_error_per_row(cdp_uid, ts_id, created_timestamp, rn)
+      SELECT  t1.cdp_uid
+              ,t1.ts_id
+              ,t2.* EXCEPT(cdp_uid, ts_id, created_timestamp)
+              ,t3.* EXCEPT(cdp_uid, ts_id, created_timestamp)
+              ,t4.* EXCEPT(cdp_uid, ts_id, created_timestamp, rn)
+              ,t5.last_conversation_recorded_at
+              ,t6.error_most
+              ,GREATEST(t2.created_timestamp, t3.created_timestamp, t4.created_timestamp, t5.created_timestamp, t6.created_timestamp) AS event_timestamp
+      FROM (SELECT * FROM cdp_combination_ts GROUP BY cdp_uid, ts_id) t1
+      LEFT JOIN customer_phone_aggregate t2
+      ON    t1.cdp_uid = t2.cdp_uid
+      AND   t1.ts_id = t2.ts_id
+      LEFT JOIN wab_message_feat4 t3
+      ON    t1.cdp_uid = t3.cdp_uid
+      AND   t1.ts_id = t3.ts_id
+      LEFT JOIN followup_summary_prep3 t4
+      ON    t4.rn = 1
+      AND   t4.cdp_uid = t1.cdp_uid
+      AND   t4.ts_id = t1.ts_id
+      LEFT JOIN last_conversation_tab3 t5
+      ON    t5.rn = 1
+      AND   t5.cdp_uid = t1.cdp_uid
+      AND   t5.ts_id = t1.ts_id
+      LEFT JOIN ranked_error_per_row t6
+      ON      t6.cdp_uid = t1.cdp_uid
+      AND     t6.ts_id = t1.ts_id
+      AND     t6.rn = 1
+  )
+  ,feature_subset2 AS (
+      SELECT  *
+              ,DATEDIFF(CAST(event_timestamp AS DATETIME),CAST(first_call_at AS DATETIME),'dd') AS first_call_days_ago
+              ,DATEDIFF(CAST(event_timestamp AS DATETIME),CAST(first_follow_up_creating_schedule AS DATETIME),'dd') AS first_follow_up_creating_schedule_days_ago
+              ,DATEDIFF(CAST(event_timestamp AS DATETIME),CAST(first_customer_response_creating_schedule AS DATETIME),'dd') AS first_customer_response_creating_schedule_days_ago
+              ,DATEDIFF(CAST(event_timestamp AS DATETIME),CAST(first_follow_up AS DATETIME),'dd') AS first_follow_up_days_ago
+              ,DATEDIFF(CAST(event_timestamp AS DATETIME),CAST(first_customer_response AS DATETIME),'dd') AS first_customer_response_days_ago
+              ,DATEDIFF(CAST(event_timestamp AS DATETIME),CAST(first_time_initiate_appointment_at AS DATETIME),'dd') AS first_time_initiate_appointment_days_ago
+
+              ,DATEDIFF(CAST(event_timestamp AS DATETIME),CAST(last_conversation_recorded_at AS DATETIME),'dd') AS last_conversation_days_ago
+              ,DATEDIFF(CAST(event_timestamp AS DATETIME),CAST(last_wab_sent_at AS DATETIME),'dd') AS last_wab_sent_days_ago
+      FROM  feature_subset1
+      WHERE event_timestamp IS NOT NULL
+  )
+  SELECT
+      cdp_uid
+      --forward fill
+      ,LAST_VALUE(bfi_response_sla_creating_schedule_median, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS bfi_response_sla_creating_schedule_median
+      ,LAST_VALUE(bfi_response_sla_median, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS bfi_response_sla_median  
+      ,LAST_VALUE(bfi_response_sla_ops_creating_schedule_median, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS bfi_response_sla_ops_creating_schedule_median
+      ,LAST_VALUE(bfi_response_sla_ops_median, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS bfi_response_sla_ops_median
+      ,LAST_VALUE(call_answered_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS call_answered_total
+      ,LAST_VALUE(call_attempt_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS call_attempt_total
+      ,LAST_VALUE(call_timespent_minute_median, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS call_timespent_minute_median
+      ,LAST_VALUE(call_timespent_minute_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS call_timespent_minute_total
+      ,LAST_VALUE(call_unanswered_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS call_unanswered_total
+      ,LAST_VALUE(creating_schedule_follow_up_received_flag_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creating_schedule_follow_up_received_flag_max
+      ,LAST_VALUE(creating_schedule_follow_up_received_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creating_schedule_follow_up_received_total
+      ,LAST_VALUE(customer_response_attend_flag_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_attend_flag_max
+      ,LAST_VALUE(customer_response_attend_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_attend_total
+      ,LAST_VALUE(customer_response_auto_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_auto_total
+      ,LAST_VALUE(customer_response_cancel_flag_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_cancel_flag_max
+      ,LAST_VALUE(customer_response_cancel_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_cancel_total
+      ,LAST_VALUE(customer_response_creating_schedule_auto_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_creating_schedule_auto_total
+      ,LAST_VALUE(customer_response_creating_schedule_flag_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_creating_schedule_flag_max
+      ,LAST_VALUE(customer_response_creating_schedule_manual_free_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_creating_schedule_manual_free_total
+      ,LAST_VALUE(customer_response_creating_schedule_manual_template_1_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_creating_schedule_manual_template_1_total
+      ,LAST_VALUE(customer_response_creating_schedule_manual_template_2_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_creating_schedule_manual_template_2_total
+      ,LAST_VALUE(customer_response_creating_schedule_manual_template_3_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_creating_schedule_manual_template_3_total
+      ,LAST_VALUE(customer_response_creating_schedule_manual_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_creating_schedule_manual_total
+      ,LAST_VALUE(customer_response_creating_schedule_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_creating_schedule_total
+      ,LAST_VALUE(customer_response_flag_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_flag_max
+      ,LAST_VALUE(customer_response_manual_free_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_manual_free_total
+      ,LAST_VALUE(customer_response_manual_template_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_manual_template_total
+      ,LAST_VALUE(customer_response_manual_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_manual_total
+      ,LAST_VALUE(customer_response_reschedule_flag_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_reschedule_flag_max
+      ,LAST_VALUE(customer_response_reschedule_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_reschedule_total
+      ,LAST_VALUE(customer_response_sla_creating_schedule_median, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_sla_creating_schedule_median
+      ,LAST_VALUE(customer_response_sla_median, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_sla_median
+      ,LAST_VALUE(customer_response_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_total
+      ,LAST_VALUE(error_most, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS error_most
+      ,LAST_VALUE(first_call_days_ago, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_call_days_ago
+      ,LAST_VALUE(first_customer_response_creating_schedule_days_ago, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_customer_response_creating_schedule_days_ago
+      ,LAST_VALUE(first_customer_response_days_ago, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_customer_response_days_ago
+      ,LAST_VALUE(first_follow_up_creating_schedule_days_ago, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_follow_up_creating_schedule_days_ago
+      ,LAST_VALUE(first_follow_up_days_ago, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_follow_up_days_ago
+      ,LAST_VALUE(first_time_initiate_appointment_days_ago, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_time_initiate_appointment_days_ago
+      ,LAST_VALUE(follow_up_creating_schedule_flag_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_creating_schedule_flag_max
+      ,LAST_VALUE(follow_up_creating_schedule_flag_group_1_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_creating_schedule_flag_group_1_max
+      ,LAST_VALUE(follow_up_creating_schedule_flag_group_2_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_creating_schedule_flag_group_2_max
+      ,LAST_VALUE(follow_up_flag_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_flag_max
+      ,LAST_VALUE(follow_up_flag_group_1_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_flag_group_1_max
+      ,LAST_VALUE(follow_up_flag_group_2_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_flag_group_2_max
+      ,LAST_VALUE(follow_up_received_flag_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_received_flag_max
+      ,LAST_VALUE(follow_up_received_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_received_total
+      ,LAST_VALUE(last_conversation_days_ago, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS last_conversation_days_ago
+      ,LAST_VALUE(last_conversation_on_side, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS last_conversation_on_side
+      ,LAST_VALUE(last_wab_sent_days_ago, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS last_wab_sent_days_ago
+      ,LAST_VALUE(message_creating_schedule_auto_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_creating_schedule_auto_total
+      ,LAST_VALUE(message_creating_schedule_manual_free_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_creating_schedule_manual_free_total
+      ,LAST_VALUE(message_creating_schedule_manual_template_1_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_creating_schedule_manual_template_1_total
+      ,LAST_VALUE(message_creating_schedule_manual_template_2_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_creating_schedule_manual_template_2_total
+      ,LAST_VALUE(message_creating_schedule_manual_template_3_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_creating_schedule_manual_template_3_total
+      ,LAST_VALUE(message_creating_schedule_manual_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_creating_schedule_manual_total
+      ,LAST_VALUE(message_creating_schedule_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_creating_schedule_total
+      ,LAST_VALUE(message_follow_up_auto_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_follow_up_auto_total
+      ,LAST_VALUE(message_follow_up_manual_free_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_follow_up_manual_free_total
+      ,LAST_VALUE(message_follow_up_manual_template_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_follow_up_manual_template_total
+      ,LAST_VALUE(message_follow_up_manual_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_follow_up_manual_total
+      ,LAST_VALUE(message_follow_up_total, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS message_follow_up_total
+      ,LAST_VALUE(phone_age_max, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS phone_age_max
+      ,LAST_VALUE(phone_age_min, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS phone_age_min
+      ,LAST_VALUE(phone_count, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS phone_count
+      ,LAST_VALUE(total_response, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS response_total
+      ,LAST_VALUE(wab_deliver_l3m_rate, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS wab_deliver_l3m_rate
+      ,LAST_VALUE(wab_read_l3m_count, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS wab_read_l3m_count
+      ,LAST_VALUE(wab_read_l3m_rate, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS wab_read_l3m_rate
+      ,LAST_VALUE(wab_read_per_delivered_l3m_rate, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS wab_read_per_delivered_l3m_rate
+      ,LAST_VALUE(wab_reply_l3m_count, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS wab_reply_l3m_count
+      ,LAST_VALUE(wab_reply_l3m_rate, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS wab_reply_l3m_rate
+      ,LAST_VALUE(wab_sent_l3m_count, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS wab_sent_l3m_count
+      ,LAST_VALUE(wab_submit_l3m_rate, true) OVER(PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS wab_submit_l3m_rate
+      ,event_timestamp
+  FROM feature_subset2

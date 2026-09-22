@@ -1,0 +1,327 @@
+[
+  {
+    "term": "ema",
+    "definition": "exponential moving average",
+    "sources": [
+      "asset_detail_history.yaml"
+    ]
+  },
+  {
+    "term": "ewm",
+    "definition": "exponentially weighted moving averages",
+    "sources": [
+      "asset_detail_history.yaml"
+    ]
+  },
+  {
+    "term": "otr",
+    "definition": "on-the-road market price of the asset",
+    "sources": [
+      "asset_detail_history.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "std",
+    "definition": "standard deviation",
+    "sources": [
+      "asset_detail_history.yaml"
+    ]
+  },
+ 
+  {
+    "term": "stnk",
+    "definition": "registration certificate",
+    "sources": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "dpd",
+    "definition": "days past due",
+    "sources": [
+      "cdp_collection_record.yaml",
+      "cdp_payment_quality.yaml",
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "cdp",
+    "definition": "customer data platform",
+    "sources": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml"
+    ]
+  },
+  {
+    "term": "fid",
+    "definition": "the shortest first installment default of customer",
+    "sources": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "gor",
+    "definition": "gain or loss",
+    "sources": []
+  },
+  {
+    "term": "lor",
+    "definition": "",
+    "sources": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ]
+  },
+  {
+    "term": "wo",
+    "definition": "write off",
+    "sources": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  {
+    "term": "npl",
+    "definition": "non performing loan",
+    "sources": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  {
+    "term": "nm",
+    "definition": "normal",
+    "sources": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ]
+  },
+  {
+    "term": "tenor",
+    "definition": "the length of the loan in months",
+    "sources": [
+      "cdp_loan_behavior_v2.yaml",
+      "contract_basic_info.yaml"
+    ]
+  },
+  {
+    "term": "ntf",
+    "definition": "notice to fund",
+    "sources": [
+      "cdp_loan_behavior_v2.yaml",
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "ltv",
+    "definition": "loan to value",
+    "sources": [
+      "cdp_loan_behavior_v2.yaml",
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "osp",
+    "definition": "outsanding principal",
+    "sources": [
+      "cdp_loan_behavior_v2.yaml"
+    ]
+  },
+  {
+    "term": "ba",
+    "definition": "business agency",
+    "sources": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "fiducia",
+    "definition": "total legal fee",
+    "sources": [
+      "cdp_loan_behavior_v2.yaml"
+    ]
+  },
+  {
+    "term": "notary",
+    "definition": "total legal fee",
+    "sources": [
+      "cdp_loan_behavior_v2.yaml"
+    ]
+  },
+  {
+    "term": "mob",
+    "definition": "month on book",
+    "sources": [
+      "cdp_loan_behavior_v2.yaml"
+    ]
+  },
+  {
+    "term": "soa",
+    "definition": "source of acquisition",
+    "sources": [
+      "cdp_loan_behavior_v2.yaml"
+    ]
+  },
+  {
+    "term": "wa",
+    "definition": "whatsapp",
+    "sources": [
+      "cdp_phone_history_v2.yaml"
+    ]
+  },
+  {
+    "term": "sla",
+    "definition": "service level agreement",
+    "sources": [
+      "cdp_phone_history_v2.yaml"
+    ]
+  },
+
+  {
+    "term" : "ops",
+    "definition" : "operations",
+    "sources": [
+
+    ]
+  },
+
+  {
+    "term" : "rrd",
+    "definition" : "ready release document",
+    "sources": []
+  },
+  {
+    "term" : "wab",
+    "definition": "whatsapp blast" 
+  },
+
+  {
+    "term": "ever30/60/90",
+    "definition": "",
+    "sources": [
+      "contract_collection_record_v2.yaml"
+    ]
+  },
+
+ 
+  {
+    "term": "confins",
+    "definition": "a system that houses customer records, linked via a unique identifier.",
+    "sources": [
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml"
+    ]
+  },
+  {
+    "term": "kyc",
+    "definition": "know your client",
+    "sources": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ]
+  },
+  {
+    "term": "l3m",
+    "definition": "last 3 months",
+    "sources": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ]
+  },
+  {
+    "term": "df",
+    "definition": "broad category of financing applied for",
+    "sources": [
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "cdp uid",
+    "definition": "master customer identifier generated by the identity resolution graph",
+    "sources": [
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "ro",
+    "definition": "repeat order",
+    "sources": [
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "rrd",
+    "definition": "",
+    "sources": [
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "pefindo",
+    "definition": "",
+    "sources": [
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "b2b",
+    "definition": "",
+    "sources": [
+      "customer_ro_df_car.yaml"
+    ]
+  },
+  {
+    "term": "wab",
+    "definition": "",
+    "sources": [
+      "phone_response_summary_v2.yaml"
+    ]
+  },
+  {
+    "term": "npwp",
+    "definition": "corporate tax registration footprint",
+    "sources": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  {
+    "term": "rca",
+    "definition": "risk criteria acceptance",
+    "sources": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  {
+    "term": "pdc",
+    "definition": "",
+    "sources": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  {
+    "term": "sk",
+    "definition": "",
+    "sources": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  {
+    "term": "pkd",
+    "definition": "",
+    "sources": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  }
+]

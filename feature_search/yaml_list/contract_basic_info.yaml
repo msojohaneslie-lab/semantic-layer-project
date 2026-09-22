@@ -1,0 +1,39 @@
+source_type: ODPS
+name: contract_basic_info
+description: Contract Basic Info 
+entity: contract
+feature_fields:
+  - name: tenor
+    type: INTEGER
+    description: The length of the loan in months
+    business_logic: This comes from the tenor field in our loan contract records
+  - name: ltv
+    type: DOUBLE
+    description: Loan-to-Value ratio, which is the loan amount divided by the appraised value of the collateral
+    business_logic: This is calculated from the loan amount and collateral value in our contract records and helps us understand the risk level of the loan
+  - name: ntf_amount
+    type: DOUBLE
+    description: The amount of any Notice to Fund (NTF) associated with the contract
+    business_logic: This comes from the NTF amount field in our contract records and indicates if there are any pending disbursements that could impact the customer's financial obligations
+  - name: outstanding_interest_due
+    type: DOUBLE
+    description: The amount of interest that is currently due but has not yet been paid
+    business_logic: This is calculated from the interest due field in our contract records and helps us understand the customer's current financial obligations and potential risk of default
+  - name: remaining_installment_number
+    type: INTEGER
+    description: The number of installments that are still remaining to be paid on the loan
+    business_logic: This is calculated from the total number of installments and the number of installments already paid, and helps us understand how much longer the customer will be financially committed to this loan
+tags:
+  domain: contract
+sql: |-
+  SELECT 
+    agreement_number,
+    tenor,
+    ltv,
+    COALESCE(ntf_amount, 0) AS ntf_amount,
+    COALESCE(outstanding_interest_due, 0) AS outstanding_interest_due,
+    remaining_installment_number,
+    CAST(golive_at AS TIMESTAMP) AS event_timestamp
+  FROM wsDataInnovation.cdp_loan
+  where dt = '{bizdate}'
+  ;

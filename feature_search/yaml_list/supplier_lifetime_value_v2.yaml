@@ -1,0 +1,1432 @@
+source_type: ODPS
+name: supplier_lifetime_value
+description: Feature view capturing the comprehensive behavioral profile and lifetime performance value metrics for suppliers.
+entity: supplier
+ttl: 5500d # ~15 yr
+feature_fields:
+  - name: supplier_id
+    type: STRING
+    description: Unique tracking identification string for the supplier entity.
+    business_logic: NULLIF(TRIM(id_supplier),'')
+  - name: beforeexpired_days_max
+    type: INTEGER
+    description: Absolute maximum recorded timeline cushion between contract binding and registration validity endings.
+    business_logic: MAX(day_before_expire)
+  - name: beforeexpired_days_mean
+    type: DOUBLE
+    description: Average residual lifetime validity span margin calculation across business portfolios.
+    business_logic: AVG(day_before_expire) by excluding the negative number.
+  - name: beforeexpired_days_median
+    type: INTEGER
+    description: Middle-ground timeline longevity cushion values tracking operational validation safe horizons.
+    business_logic: MEDIAN(day_before_expire)
+  - name: beforeexpired_days_min
+    type: INTEGER
+    description: Lower bounds metrics representing safety margins between deal settlement actions and formal profile registration expiries.
+    business_logic: MIN(day_before_expire)
+  - name: business_npwp_most
+    type: STRING
+    description: Primary statistical mode matching the corporate tax registration footprint most frequently processed across transactional interactions.
+    business_logic: ROW_NUMBER() OVER (PARTITION BY supplier_id ORDER BY COUNT(*) DESC)
+  - name: business_ownership_most
+    type: STRING
+    description: Predominant property facility legal tenure category tracked by baseline volume distribution profiles.
+    business_logic: ROW_NUMBER() OVER (PARTITION BY supplier_id ORDER BY COUNT(*) DESC)
+  - name: contract_npl_count
+    type: INTEGER
+    description: Cumulative count of non-performing loan historical occurrences.
+    business_logic: SUM(contract_npl_exist) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: contract_release_count
+    type: INTEGER
+    description: Cumulative count of contract release historical occurrences.
+    business_logic: SUM(contract_release_exist) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: contract_wo_count
+    type: INTEGER
+    description: Cumulative count of write-off contract operational profiles.
+    business_logic: SUM(contract_wo_exist) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: creditreview_waiting_time_max
+    type: INTEGER
+    description: Maximum timeline turnaround for credit review processing stages.
+    business_logic: MAX(creditreview_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: creditreview_waiting_time_mean
+    type: DOUBLE
+    description: Average timeline turnaround for credit review processing stages.
+    business_logic: AVG(creditreview_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: creditreview_waiting_time_min
+    type: INTEGER
+    description: Minimum timeline turnaround for credit review processing stages.
+    business_logic: MIN(creditreview_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: creditreview_waiting_time_std
+    type: DOUBLE
+    description: Standard deviation of credit review waiting time metrics.
+    business_logic: STDDEV(creditreview_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: creditscoring_waiting_time_max
+    type: INTEGER
+    description: Maximum observed delay tracking credit scoring processing milestones.
+    business_logic: MAX(creditscoring_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: creditscoring_waiting_time_mean
+    type: DOUBLE
+    description: Average observed delay tracking credit scoring processing milestones.
+    business_logic: AVG(creditscoring_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: creditscoring_waiting_time_min
+    type: INTEGER
+    description: Minimum observed delay tracking credit scoring processing milestones.
+    business_logic: MIN(creditscoring_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: creditscoring_waiting_time_std
+    type: DOUBLE
+    description: Standard deviation of credit scoring waiting metrics.
+    business_logic: STDDEV(creditscoring_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: delivery_to_purchase_max
+    type: INTEGER
+    description: Maximum delivery order to purchase order days interval duration.
+    business_logic: MAX(delivery_to_purchase) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: delivery_to_purchase_mean
+    type: DOUBLE
+    description: Average delivery order to purchase order days interval duration.
+    business_logic: AVG(delivery_to_purchase) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: delivery_to_purchase_min
+    type: INTEGER
+    description: Minimum delivery order to purchase order days interval duration.
+    business_logic: MIN(delivery_to_purchase) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: delivery_to_purchase_std
+    type: DOUBLE
+    description: Standard deviation of delivery to purchase timeline metrics.
+    business_logic: STDDEV(delivery_to_purchase) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: earliest_checkin_time
+    type: TIMESTAMP
+    description: Initial creation timestamp captured for the earliest operational entry of the supplier profile.
+    business_logic: MIN(created_timestamp)
+  - name: entry_lifeinsurance_count
+    type: INTEGER
+    description: Cumulative total counts for life insurance submission checkins.
+    business_logic: SUM(entry_lifeinsurance_exist) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: entrydata_process_time_max
+    type: DOUBLE
+    description: Maximum pipeline time taken to fully input data profiles.
+    business_logic: MAX(entrydata_process_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: entrydata_process_time_mean
+    type: DOUBLE
+    description: Average pipeline time taken to fully input data profiles.
+    business_logic: AVG(entrydata_process_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: entrydata_process_time_min
+    type: DOUBLE
+    description: Minimum pipeline time taken to fully input data profiles.
+    business_logic: MIN(entrydata_process_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: entrydata_process_time_std
+    type: DOUBLE
+    description: Standard deviation of entry data process time logs.
+    business_logic: STDDEV(entrydata_process_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: flat_rate_max
+    type: DOUBLE
+    description: Absolute peak structural markup contract rate percentage mapped to tracking interactions.
+    business_logic: MAX(supplierflatrate)
+  - name: flat_rate_mean
+    type: DOUBLE
+    description: Arithmetic global evaluation average pricing rate computed over application lines.
+    business_logic: AVG(supplierflatrate)
+  - name: flat_rate_min
+    type: DOUBLE
+    description: Bottom ceiling pricing baseline processing percentage value applied over historical client books.
+    business_logic: MIN(supplierflatrate)
+  - name: harvest_day_max
+    type: INTEGER
+    description: Longest observed turnaround tracking length from baseline master profile generation to deal execution events.
+    business_logic: MAX(harvest_day)
+  - name: harvest_day_min
+    type: INTEGER
+    description: Lowest duration metric counting day intervals separating account entry initialization checks from actual transaction bookings.
+    business_logic: MIN(harvest_day)
+  - name: harvest_day_mean
+    type: DOUBLE
+    description: Arithmetic mean pipeline conversion timing velocity filtering active entries.
+    business_logic: AVG(CASE WHEN harvest_day >= 0 THEN harvest_day END)
+  - name: harvest_day_median
+    type: INTEGER
+    description: Median lifespan baseline measure calculating pipeline delivery operational speed profiles.
+    business_logic: MEDIAN(CASE WHEN harvest_day >= 0 THEN harvest_day END)
+  - name: isautomotive_first
+    type: STRING
+    description: First operational business flag recording if the primary product focus belongs to automotive vertical lines.
+    business_logic: MIN_BY(isautomotive,contract_timestamp)
+  - name: isautomotive_last
+    type: STRING
+    description: Latest operational automotive vertical enterprise indicator.
+    business_logic: MAX_BY(isautomotive,contract_timestamp)
+  - name: isautomotive_modified
+    type: BOOLEAN
+    description: Tracking boolean indicating if enterprise industry specialization shifted focus across history records.
+    business_logic: CASE WHEN COUNT(DISTINCT isautomotive) > 1 THEN TRUE ELSE FALSE END
+  - name: kecamatan_match_count
+    type: INTEGER
+    description: Aggregated transaction count monitoring mismatch behavior occurrences between workspace registration records and shipping/billing coordinates.
+    business_logic: SUM(kecamatan_match)
+  - name: kelurahan_match_count
+    type: INTEGER
+    description: Total flags checking neighborhood locality differences separating official registry entries from mailing lists.
+    business_logic: SUM(kelurahan_match)
+  - name: kota_match_count
+    type: INTEGER
+    description: Volume metric confirming how frequently structural municipal boundaries changed or deviated across documents.
+    business_logic: SUM(kota_match)
+  # - name: latest_expired_date
+  #   type: DATE
+  #   description: Maximum historical or terminal active bounds operational profile validity expiration point.
+  #   business_logic: MAX(expiration_date)
+  - name: length_experience_anomaly
+    type: BOOLEAN
+    description: Binary indicator identifying if historical experience chronologically decreased backwards over transaction records.
+    business_logic: CASE WHEN SUM(length_experience_anomaly) > 0 THEN TRUE ELSE FALSE END
+  - name: length_experience_max
+    type: INTEGER
+    description: Maximum operational experience year tenure captured during contracts.
+    business_logic: MAX(YEAR(contract_timestamp) - CAST(pengalamansejaktahun AS INT))
+  - name: length_experience_mean
+    type: DOUBLE
+    description: Average calculated length of experience across historical milestone points.
+    business_logic: ROUND(AVG(length_experience),1)
+  - name: length_experience_min
+    type: INTEGER
+    description: Minimum calculated tenure of professional operation experience at the time of contract execution.
+    business_logic: MIN(YEAR(contract_timestamp) - CAST(pengalamansejaktahun AS INT))
+  - name: length_partnership_anomaly
+    type: BOOLEAN
+    description: Flag tracking if operational partnership timelines calculated chronologically regress over sequential records.
+    business_logic: CASE WHEN SUM(length_partnership_anomaly) > 0 THEN TRUE ELSE FALSE END
+  - name: length_partnership_max
+    type: INTEGER
+    description: Maximum milestone duration of operational corporate partnership.
+    business_logic: MAX(YEAR(contract_timestamp) - CAST(pkddenganbfitahun AS INT))
+  - name: length_partnership_mean
+    type: DOUBLE
+    description: Mean partnership tenure duration across contract intervals.
+    business_logic: ROUND(AVG(length_partnership),1)
+  - name: length_partnership_min
+    type: INTEGER
+    description: Minimum timeline duration of formal corporate partnership with the firm.
+    business_logic: MIN(YEAR(contract_timestamp) - CAST(pkddenganbfitahun AS INT))
+  - name: mailing_kecamatan_most
+    type: STRING
+    description: Primary destination district where transaction validation documentation and notifications are regularly delivered.
+    business_logic: ROW_NUMBER() OVER (PARTITION BY supplier_id ORDER BY COUNT(*) DESC)
+  - name: mailing_kecamatan_nunique
+    type: INTEGER
+    description: Structural count of distinct physical mailing location district entities logged during processing operations.
+    business_logic: COUNT(DISTINCT mailing_kecamatan)
+  - name: mailing_kota_most
+    type: STRING
+    description: Core municipal shipping target processing distribution center node evaluated by frequency.
+    business_logic: ROW_NUMBER() OVER (PARTITION BY supplier_id ORDER BY COUNT(*) DESC)
+  - name: mailing_kota_nunique
+    type: INTEGER
+    description: Structural footprint showing count metrics over varied municipal target shipping and notification boundaries.
+    business_logic: COUNT(DISTINCT mailing_kota)
+  - name: number_of_contract
+    type: INTEGER
+    description: Distinct cumulative maximum volume metrics tracking transactional agreement pipelines or formal submissions.
+    business_logic: GREATEST(COUNT(DISTINCT application_id), COUNT(DISTINCT agreement_number))
+  - name: number_of_updates
+    type: INTEGER
+    description: Total sequential row revision history count tracking profile instance records over lifetime logs.
+    business_logic: COUNT(DISTINCT sk_supplier)
+  - name: pdc_promised_count
+    type: INTEGER
+    description: Total sequential tracking history metrics indicating formal commitment promises.
+    business_logic: SUM(pdc_promised_exist) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: percentage_reward_max
+    type: DOUBLE
+    description: Maximum bonus matrix configuration ratio observed across active contract bounds.
+    business_logic: MAX(percentagerewardsupplier)
+  - name: percentage_reward_min
+    type: DOUBLE
+    description: Minimal incentive or commercial scaling bonus metrics ratio computed on files.
+    business_logic: MIN(percentagerewardsupplier)
+  - name: percentage_supplier_max
+    type: DOUBLE
+    description: Upper margin sharing limit coefficient registered across system operations.
+    business_logic: MAX(percentagesupplier)
+  - name: percentage_supplier_min
+    type: DOUBLE
+    description: Lower-bound baseline allocation margin metric mapped across legal contracts.
+    business_logic: MIN(percentagesupplier)
+  - name: product_most
+    type: STRING
+    description: Dominant transactional financing product classification code category optimized for feature store consumption profiles.
+    business_logic: ROW_NUMBER() OVER (PARTITION BY supplier_id ORDER BY COUNT(*) DESC)
+  - name: product_nunique
+    type: INTEGER
+    description: Quantitative total count summarizing varied commercial product vertical items supported by processing paths.
+    business_logic: COUNT(DISTINCT product)
+  - name: rca_waiting_time_max
+    type: INTEGER
+    description: Maximum waiting threshold elapsed during risk analysis checks.
+    business_logic: MAX(rca_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: rca_waiting_time_mean
+    type: DOUBLE
+    description: Average waiting threshold elapsed during risk analysis checks.
+    business_logic: AVG(rca_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: rca_waiting_time_min
+    type: INTEGER
+    description: Minimum waiting threshold elapsed during risk analysis checks.
+    business_logic: MIN(rca_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: rca_waiting_time_std
+    type: DOUBLE
+    description: Standard deviation monitoring risk analysis milestone latency.
+    business_logic: STDDEV(rca_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: return_days_max
+    type: INTEGER
+    description: Maximum historical days timeline record since returns occurred.
+    business_logic: MAX(return_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: return_days_mean
+    type: DOUBLE
+    description: Average historical days timeline record since returns occurred.
+    business_logic: AVG(return_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: return_days_min
+    type: INTEGER
+    description: Minimum historical days timeline record since returns occurred.
+    business_logic: MIN(return_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: return_days_std
+    type: DOUBLE
+    description: Standard deviation values derived from operational return days metrics.
+    business_logic: STDDEV(return_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: showroom_location_first
+    type: STRING
+    description: First recorded physical geographic landscape property location descriptive type string.
+    business_logic: MIN_BY(lokasishowroomdescription,contract_timestamp)
+  - name: showroom_location_last
+    type: STRING
+    description: Terminal captured location landscaping classification category for the supplier.
+    business_logic: MAX_BY(lokasishowroomdescription,contract_timestamp)
+  - name: showroom_location_modified
+    type: BOOLEAN
+    description: Detects transformations or shifts in primary geographic location description categorizations.
+    business_logic: CASE WHEN COUNT(DISTINCT lokasishowroomdescription) > 1 THEN TRUE ELSE FALSE END
+  - name: showroom_ownerage_anomaly
+    type: BOOLEAN
+    description: Logical flag capturing if registered birthdate changes caused a retrograde reduction in chronological age.
+    business_logic: CASE WHEN SUM(showroom_ownerage_anomaly) > 0 THEN TRUE ELSE FALSE END
+  - name: showroom_ownerage_max
+    type: DOUBLE
+    description: Maximum historical age of the registered showroom business owner.
+    business_logic: MAX(showroom_ownerage)
+  - name: showroom_ownerage_mean
+    type: DOUBLE
+    description: Average computed age of the showroom owner across contract checkpoints.
+    business_logic: ROUND(AVG(showroom_ownerage),1)
+  - name: showroom_ownerage_min
+    type: DOUBLE
+    description: Lower-bound baseline edge age of the registered showroom owner during historical operations.
+    business_logic: MIN(showroom_ownerage)
+  - name: showroom_ownership_first
+    type: STRING
+    description: Original facility property legal designation logged on initial interaction.
+    business_logic: MIN_BY(kepemilikantempatusaha,contract_timestamp)
+  - name: showroom_ownership_last
+    type: STRING
+    description: Most recent operational facility property registration category status.
+    business_logic: MAX_BY(kepemilikantempatusaha,contract_timestamp)
+  - name: showroom_ownership_modified
+    type: BOOLEAN
+    description: Boolean flagging if the facility status shifted across historical updates.
+    business_logic: CASE WHEN COUNT(DISTINCT kepemilikantempatusaha) > 1 THEN TRUE ELSE FALSE END
+  - name: sk_region
+    type: INTEGER
+    description: Regional surrogate database block identifier mapped from the most recent profile entry update.
+    business_logic: MAX_BY(sk_region, created_timestamp)
+  - name: sk_supplier
+    type: INTEGER
+    description: Surrogate unique key identifier mapping the specific history instance log row for the supplier.
+    business_logic: sk_supplier
+  - name: sk_supplier_category
+    type: INTEGER
+    description: Unique database surrogate categorisation sequence key identifying the operational line bracket group.
+    business_logic: sk_supplier_category
+  - name: supplier_assetstatus_max
+    type: INTEGER
+    description: Terminal peak operational asset structural state status value.
+    business_logic: MAX(sk_supplier_asset_status)
+  - name: supplier_assetstatus_min
+    type: INTEGER
+    description: Baseline minimum recorded asset validation configuration status mapping index.
+    business_logic: MIN(sk_supplier_asset_status)
+  - name: supplier_assetstatus_nunique
+    type: INTEGER
+    description: Distinct variation counts associated with structural asset operational categories.
+    business_logic: COUNT(DISTINCT sk_supplier_asset_status)
+  - name: supplier_group
+    type: STRING
+    description: Commercial enterprise client relationship structural clustering bracket level designation.
+    business_logic: MAX_BY(supplier_group, created_timestamp)
+  - name: supplier_industry_max
+    type: INTEGER
+    description: Upper limits index indicating varied industry category tracking points.
+    business_logic: MAX(sk_supplier_industry)
+  - name: supplier_industry_min
+    type: INTEGER
+    description: Lower analytical baseline boundary tracking categorical business taxonomy classifications.
+    business_logic: MIN(sk_supplier_industry)
+  - name: supplier_industry_nunique
+    type: INTEGER
+    description: Unique count measuring operational pivot vertical industries the supplier runs interactions over.
+    business_logic: COUNT(DISTINCT sk_supplier_industry)
+  - name: supplier_kecamatan
+    type: STRING
+    description: Normalized administrative district (Kecamatan) text name mapping for the supplier profile footprint.
+    business_logic: MAX_BY(supplier_kecamatan, created_timestamp)
+  - name: supplier_kelurahan
+    type: STRING
+    description: Normalized administrative sub-district (Kelurahan) name for the active supplier address profile.
+    business_logic: MAX_BY(supplier_kelurahan, created_timestamp)
+  - name: supplier_kota
+    type: STRING
+    description: Standardized municipal administrative division or city region classification space.
+    business_logic: MAX_BY(supplier_kota, created_timestamp)
+  - name: supplier_level_max
+    type: INTEGER
+    description: Top ceiling quality index validation tier indicator code observed.
+    business_logic: MAX(sk_supplier_level)
+  - name: supplier_level_min
+    type: INTEGER
+    description: Lowest registered performance matrix evaluation layer key across transactions.
+    business_logic: MIN(sk_supplier_level)
+  - name: supplier_level_nunique
+    type: INTEGER
+    description: Cardinality tracking the operational classification tiers of the historical supplier records.
+    business_logic: COUNT(DISTINCT sk_supplier_level)
+  - name: supplier_name
+    type: STRING
+    description: Standardised upper-case business registry name or operational entity handle string representing the supplier.
+    business_logic: TOUPPER(TRIM(supplier))
+  - name: supplier_npwp
+    type: STRING
+    description: Primary tax classification identifier type designation tracked across corporate system files.
+    business_logic: MAX_BY(supplier_npwp, created_timestamp)
+  - name: supplier_npwp_nunique
+    type: INTEGER
+    description: Absolute count tracking variance across distinct corporate or individual registration tax IDs.
+    business_logic: COUNT(DISTINCT supplier_npwp)
+  - name: supplier_potency_max
+    type: INTEGER
+    description: Peak capacity value rating indicator tracking potential structural limits.
+    business_logic: MAX(sk_supplier_potency)
+  - name: supplier_potency_min
+    type: INTEGER
+    description: Minimum structural potential score mapped during onboarding and active monitoring intervals.
+    business_logic: MIN(sk_supplier_potency)
+  - name: supplier_potency_nunique
+    type: INTEGER
+    description: Count tracking distinct evaluations analyzing scale capacity growth capability metrics.
+    business_logic: COUNT(DISTINCT sk_supplier_potency)
+  - name: supplier_rate_max
+    type: DOUBLE
+    description: Highest interest rating threshold applied to the supplier history pipeline.
+    business_logic: MAX(supplier_rate)
+  - name: supplier_rate_mean
+    type: DOUBLE
+    description: average yield or rate computation associated with historical contracts.
+    business_logic: AVG(supplier_rate)
+  - name: supplier_rate_min
+    type: DOUBLE
+    description: Minimum baseline commercial percentage interest processing metric associated with transaction records.
+    business_logic: MIN(supplier_rate)
+  - name: supplier_size_first
+    type: STRING
+    description: Earliest classification category tracking enterprise operational structural capacity size dimensions.
+    business_logic: MIN_BY(supplier_size,contract_timestamp)
+  - name: supplier_size_last
+    type: STRING
+    description: Terminal organizational scale status tier metric recorded during business relationship history.
+    business_logic: MAX_BY(supplier_size,contract_timestamp)
+  - name: supplier_size_modified
+    type: BOOLEAN
+    description: Tracking boolean indicating whether showroom's size ever upgraded.
+    business_logic: CASE WHEN COUNT(DISTINCT supplier_size) > 1 THEN TRUE ELSE FALSE END
+  - name: supplier_status_max
+    type: INTEGER
+    description: Terminal operational status verification tracking index ceiling record.
+    business_logic: MAX(sk_supplier_status)
+  - name: supplier_status_min
+    type: INTEGER
+    description: Lowest registered life-cycle profile state context ID.
+    business_logic: MIN(sk_supplier_status)
+  - name: supplier_status_nunique
+    type: INTEGER
+    description: Total unique state transitions or validation flag tracking elements registered.
+    business_logic: COUNT(DISTINCT sk_supplier_status)  
+  - name: supplierinvoice_days_max
+    type: INTEGER
+    description: Maximum lifespan timeline metrics tracking trailing supplier invoices.
+    business_logic: MAX(supplierinvoice_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: supplierinvoice_days_mean
+    type: DOUBLE
+    description: Mean historical velocity measuring supplier invoice age boundaries.
+    business_logic: AVG(supplierinvoice_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: supplierinvoice_days_min
+    type: INTEGER
+    description: Lower threshold calculating immediate turnaround metrics from supplier invoices.
+    business_logic: MIN(supplierinvoice_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: supplierinvoice_days_std
+    type: DOUBLE
+    description: Standard deviation variances calculated on supplier invoice metrics.
+    business_logic: MIN(supplierinvoice_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: survey_waiting_time_max
+    type: INTEGER
+    description: Maximum operational pipeline timeline tracking field survey delays.
+    business_logic: MAX(survey_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: survey_waiting_time_mean
+    type: DOUBLE
+    description: Average operational pipeline timeline tracking field survey delays.
+    business_logic: AVG(survey_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: survey_waiting_time_min
+    type: INTEGER
+    description: Minimum operational pipeline timeline tracking field survey delays.
+    business_logic: MIN(survey_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: survey_waiting_time_std
+    type: DOUBLE
+    description: Standard deviation variance checking survey scheduling updates.
+    business_logic: STDDEV(survey_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: time_lcinstallmentcalc_max
+    type: INTEGER
+    description: Maximum localized lifecycle installation metric boundaries.
+    business_logic: MAX(time_to_lcinstallmentcalc) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: time_lcinstallmentcalc_mean
+    type: DOUBLE
+    description: Mean duration metrics evaluating lifecycle installation execution steps.
+    business_logic: AVG(time_to_lcinstallmentcalc) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: time_lcinstallmentcalc_min
+    type: INTEGER
+    description: Minimum recorded timeframe checking lifecycle installment procedures.
+    business_logic: MIN(time_to_lcinstallmentcalc) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: time_lcinstallmentcalc_std
+    type: DOUBLE
+    description: Variance metric tracking lifecycle installation computation records.
+    business_logic: STDDEV(time_to_lcinstallmentcalc) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: time_mature_max
+    type: INTEGER
+    description: Absolute upper timeline limits observing active loan portfolio maturation fields.
+    business_logic: MAX(time_to_mature) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: time_mature_mean
+    type: DOUBLE
+    description: Global profile mean checking ongoing maturity timelines.
+    business_logic: AVG(time_to_mature) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: time_mature_min
+    type: INTEGER
+    description: Bottom ceiling layout marking minimal portfolio processing maturity records.
+    business_logic: MIN(time_to_mature) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: time_mature_std
+    type: DOUBLE
+    description: Structural footprint deviation tracking baseline maturity velocity spans.
+    business_logic: STDDEV(time_to_mature) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+  - name: total_sales_anomaly
+    type: BOOLEAN
+    description: Tracks anomalies where volume metrics values dropped backwards on sequential contracts.
+    business_logic: CASE WHEN SUM(total_sales_anomaly) > 0 THEN TRUE ELSE FALSE END
+  - name: total_sales_first
+    type: DOUBLE
+    description: Exponential base value scaling of minimum historical tier calculation metrics for initial transactions.
+    business_logic: POW(5,MIN(total_sales))
+  - name: total_sales_last
+    type: DOUBLE
+    description: Exponential base value scaling of maximum tier metrics for trailing transactional contracts.
+    business_logic: POW(5,MAX(total_sales))
+  - name: total_sales_median
+    type: DOUBLE
+    description: Median value of computed exponential ranking tiers evaluating raw overall sales velocity.
+    business_logic: POW(5,MEDIAN(total_sales))  
+  - name: event_timestamp
+    type: TIMESTAMP
+    description: Primary historical reference timestamp tracking the latest date context between core data profile generation or signed contract records.
+    business_logic: MAX(GREATEST(created_timestamp, contract_timestamp))  
+join_keys:
+  - supplier_id
+tags:
+  domain: supplier
+  confidentiality: public
+sql: |-
+  WITH filtered_dim_supplier AS 
+  (
+      SELECT  DISTINCT NULLIF(TRIM(id_supplier),'') AS supplier_id
+              ,TOUPPER(TRIM(supplier)) AS supplier_name
+              ,CAST(effective_date AS TIMESTAMP) AS created_timestamp
+              ,sk_supplier
+              ,sk_region
+              ,sk_supplier_category
+              ,NULLIF(TOUPPER(TRIM(supplier_kelurahan)),'') AS supplier_kelurahan
+              ,NULLIF(TOUPPER(TRIM(supplier_kecamatan)),'') AS supplier_kecamatan
+              ,NULLIF(TOUPPER(TRIM(supplier_kota)),'') AS supplier_kota
+              ,expiration_date
+              ,CASE   WHEN npwptype IN ('C','P') THEN npwptype
+                      ELSE '-'
+              END AS supplier_npwp
+              ,CASE   WHEN supplier_group LIKE 'BRONZE%' THEN 'BRONZE'
+                      WHEN supplier_group LIKE 'SILVER%' THEN 'SILVER'
+                      WHEN supplier_group LIKE 'GOLD%' THEN 'GOLD'
+                      WHEN supplier_group LIKE 'PLATINUM%' THEN 'PLATINUM'
+              END AS supplier_group
+              ,CASE   WHEN TOLOWER(TRIM(supplier_size)) LIKE '%menengah' THEN 'medium'
+                      WHEN TOLOWER(TRIM(supplier_size)) LIKE '%kecil' THEN 'small'
+                      WHEN TOLOWER(TRIM(supplier_size)) LIKE '%besar' THEN 'big'
+              END AS supplier_size
+              ,isautomotive
+              ,CASE   WHEN TRIM(lokasishowroomdescription) IN ('Bursa mobil','Pinggir jalan utama','Perumahan','Perkampungan') THEN TRIM(lokasishowroomdescription)
+              END AS lokasishowroomdescription
+              ,CASE   WHEN TOLOWER(TRIM(kepemilikantempatusaha)) IN ('sewa','miliksendiri') THEN TRIM(kepemilikantempatusaha)
+              END AS kepemilikantempatusaha
+              ,CASE   WHEN CAST(pengalamansejaktahun AS INT) < 2000 THEN 2000
+                      -- WHEN CAST(pengalamansejaktahun AS INT) > EXTRACT (YEAR FROM TO_DATE('20260623','yyyymmdd')) THEN EXTRACT (YEAR FROM TO_DATE('20260623','yyyymmdd')) 
+                      WHEN CAST(pengalamansejaktahun AS INT) > EXTRACT(YEAR FROM TO_DATE('{bizdate}', 'yyyymmdd')) THEN EXTRACT(YEAR FROM TO_DATE('{bizdate}', 'yyyymmdd'))
+              END AS pengalamansejaktahun
+              ,CASE   WHEN CAST(pkddenganbfitahun AS INT) < 2000 THEN 2000
+                      -- WHEN CAST(pkddenganbfitahun AS INT) > EXTRACT (YEAR FROM TO_DATE('20260623','yyyymmdd')) THEN EXTRACT (YEAR FROM TO_DATE('20260623','yyyymmdd')) 
+                      WHEN CAST(pkddenganbfitahun AS INT) > EXTRACT(YEAR FROM TO_DATE('{bizdate}', 'yyyymmdd')) THEN EXTRACT(YEAR FROM TO_DATE('{bizdate}', 'yyyymmdd'))
+              END AS pkddenganbfitahun
+              ,CAST(birthdatepemilik AS DATETIME) AS dob_showroom_owner
+              ,CASE   WHEN TRIM(jumlahpenjualan_sales) = '6-15 unit' THEN 2
+                      WHEN TRIM(jumlahpenjualan_sales) = '1-5 unit' THEN 1
+                      WHEN TRIM(jumlahpenjualan_sales) = '> 15 unit' THEN 3
+                      ELSE 0
+              END AS total_sales
+      FROM    wsBFI_2.dwh_dim_supplier_odps
+      WHERE   row_is_current_ind = TRUE -- expiration_date NOT YET FILLED 
+      OR expiration_date >= DATEADD(TO_DATE('{bizdate}', 'yyyymmdd'), -15, 'yyyy') 
+      -- expired not more than 15 years -- row_is_current_ind = FALSE
+  )
+  ,filtered_fact_contract AS 
+  (
+      -- by sk_supplier
+      SELECT  t2.sk_supplier
+              ,NULLIF(TRIM(id_application),'') AS application_id
+              ,NULLIF(TRIM(agreementno),'') AS agreement_number
+              ,TO_DATE(
+                      CAST(GREATEST(sk_approval_date,sk_agreementdate,sk_application_date,sk_golive_date) AS STRING)
+              ,'yyyymmdd') AS event_ts
+              ,CAST(supplier_rate AS FLOAT) AS supplier_rate
+              ,sk_supplier_level
+              ,sk_supplier_asset_status
+              ,sk_supplier_industry
+              ,sk_supplier_potency
+              ,sk_supplier_status
+              ,percentagesupplier
+              ,percentagerewardsupplier
+              ,sk_product
+      FROM    wsBFI_2.dwh_fact_contract_odps t1
+      INNER JOIN  (
+                      SELECT  sk_supplier
+                      FROM    filtered_dim_supplier
+                  ) t2
+      ON      t1.sk_supplier = t2.sk_supplier
+  )
+  ,filtered_agreement_prep0 AS 
+  (
+      -- by supplier_id
+      SELECT  t1.supplier_id
+              ,NULLIF(TRIM(t2.applicationid),'') AS application_id
+              ,NULLIF(TRIM(t2.agreementno),'') AS agreement_number
+              ,t2.supplierrate AS supplier_rate
+              ,GREATEST(newapplicationdate,approvaldate,agreementdate,effectivedate,golivedate) AS event_ts 
+              -- scoringqcadate,surveydateqca,validationsurveyresultcadate,rejectiondate,cancellationdate,lastlcadminfeecalcdate,closingmemodate,fundingbatchdate,fundingdate,dateentrylifeinsurancedata all null
+              -- requestsurveydate,lastlcinsurancecalcdate,floatingnextreviewdate nearly empty
+              -- nextinstallmentduedate,nextinstallmentdate may contains distantly related data after event_timestamp
+              
+              ,supplierinvoicedate -- for datediff with event_timestamp later on
+              ,maturitydate -- for datediff with event_timestamp later on
+              ,lastlcinstallmentcalcdate -- for datediff with event_timestamp later on
+              ,returndate -- for datediff with event_timestamp later on
+
+              ,DATEDIFF(surveydate, newapplicationdate, 'dd') survey_waiting_time
+              ,DATEDIFF(creditscoringdate, newapplicationdate, 'dd') creditscoring_waiting_time
+              ,DATEDIFF(creditreviewdate, newapplicationdate, 'dd') creditreview_waiting_time
+              ,GREATEST(-1, DATEDIFF(rcadate, newapplicationdate, 'dd')) rca_waiting_time
+              ,DATEDIFF(deliveryorderdate, purchaseorderdate, 'dd') delivery_to_purchase
+
+              ,CASE WHEN rrddate IS NOT NULL THEN 1 END AS contract_release_exist
+              ,CASE WHEN nadate IS NOT NULL THEN 1 END AS contract_npl_exist
+              ,CASE WHEN wodate IS NOT NULL THEN 1 END AS contract_wo_exist
+              ,CASE WHEN dateentrylifeinsurance IS NOT NULL THEN 1 END AS entry_lifeinsurance_exist
+              ,CASE WHEN pdcpromiseddate IS NOT NULL THEN 1 END AS pdc_promised_exist
+
+              ,LEAST(dateentryapplicationdata,dateentryassetdata,dateentryinsurancedata,dateentryfinancialdata,dateentryotherdata,dateentrycommisiondata) entrydata_start_time
+              ,GREATEST(dateentryapplicationdata,dateentryassetdata,dateentryinsurancedata,dateentryfinancialdata,dateentryotherdata,dateentrycommisiondata) entrydata_finish_time
+
+              ,t2.supplierflatrate
+              ,NULLIF(TOUPPER(TRIM(mailingkelurahan)),'') mailing_kelurahan
+              ,NULLIF(TOUPPER(TRIM(mailingkecamatan)),'') mailing_kecamatan
+              ,NULLIF(TOUPPER(TRIM(mailingcity)),'') mailing_kota
+              ,productid
+      FROM    (
+                  SELECT  supplier_id
+                  FROM    filtered_dim_supplier
+              ) t1
+      INNER JOIN wsbfi_2.confins_stg_agreement_odps t2
+      -- INNER JOIN wsBFI_2.agreement_odps t2 -- tabel tidak termaintain dengan baik
+      ON      t1.supplier_id = NULLIF(TRIM(t2.supplierid), "")
+      -- WHERE   t2.pt = CASE   WHEN '{bizdate}' < '20100101' THEN '20100101'
+      --       ELSE '{bizdate}'
+      -- END  
+  )
+  ,filtered_agreement_odps AS (
+      SELECT *, ROW_NUMBER() OVER(PARTITION BY COALESCE(application_id, agreement_number), supplier_id ORDER BY event_ts) AS rn 
+      FROM filtered_agreement_prep0
+  )
+  ,supplier_join_contract AS 
+  (
+      SELECT  t1.*
+              ,t5.* EXCEPT (supplier_id,sk_supplier,rn)
+              ,DATEDIFF(contract_timestamp,supplierinvoicedate,'dd') supplierinvoice_days_ago
+              ,DATEDIFF(maturitydate,contract_timestamp,'dd') time_to_mature
+              ,DATEDIFF(lastlcinstallmentcalcdate,contract_timestamp,'dd') time_to_lcinstallmentcalc
+              ,DATEDIFF(contract_timestamp,returndate,'dd') return_days_ago
+              ,ROUND(DATEDIFF(entrydata_finish_time,entrydata_start_time,'hh') / 24.0,2) entrydata_process_time
+              ,COALESCE(vdp1.product, vdp2.product) AS product -- t4.product
+              -- let's separate timestamp between dim_supplier and contract_odps
+              -- ,GREATEST(t1.created_timestamp,t5.contract_timestamp) AS event_timestamp
+      FROM    filtered_dim_supplier t1
+      LEFT JOIN   (
+                      SELECT  -- 1. Explicitly pull out agreement_number with COALESCE
+                              COALESCE(t2.agreement_number, t3.agreement_number) AS agreement_number
+                              ,COALESCE(t2.application_id, t3.application_id) AS application_id
+                              ,t2.* EXCEPT(agreement_number,application_id,event_ts,supplier_rate)
+                              ,t3.* EXCEPT(agreement_number,application_id,event_ts,supplier_rate)
+                              ,COALESCE(t2.supplier_rate,t3.supplier_rate) AS supplier_rate
+                              ,GREATEST(t2.event_ts,t3.event_ts) AS contract_timestamp
+                              ,ROW_NUMBER() OVER(
+                                  PARTITION BY supplier_id, sk_supplier, 
+                                      COALESCE(t2.agreement_number, t3.agreement_number), -- 3. Fixed partition key
+                                      COALESCE(t2.application_id, t3.application_id), 
+                                      COALESCE(t2.productid, t3.sk_product), 
+                                      UNIX_TIMESTAMP(GREATEST(t2.event_ts,t3.event_ts)) 
+                                  ORDER BY t2.event_ts DESC, t3.event_ts DESC
+                              ) rn -- to remove duplicate rows after performing full join
+                      FROM    (SELECT * EXCEPT(rn) FROM filtered_agreement_odps where rn = 1) t2
+                      FULL JOIN filtered_fact_contract t3
+                      ON      t2.agreement_number = t3.agreement_number
+                  ) t5
+      ON      t1.supplier_id = t5.supplier_id
+      AND     t1.sk_supplier = t5.sk_supplier 
+      -- LEFT JOIN (SELECT * FROM wsBFI_2.dwh_dim_product_odps WHERE row_is_current_ind = TRUE) t4
+      -- ON      CAST(TRIM(t2.productid) AS INT) = t4.id_product
+      -- ON     t3.sk_product = t4.sk_product
+      LEFT JOIN wsbfi_2.dwh_vw_dim_product_odps vdp1-- by id_product
+      ON      CAST(TRIM(t5.productid) AS INT) = vdp1.id_product
+      AND     CAST(t5.contract_timestamp AS DATETIME) BETWEEN vdp1.effective_date AND COALESCE(vdp1.expiration_date,TO_DATE('{bizdate}','yyyymmdd'))
+      LEFT JOIN wsbfi_2.dwh_vw_dim_product_odps vdp2-- by sk_product
+      ON      CAST(TRIM(t5.sk_product) AS INT) = vdp2.sk_product
+      AND     CAST(t5.contract_timestamp AS DATETIME) BETWEEN vdp2.effective_date AND COALESCE(vdp2.expiration_date,TO_DATE('{bizdate}','yyyymmdd'))
+      -- LEFT JOIN wsdatainnovation.cdp_loan t4
+      -- ON      t4.dt = t5.pt
+      -- AND     t4.agreement_number = t5.agreement_number
+      -- WHERE   COALESCE(rn, 1) = 1
+      WHERE   t5.rn = 1
+  )
+  ,joined_prep0 AS (
+      SELECT  supplier_id
+              ,supplier_name
+              ,sk_supplier
+              ,sk_region
+
+              ,sk_supplier_category
+              ,sk_supplier_level	
+              ,sk_supplier_asset_status	
+              ,sk_supplier_industry	
+              ,sk_supplier_potency	
+              ,sk_supplier_status
+              ,NULLIF(TRIM(supplier_kelurahan),'-') supplier_kelurahan
+              ,NULLIF(TRIM(supplier_kecamatan),'-') supplier_kecamatan	
+              ,NULLIF(TRIM(supplier_kota),'-') supplier_kota
+              ,expiration_date
+              ,supplier_npwp
+              ,supplier_group
+              ,supplier_size	
+              ,isautomotive	
+              ,lokasishowroomdescription
+              ,kepemilikantempatusaha	
+              ,pengalamansejaktahun	
+              ,pkddenganbfitahun
+              ,dob_showroom_owner
+              ,total_sales
+              ,percentagesupplier	
+              ,percentagerewardsupplier
+
+              ,TO_CHAR(created_timestamp, 'yyyymmdd') ts_id
+              ,created_timestamp
+              ,ROW_NUMBER() OVER(PARTITION BY supplier_id,supplier_name,sk_supplier,sk_region,UNIX_TIMESTAMP(created_timestamp) ORDER BY created_timestamp DESC) rn
+          FROM    supplier_join_contract
+          WHERE   created_timestamp IS NOT NULL
+  )
+  ,joined_table_prep1 AS (
+      SELECT  COALESCE(t1.supplier_id, t2.supplier_id) AS supplier_id
+              ,COALESCE(t1.supplier_name, t2.supplier_name) AS supplier_name
+              ,COALESCE(t1.sk_supplier, t2.sk_supplier) AS sk_supplier
+              ,COALESCE(t1.sk_region, t2.sk_region) AS sk_region
+              ,COALESCE(t1.ts_id, t2.ts_id) AS ts_id
+              ,t1.* EXCEPT(supplier_id, supplier_name, sk_supplier, sk_region, ts_id, rn)
+              ,t2.* EXCEPT(supplier_id, supplier_name, sk_supplier, sk_region, ts_id, rn)
+      FROM ( SELECT * FROM joined_prep0 WHERE rn = 1 ) t1
+      FULL JOIN (
+          SELECT  supplier_id
+                  ,supplier_name
+                  ,sk_supplier
+                  ,sk_region
+
+                  ,application_id
+                  ,agreement_number
+                  ,survey_waiting_time
+                  ,creditscoring_waiting_time	
+                  ,creditreview_waiting_time	
+                  ,rca_waiting_time	
+                  ,delivery_to_purchase	
+                  ,contract_release_exist
+                  ,contract_npl_exist	
+                  ,contract_wo_exist	
+                  ,entry_lifeinsurance_exist	
+                  ,pdc_promised_exist	
+                  ,supplierflatrate	
+                  ,mailing_kelurahan	
+                  ,mailing_kecamatan	
+                  ,mailing_kota
+                  ,supplier_rate
+                  ,supplierinvoice_days_ago	
+                  ,time_to_mature	
+                  ,time_to_lcinstallmentcalc
+                  ,return_days_ago	
+                  ,entrydata_process_time	
+                  ,product
+
+                  ,TO_CHAR(contract_timestamp, 'yyyymmdd') ts_id
+                  ,contract_timestamp
+                  ,CAST(1 AS INT) rn
+          FROM    supplier_join_contract
+          WHERE   contract_timestamp IS NOT NULL
+      ) t2
+      ON      t1.supplier_id = t2.supplier_id
+      AND     t1.supplier_name = t2.supplier_name
+      AND     t1.sk_supplier = t2.sk_supplier
+      AND     t1.sk_region = t2.sk_region
+      AND     t1.ts_id = t2.ts_id
+  )
+  ,joined_table_prep2 AS (
+      SELECT * EXCEPT(expiration_date, pengalamansejaktahun, pkddenganbfitahun, dob_showroom_owner, created_timestamp)
+            ,LAST_VALUE(pengalamansejaktahun, true) OVER(PARTITION BY supplier_id ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) pengalamansejaktahun
+            -- backfill
+            ,FIRST_VALUE(expiration_date, true) OVER(PARTITION BY supplier_id ORDER BY ts_id ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) expiration_date
+            ,LAST_VALUE(pkddenganbfitahun, true) OVER(PARTITION BY supplier_id ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) pkddenganbfitahun
+            ,FIRST_VALUE(dob_showroom_owner, true) OVER(PARTITION BY supplier_id ORDER BY ts_id ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) dob_showroom_owner
+            ,LAST_VALUE(created_timestamp, true) OVER(PARTITION BY supplier_id ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) created_timestamp
+      FROM joined_table_prep1
+  )
+  ,joined_feature_table2 AS 
+  (
+      SELECT  *
+              ,ROUND(DATEDIFF(CAST(contract_timestamp AS DATETIME),dob_showroom_owner,'dd') / 365.24,1) AS showroom_ownerage
+              ,DATEPART(contract_timestamp,'yyyy') - CAST(pengalamansejaktahun AS INT) AS length_experience
+              ,YEAR(contract_timestamp) - CAST(pkddenganbfitahun AS INT) AS length_partnership
+              ,(CASE   WHEN supplier_kecamatan <> mailing_kecamatan THEN 1
+                      ELSE 0
+              END) AS kecamatan_match
+              ,(CASE   WHEN supplier_kelurahan <> mailing_kelurahan THEN 1
+                      ELSE 0
+              END) AS kelurahan_match
+              ,(CASE   WHEN supplier_kota <> mailing_kota THEN 1
+                      ELSE 0
+              END) AS kota_match
+      FROM    joined_table_prep2
+  )
+  ,supplier_contract_prep3 AS (
+      SELECT  *
+              -- LEAD utilization potentially causing data leak
+              -- ,LEAD(length_experience,1) OVER (PARTITION BY supplier_id ORDER BY contract_timestamp ) AS next_experience
+              -- ,LEAD(length_partnership,1) OVER (PARTITION BY supplier_id ORDER BY contract_timestamp ) AS next_partnership
+              -- ,LEAD(showroom_owner_age,1) OVER (PARTITION BY supplier_id ORDER BY contract_timestamp ) AS next_owner_age
+              -- ,LEAD(total_sales,1) OVER (PARTITION BY supplier_id ORDER BY contract_timestamp ) AS next_achievement
+              ,LAG(length_experience, 1) OVER(PARTITION BY supplier_id ORDER BY contract_timestamp) AS prev_experience
+              ,LAG(length_partnership,1) OVER(PARTITION BY supplier_id ORDER BY contract_timestamp ) AS prev_partnership
+              ,LAG(showroom_ownerage,1) OVER(PARTITION BY supplier_id ORDER BY contract_timestamp ) AS prev_ownerage
+              ,LAG(total_sales,1) OVER(PARTITION BY supplier_id ORDER BY contract_timestamp ) AS prev_achievement
+              -- with assumption contract_timestamp should be higher than created_timestamp
+              ,DATEDIFF(contract_timestamp,CAST(created_timestamp AS DATETIME),'dd') harvest_day
+              -- with assumption expiration_date should be higher than contract_date
+              ,DATEDIFF(expiration_date,CAST(contract_timestamp AS DATETIME),'dd') day_before_expire
+      FROM    joined_feature_table2
+  )
+  ,supplier_contract_prep4 AS 
+  (
+      SELECT  * -- current record must be larger or equals to previous record
+              ,CASE   WHEN (length_experience - prev_experience) < 0 THEN 1
+                      ELSE 0
+              END AS length_experience_anomaly
+              ,CASE   WHEN (length_partnership - prev_partnership) < 0 THEN 1
+                      ELSE 0
+              END AS length_partnership_anomaly
+              ,CASE   WHEN (showroom_ownerage - prev_ownerage) < 0 THEN 1
+                      ELSE 0
+              END AS showroom_ownerage_anomaly
+              ,CASE   WHEN (total_sales - prev_achievement) < 0 THEN 1
+                      ELSE 0
+              END AS total_sales_anomaly
+
+              ,TO_CHAR(CAST(created_timestamp AS DATETIME),'yyyymmdd') AS tmp_id1
+              ,TO_CHAR(CAST(contract_timestamp AS DATETIME),'yyyymmdd') AS tmp_id2
+      FROM supplier_contract_prep3
+  )
+  ,final_preparation AS (
+      SELECT  *
+              -- in order to remove duplicate info on supplier entity (due to merging with contract)
+              ,ROW_NUMBER() OVER (PARTITION BY supplier_id,sk_supplier,sk_region,tmp_id1 ORDER BY created_timestamp DESC,expiration_date DESC) AS rn_s2
+
+              -- combination between supplier and contract
+              ,ROW_NUMBER() OVER (PARTITION BY supplier_id,agreement_number,tmp_id2 ORDER BY contract_timestamp DESC ) AS rn_c2
+              ,CAST(contract_timestamp AS TIMESTAMP) AS event_timestamp -- copy here to separate it from created_timestamp of dim_supplier
+      FROM    supplier_contract_prep4
+  )
+  ,aggregate_supplier_prep1 AS 
+  (
+      SELECT  supplier_id
+              ,tmp_id1 AS ts_id              
+              
+              ,FIRST_VALUE(created_timestamp) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS earliest_checkin_time
+              -- ,LAST_VALUE(sk_region) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+              --     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              -- ) AS sk_region
+              ,sk_region
+              ,sk_supplier
+              ,sk_supplier_category
+              ,supplier_name
+              ,LAST_VALUE(supplier_kelurahan) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS supplier_kelurahan
+              ,LAST_VALUE(supplier_kecamatan) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS supplier_kecamatan
+              ,LAST_VALUE(supplier_kota) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS supplier_kota
+              ,COUNT(DISTINCT sk_supplier) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS number_of_updates
+              -- ,MAX(expiration_date) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+              --     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              -- ) AS latest_expired_date
+              ,LAST_VALUE(supplier_npwp) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS supplier_npwp
+              ,COUNT(DISTINCT supplier_npwp) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS supplier_npwp_nunique
+              ,LAST_VALUE(supplier_group) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS supplier_group
+              ,COUNT(DISTINCT sk_supplier_level) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS supplier_level_nunique
+              ,MIN(sk_supplier_level) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS supplier_level_min
+              ,MAX(sk_supplier_level) OVER(PARTITION BY supplier_id ORDER BY created_timestamp 
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+              ) AS supplier_level_max
+              ,COUNT(DISTINCT sk_supplier_asset_status) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_assetstatus_nunique
+              ,MIN(sk_supplier_asset_status) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_assetstatus_min
+              ,MAX(sk_supplier_asset_status) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_assetstatus_max
+              ,COUNT(DISTINCT sk_supplier_industry) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_industry_nunique
+              ,MIN(sk_supplier_industry) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_industry_min
+              ,MAX(sk_supplier_industry) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_industry_max
+              ,COUNT(DISTINCT sk_supplier_potency) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_potency_nunique
+              ,MIN(sk_supplier_potency) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_potency_min
+              ,MAX(sk_supplier_potency) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_potency_max
+              ,COUNT(DISTINCT sk_supplier_status) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_status_nunique
+              ,MIN(sk_supplier_status) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_status_min
+              ,MAX(sk_supplier_status) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_status_max
+              
+              ,FIRST_VALUE(supplier_size) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS supplier_size_first -- 27
+              ,LAST_VALUE(supplier_size) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS supplier_size_last -- 28
+              ,FIRST_VALUE(isautomotive) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS isautomotive_first -- 24
+              ,LAST_VALUE(isautomotive) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS isautomotive_last -- 25
+              ,FIRST_VALUE(lokasishowroomdescription) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS showroom_location_first -- 21
+              ,LAST_VALUE(lokasishowroomdescription) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS showroom_location_last -- 22
+              ,FIRST_VALUE(kepemilikantempatusaha) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS showroom_ownership_first -- 18
+              ,LAST_VALUE(kepemilikantempatusaha) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS showroom_ownership_last -- 19
+              -- just to make gap between categories (1..3)
+              ,POW(5,
+                  MIN(total_sales) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ) AS total_sales_first -- 14
+              ,POW(5,
+                  MAX(total_sales) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ) AS total_sales_last -- 15
+              ,POW(5,
+                  MEDIAN(total_sales) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ) AS total_sales_median -- 16
+              ,CASE   WHEN COUNT(DISTINCT supplier_size) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) > 1 THEN TRUE
+                      ELSE FALSE
+              END AS supplier_size_modified
+              ,CASE   WHEN COUNT(DISTINCT isautomotive) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) > 1 THEN TRUE
+                      ELSE FALSE
+              END AS isautomotive_modified
+              ,CASE   WHEN COUNT(DISTINCT lokasishowroomdescription) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) > 1 THEN TRUE
+                      ELSE FALSE
+              END AS showroom_location_modified -- 23
+              ,CASE   WHEN COUNT(DISTINCT kepemilikantempatusaha) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) > 1 THEN TRUE
+                      ELSE FALSE
+              END AS showroom_ownership_modified -- 20
+              ,CASE   WHEN SUM(total_sales_anomaly) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) > 0 THEN 1
+                      ELSE 0
+              END AS total_sales_anomaly -- 17
+              ,MIN(percentagesupplier) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS percentage_supplier_min
+              ,MAX(percentagesupplier) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS percentage_supplier_max
+              ,MIN(percentagerewardsupplier) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS percentage_reward_min
+              ,MAX(percentagerewardsupplier) OVER(PARTITION BY supplier_id ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS percentage_reward_max
+
+              ,ROW_NUMBER() OVER(PARTITION BY supplier_id, tmp_id1 ORDER BY created_timestamp DESC) rn
+              -- latest timestamp for each entity snapshot (daily)
+              ,MAX(created_timestamp) OVER(PARTITION BY supplier_id, tmp_id1) AS event_timestamp 
+      FROM    final_preparation
+      WHERE rn_s2 = 1 -- only 1 copy of supplier each day
+      -- GROUP BY supplier_id
+  )
+  ,aggregate_view_s AS (
+      SELECT * EXCEPT(rn)
+      FROM aggregate_supplier_prep1
+      WHERE rn = 1
+  )
+  ,aggregate_contract_prep1 AS 
+  (
+      -- supplier & contract level
+      SELECT  supplier_id
+              ,tmp_id2 AS ts_id 
+              -- event_timestamp already covered contract_timestamp
+              ,MIN(length_experience) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS length_experience_min -- 2
+              ,MAX(length_experience) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS length_experience_max -- 3
+              ,ROUND(
+                    AVG(length_experience) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,1) AS length_experience_mean -- 4
+              ,MIN(length_partnership) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS length_partnership_min -- 6
+              ,MAX(length_partnership) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS length_partnership_max -- 7
+              ,ROUND(
+                    AVG(length_partnership) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,1) AS length_partnership_mean -- 8
+              ,MIN(showroom_ownerage) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS showroom_ownerage_min -- 10
+              ,MAX(showroom_ownerage) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS showroom_ownerage_max -- 11
+              ,ROUND(
+                    AVG(showroom_ownerage) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,1) AS showroom_ownerage_mean -- 12
+
+              ,MIN(supplierflatrate) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS flat_rate_min
+              ,MAX(supplierflatrate) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS flat_rate_max
+              ,ROUND(
+                    AVG(supplierflatrate) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS flat_rate_mean
+              
+              ,MIN(supplier_rate) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS supplier_rate_min -- 37
+              ,MAX(supplier_rate) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS supplier_rate_max -- 38
+              ,ROUND(
+                    AVG(supplier_rate) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS supplier_rate_mean -- 39
+              ,SUM(kecamatan_match) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS kecamatan_match_count
+              ,SUM(kelurahan_match) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS kelurahan_match_count
+              ,SUM(kota_match) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS kota_match_count
+              ,MIN(harvest_day) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS harvest_day_min -- 29
+              ,MAX(harvest_day) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS harvest_day_max -- 30
+              ,ROUND(
+                    AVG(CASE    WHEN harvest_day >= 0 THEN harvest_day END) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,1) AS harvest_day_mean -- 31
+              ,MEDIAN(CASE    WHEN harvest_day >= 0 THEN harvest_day END) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS harvest_day_median -- 32
+              ,MIN(day_before_expire) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS beforeexpired_days_min -- 33
+              ,MAX(day_before_expire) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS beforeexpired_days_max -- 34
+              ,ROUND(
+                    AVG(CASE    WHEN day_before_expire >= 0 THEN day_before_expire END) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,1) AS beforeexpired_days_mean -- 35
+              ,MEDIAN(CASE    WHEN day_before_expire >= 0 THEN day_before_expire END) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS beforeexpired_days_median -- 36
+              
+              -- number of distinct product related to the showroom
+              ,COUNT(DISTINCT product) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS product_nunique
+              ,COUNT(DISTINCT mailing_kecamatan) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS mailing_kecamatan_nunique
+              ,COUNT(DISTINCT mailing_kota) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS mailing_kota_nunique
+              ,GREATEST(
+                      COUNT(DISTINCT application_id) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+                      ,COUNT(DISTINCT agreement_number) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ) number_of_contract -- 51
+              
+              ,CASE   WHEN SUM(length_experience_anomaly) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) > 0 THEN 1
+                      ELSE 0
+              END AS length_experience_anomaly -- 5
+              ,CASE   WHEN SUM(length_partnership_anomaly) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) > 0 THEN 1
+                      ELSE 0
+              END AS length_partnership_anomaly -- 9
+              ,CASE   WHEN SUM(showroom_ownerage_anomaly) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) > 0 THEN 1
+                      ELSE 0
+              END AS showroom_ownerage_anomaly -- 13
+
+              ,MIN(supplierinvoice_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) supplierinvoice_days_min
+              ,MAX(supplierinvoice_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) supplierinvoice_days_max
+              ,ROUND(
+                    AVG(supplierinvoice_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,1) supplierinvoice_days_mean
+              ,ROUND(
+                    STDDEV(supplierinvoice_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) supplierinvoice_days_std
+              ,MIN(time_to_mature) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) time_mature_min
+              ,MAX(time_to_mature) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) time_mature_max
+              ,ROUND(
+                    AVG(time_to_mature) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,1) time_mature_mean
+              ,ROUND(
+                    STDDEV(time_to_mature) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) time_mature_std
+              ,MIN(time_to_lcinstallmentcalc) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) time_lcinstallmentcalc_min
+              ,MAX(time_to_lcinstallmentcalc) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) time_lcinstallmentcalc_max
+              ,ROUND(
+                    AVG(time_to_lcinstallmentcalc) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,1) time_lcinstallmentcalc_mean
+              ,ROUND(
+                    STDDEV(time_to_lcinstallmentcalc) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) time_lcinstallmentcalc_std
+              ,MIN(return_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) return_days_min
+              ,MAX(return_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) return_days_max
+              ,ROUND(
+                    AVG(return_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,1) return_days_mean
+              ,ROUND(
+                    STDDEV(return_days_ago) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) return_days_std
+              ,MIN(entrydata_process_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS entrydata_process_time_min
+              ,MAX(entrydata_process_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS entrydata_process_time_max
+              ,ROUND(
+                    AVG(entrydata_process_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS entrydata_process_time_mean
+              ,ROUND(
+                    STDDEV(entrydata_process_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS entrydata_process_time_std
+              ,MIN(survey_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS survey_waiting_time_min
+              ,MAX(survey_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS survey_waiting_time_max
+              ,ROUND(
+                    AVG(survey_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS survey_waiting_time_mean
+              ,ROUND(
+                    STDDEV(survey_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS survey_waiting_time_std
+              ,MIN(creditscoring_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS creditscoring_waiting_time_min
+              ,MAX(creditscoring_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS creditscoring_waiting_time_max
+              ,ROUND(
+                    AVG(creditscoring_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS creditscoring_waiting_time_mean
+              ,ROUND(
+                    STDDEV(creditscoring_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS creditscoring_waiting_time_std
+              ,MIN(creditreview_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS creditreview_waiting_time_min
+              ,MAX(creditreview_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS creditreview_waiting_time_max
+              ,ROUND(
+                    AVG(creditreview_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS creditreview_waiting_time_mean
+              ,ROUND(
+                    STDDEV(creditreview_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS creditreview_waiting_time_std
+              ,MIN(rca_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS rca_waiting_time_min
+              ,MAX(rca_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS rca_waiting_time_max
+              ,ROUND(
+                    AVG(rca_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS rca_waiting_time_mean
+              ,ROUND(
+                    STDDEV(rca_waiting_time) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS rca_waiting_time_std
+              ,MIN(delivery_to_purchase) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS delivery_to_purchase_min
+              ,MAX(delivery_to_purchase) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS delivery_to_purchase_max
+              ,ROUND(
+                    AVG(delivery_to_purchase) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS delivery_to_purchase_mean
+              ,ROUND(
+                    STDDEV(delivery_to_purchase) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,2) AS delivery_to_purchase_std
+              ,COUNT(contract_release_exist) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) contract_release_count
+              ,COUNT(contract_npl_exist) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) contract_npl_count
+              ,COUNT(contract_wo_exist) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) contract_wo_count
+              ,COUNT(entry_lifeinsurance_exist) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) entry_lifeinsurance_count
+              ,COUNT(pdc_promised_exist) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) pdc_promised_count
+              ,MAX(event_timestamp) OVER(PARTITION BY supplier_id,tmp_id2) AS event_timestamp -- last updated contract information
+              -- ,FIRST_VALUE(event_timestamp) OVER (PARTITION BY supplier_id,tmp_id2 ORDER BY event_timestamp DESC) AS event_timestamp
+              ,ROW_NUMBER() OVER(PARTITION BY supplier_id, tmp_id2 ORDER BY event_timestamp DESC) rn
+      FROM    final_preparation -- if there's multiple upgrade of contract on the same day (ts_id) then just pick the last one
+      WHERE   rn_c2 = 1 -- GROUP BY supplier_id
+      AND     tmp_id2 IS NOT NULL
+  )
+  ,aggregate_view_c AS (
+      -- just keep single copy of supplier daily
+      -- in order to join with the other views
+      SELECT * EXCEPT(rn)
+      FROM aggregate_contract_prep1
+      WHERE rn = 1
+  )
+  ,business_data_frequencies AS 
+  (
+      SELECT  supplier_id
+              ,tmp_id1 AS ts_id
+
+              ,supplier_npwp AS business_npwp
+              ,kepemilikantempatusaha AS business_ownership
+              
+              ,COUNT(1) OVER (PARTITION BY supplier_id, supplier_npwp ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS npwp_count
+              ,COUNT(1) OVER (PARTITION BY supplier_id, kepemilikantempatusaha ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ownership_count
+              ,MAX(event_timestamp) OVER (PARTITION BY supplier_id, supplier_npwp ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS npwp_latest_ts
+              ,MAX(event_timestamp) OVER (PARTITION BY supplier_id, kepemilikantempatusaha ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ownership_latest_ts
+              
+              ,event_timestamp
+      FROM    final_preparation
+      WHERE   rn_s2 = 1
+  ) 
+  -- 01 A 1 -> A
+  -- 05 B 1 -> B
+  -- 10 B 2 -> B
+  -- 13 C 1 -> B
+  -- 16 A 2 -> A
+  -- 20 B 3 -> B
+  -- 23 C 2 -> B
+  -- 26 A 3 -> A  
+  -- 27 D 1 -> A
+  -- 30 A 4 -> A
+  ,ranked_business_data AS 
+  (
+      SELECT  supplier_id
+              ,ts_id
+
+              ,FIRST_VALUE(business_npwp) OVER(PARTITION BY supplier_id ORDER BY npwp_count DESC, npwp_latest_ts DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS business_npwp_most
+              ,FIRST_VALUE(business_ownership) OVER(PARTITION BY supplier_id ORDER BY ownership_count DESC, ownership_latest_ts DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS business_ownership_most
+
+              ,event_timestamp
+              ,ROW_NUMBER() OVER(PARTITION BY supplier_id, ts_id ORDER BY event_timestamp DESC) AS rn-- just make sure no multiple sk_region and or sk_supplier on same supplier_id
+      FROM    business_data_frequencies 
+  )
+  ,mailing_frequencies AS 
+  (
+      SELECT  supplier_id
+              ,tmp_id2 AS ts_id
+
+              ,mailing_kecamatan
+              ,mailing_kota
+              
+              ,COUNT(1) OVER (PARTITION BY supplier_id, mailing_kecamatan, mailing_kota ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS mailing_count
+              ,MAX(event_timestamp) OVER (PARTITION BY supplier_id, mailing_kecamatan, mailing_kota ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS latest_timestamp
+              
+              ,event_timestamp
+      FROM    final_preparation
+      WHERE   rn_c2 = 1
+  )
+  ,ranked_mailing AS 
+  (
+      SELECT  supplier_id
+              ,ts_id
+
+              ,FIRST_VALUE(mailing_kecamatan) OVER(PARTITION BY supplier_id ORDER BY mailing_count DESC, latest_timestamp DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS mailing_kecamatan_most
+              ,FIRST_VALUE(mailing_kota) OVER(PARTITION BY supplier_id ORDER BY mailing_count DESC, latest_timestamp DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS mailing_kota_most
+
+              ,event_timestamp
+              ,ROW_NUMBER() OVER(PARTITION BY supplier_id, ts_id ORDER BY event_timestamp DESC) AS rn
+      FROM    mailing_frequencies
+  )
+  ,mailing_product AS 
+  (
+      SELECT  supplier_id
+              ,tmp_id2 AS ts_id
+
+              ,product
+              ,COUNT(1) OVER (PARTITION BY supplier_id, product ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS product_count
+              ,MAX(event_timestamp) OVER (PARTITION BY supplier_id, product ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS latest_timestamp
+              
+              ,event_timestamp
+      FROM    final_preparation
+      WHERE   rn_c2 = 1
+  )
+  ,ranked_product AS 
+  (
+      SELECT  supplier_id
+              ,ts_id
+
+              ,FIRST_VALUE(product) OVER (PARTITION BY supplier_id ORDER BY product_count DESC, latest_timestamp DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS product_most
+
+              ,event_timestamp
+              ,ROW_NUMBER() OVER(PARTITION BY supplier_id, ts_id ORDER BY event_timestamp DESC) AS rn
+      FROM    mailing_product
+  )
+  ,feature_view_tab0 AS (
+        SELECT  COALESCE(tab_s.supplier_id, tab_c.supplier_id) AS supplier_id
+                ,COALESCE(tab_s.ts_id, tab_c.ts_id) AS ts_id
+                ,tab_s.* EXCEPT(supplier_id, ts_id, event_timestamp)
+                ,tab_c.* EXCEPT(supplier_id, ts_id, event_timestamp)
+                ,GREATEST(tab_s.event_timestamp, tab_c.event_timestamp) event_timestamp
+        FROM        aggregate_view_s tab_s
+        FULL JOIN   aggregate_view_c tab_c
+        ON      tab_s.supplier_id = tab_c.supplier_id
+        AND     tab_s.ts_id = tab_c.ts_id
+    )
+  ,feature_view AS (
+        SELECT  t1.* EXCEPT(event_timestamp)
+                ,t2.* EXCEPT (supplier_id,ts_id,rn,event_timestamp)
+                ,t3.* EXCEPT (supplier_id,ts_id,rn,event_timestamp)
+                -- ,t3.mailing_kecamatan_most
+                -- ,t3.mailing_kota_most
+                ,t4.product_most
+                ,GREATEST(t1.event_timestamp, t2.event_timestamp, t3.event_timestamp, t4.event_timestamp) AS event_timestamp
+                ,ROW_NUMBER() OVER(PARTITION BY t1.supplier_id ORDER BY t1.event_timestamp DESC) AS rn
+        FROM    feature_view_tab0 t1
+        LEFT JOIN ranked_business_data t2
+        ON      t1.supplier_id = t2.supplier_id
+        AND     t1.ts_id = t2.ts_id
+        AND     t2.rn = 1
+        LEFT JOIN ranked_mailing t3
+        ON      t1.supplier_id = t3.supplier_id
+        AND     t1.ts_id = t3.ts_id
+        AND     t3.rn = 1
+        LEFT JOIN ranked_product t4
+        ON      t1.supplier_id = t4.supplier_id
+        AND     t1.ts_id = t4.ts_id
+        AND     t4.rn = 1
+    )
+  ,feature_view_tab2 AS (
+      SELECT  supplier_id
+              ,ts_id
+              ,* EXCEPT(supplier_id, ts_id, event_timestamp, rn) 
+              ,event_timestamp
+      FROM feature_view
+      UNION ALL -- bring the latest calculation onto current partition (bizdate)
+      SELECT  supplier_id
+              ,'{bizdate}' AS ts_id
+              ,* EXCEPT(supplier_id, ts_id, event_timestamp, rn) -- ordering columns
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS event_timestamp 
+      FROM feature_view t2
+      WHERE t2.rn = 1
+      AND   DATEDIFF(TO_DATE('{bizdate}', 'yyyymmdd'), CAST(event_timestamp AS DATETIME), 'dd') < 0-- only refresh the old one  
+  )
+  SELECT  supplier_id
+          
+          -- forward-fill every feature across the unified ts_id timeline
+          ,LAST_VALUE(beforeexpired_days_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS beforeexpired_days_max
+          ,LAST_VALUE(beforeexpired_days_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS beforeexpired_days_mean
+          ,LAST_VALUE(beforeexpired_days_median, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS beforeexpired_days_median
+          ,LAST_VALUE(beforeexpired_days_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS beforeexpired_days_min
+          ,LAST_VALUE(business_npwp_most, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS business_npwp_most
+          ,LAST_VALUE(business_ownership_most, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS business_ownership_most
+          ,LAST_VALUE(contract_npl_count, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS contract_npl_count
+          ,LAST_VALUE(contract_release_count, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS contract_release_count
+          ,LAST_VALUE(contract_wo_count, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS contract_wo_count
+          ,LAST_VALUE(creditreview_waiting_time_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creditreview_waiting_time_max
+          ,LAST_VALUE(creditreview_waiting_time_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creditreview_waiting_time_mean
+          ,LAST_VALUE(creditreview_waiting_time_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creditreview_waiting_time_min
+          ,LAST_VALUE(creditreview_waiting_time_std, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creditreview_waiting_time_std
+          ,LAST_VALUE(creditscoring_waiting_time_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creditscoring_waiting_time_max
+          ,LAST_VALUE(creditscoring_waiting_time_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creditscoring_waiting_time_mean
+          ,LAST_VALUE(creditscoring_waiting_time_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creditscoring_waiting_time_min
+          ,LAST_VALUE(creditscoring_waiting_time_std, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creditscoring_waiting_time_std
+          ,LAST_VALUE(delivery_to_purchase_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS delivery_to_purchase_max
+          ,LAST_VALUE(delivery_to_purchase_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS delivery_to_purchase_mean
+          ,LAST_VALUE(delivery_to_purchase_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS delivery_to_purchase_min
+          ,LAST_VALUE(delivery_to_purchase_std, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS delivery_to_purchase_std
+          ,LAST_VALUE(earliest_checkin_time, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS earliest_checkin_time
+          ,LAST_VALUE(entry_lifeinsurance_count, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS entry_lifeinsurance_count
+          ,LAST_VALUE(entrydata_process_time_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS entrydata_process_time_max
+          ,LAST_VALUE(entrydata_process_time_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS entrydata_process_time_mean
+          ,LAST_VALUE(entrydata_process_time_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS entrydata_process_time_min
+          ,LAST_VALUE(entrydata_process_time_std, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS entrydata_process_time_std
+          ,LAST_VALUE(flat_rate_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS flat_rate_max
+          ,LAST_VALUE(flat_rate_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS flat_rate_mean
+          ,LAST_VALUE(flat_rate_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS flat_rate_min
+          ,LAST_VALUE(harvest_day_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS harvest_day_max
+          ,LAST_VALUE(harvest_day_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS harvest_day_min
+          ,LAST_VALUE(harvest_day_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS harvest_day_mean
+          ,LAST_VALUE(harvest_day_median, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS harvest_day_median
+          ,LAST_VALUE(isautomotive_first, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS isautomotive_first
+          ,LAST_VALUE(isautomotive_last, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS isautomotive_last
+          ,LAST_VALUE(isautomotive_modified, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS isautomotive_modified
+          ,LAST_VALUE(kecamatan_match_count, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS kecamatan_match_count
+          ,LAST_VALUE(kelurahan_match_count, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS kelurahan_match_count
+          ,LAST_VALUE(kota_match_count, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS kota_match_count
+          -- ,LAST_VALUE(latest_expired_date, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS latest_expired_date
+          ,LAST_VALUE(length_experience_anomaly, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS length_experience_anomaly
+          ,LAST_VALUE(length_experience_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS length_experience_max
+          ,LAST_VALUE(length_experience_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS length_experience_mean
+          ,LAST_VALUE(length_experience_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS length_experience_min
+          ,LAST_VALUE(length_partnership_anomaly, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS length_partnership_anomaly
+          ,LAST_VALUE(length_partnership_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS length_partnership_max
+          ,LAST_VALUE(length_partnership_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS length_partnership_mean
+          ,LAST_VALUE(length_partnership_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS length_partnership_min
+          ,LAST_VALUE(mailing_kecamatan_most, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS mailing_kecamatan_most
+          ,LAST_VALUE(mailing_kecamatan_nunique, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS mailing_kecamatan_nunique
+          ,LAST_VALUE(mailing_kota_most, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS mailing_kota_most
+          ,LAST_VALUE(mailing_kota_nunique, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS mailing_kota_nunique
+          ,LAST_VALUE(number_of_contract, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS number_of_contract
+          ,LAST_VALUE(number_of_updates, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS number_of_updates
+          ,LAST_VALUE(pdc_promised_count, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS pdc_promised_count
+          ,LAST_VALUE(percentage_reward_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS percentage_reward_max
+          ,LAST_VALUE(percentage_reward_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS percentage_reward_min
+          ,LAST_VALUE(percentage_supplier_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS percentage_supplier_max
+          ,LAST_VALUE(percentage_supplier_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS percentage_supplier_min
+          ,LAST_VALUE(product_most, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS product_most
+          ,LAST_VALUE(product_nunique, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS product_nunique
+          ,LAST_VALUE(rca_waiting_time_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS rca_waiting_time_max
+          ,LAST_VALUE(rca_waiting_time_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS rca_waiting_time_mean
+          ,LAST_VALUE(rca_waiting_time_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS rca_waiting_time_min
+          ,LAST_VALUE(rca_waiting_time_std, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS rca_waiting_time_std
+          ,LAST_VALUE(return_days_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS return_days_max
+          ,LAST_VALUE(return_days_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS return_days_mean
+          ,LAST_VALUE(return_days_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS return_days_min
+          ,LAST_VALUE(return_days_std, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS return_days_std
+          ,LAST_VALUE(showroom_location_first, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS showroom_location_first
+          ,LAST_VALUE(showroom_location_last, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS showroom_location_last
+          ,LAST_VALUE(showroom_location_modified, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS showroom_location_modified
+          ,LAST_VALUE(showroom_ownerage_anomaly, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS showroom_ownerage_anomaly
+          ,LAST_VALUE(showroom_ownerage_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS showroom_ownerage_max
+          ,LAST_VALUE(showroom_ownerage_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS showroom_ownerage_mean
+          ,LAST_VALUE(showroom_ownerage_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS showroom_ownerage_min
+          ,LAST_VALUE(showroom_ownership_first, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS showroom_ownership_first
+          ,LAST_VALUE(showroom_ownership_last, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS showroom_ownership_last
+          ,LAST_VALUE(showroom_ownership_modified, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS showroom_ownership_modified
+          ,sk_region
+          ,sk_supplier
+          ,sk_supplier_category
+          ,LAST_VALUE(supplier_assetstatus_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_assetstatus_max
+          ,LAST_VALUE(supplier_assetstatus_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_assetstatus_min
+          ,LAST_VALUE(supplier_assetstatus_nunique, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_assetstatus_nunique
+          ,LAST_VALUE(supplier_group, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_group
+          ,LAST_VALUE(supplier_industry_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_industry_max
+          ,LAST_VALUE(supplier_industry_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_industry_min
+          ,LAST_VALUE(supplier_industry_nunique, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_industry_nunique
+          ,LAST_VALUE(supplier_kecamatan, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_kecamatan
+          ,LAST_VALUE(supplier_kelurahan, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_kelurahan
+          ,LAST_VALUE(supplier_kota, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_kota
+          ,LAST_VALUE(supplier_level_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_level_max
+          ,LAST_VALUE(supplier_level_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_level_min
+          ,LAST_VALUE(supplier_level_nunique, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_level_nunique
+          ,supplier_name
+          ,LAST_VALUE(supplier_npwp, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_npwp
+          ,LAST_VALUE(supplier_npwp_nunique, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_npwp_nunique
+          ,LAST_VALUE(supplier_potency_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_potency_max
+          ,LAST_VALUE(supplier_potency_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_potency_min
+          ,LAST_VALUE(supplier_potency_nunique, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_potency_nunique
+          ,LAST_VALUE(supplier_rate_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_rate_max
+          ,LAST_VALUE(supplier_rate_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_rate_mean
+          ,LAST_VALUE(supplier_rate_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_rate_min
+          ,LAST_VALUE(supplier_size_first, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_size_first
+          ,LAST_VALUE(supplier_size_last, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_size_last
+          ,LAST_VALUE(supplier_size_modified, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_size_modified
+          ,LAST_VALUE(supplier_status_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_status_max
+          ,LAST_VALUE(supplier_status_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_status_min
+          ,LAST_VALUE(supplier_status_nunique, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplier_status_nunique
+          ,LAST_VALUE(supplierinvoice_days_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplierinvoice_days_max
+          ,LAST_VALUE(supplierinvoice_days_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplierinvoice_days_mean
+          ,LAST_VALUE(supplierinvoice_days_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplierinvoice_days_min
+          ,LAST_VALUE(supplierinvoice_days_std, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS supplierinvoice_days_std
+          ,LAST_VALUE(survey_waiting_time_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS survey_waiting_time_max
+          ,LAST_VALUE(survey_waiting_time_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS survey_waiting_time_mean
+          ,LAST_VALUE(survey_waiting_time_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS survey_waiting_time_min
+          ,LAST_VALUE(survey_waiting_time_std, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS survey_waiting_time_std
+          ,LAST_VALUE(time_lcinstallmentcalc_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS time_lcinstallmentcalc_max
+          ,LAST_VALUE(time_lcinstallmentcalc_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS time_lcinstallmentcalc_mean
+          ,LAST_VALUE(time_lcinstallmentcalc_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS time_lcinstallmentcalc_min
+          ,LAST_VALUE(time_lcinstallmentcalc_std, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS time_lcinstallmentcalc_std
+          ,LAST_VALUE(time_mature_max, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS time_mature_max
+          ,LAST_VALUE(time_mature_mean, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS time_mature_mean
+          ,LAST_VALUE(time_mature_min, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS time_mature_min
+          ,LAST_VALUE(time_mature_std, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS time_mature_std
+          ,LAST_VALUE(total_sales_anomaly, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_sales_anomaly
+          ,LAST_VALUE(total_sales_first, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_sales_first
+          ,LAST_VALUE(total_sales_last, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_sales_last
+          ,LAST_VALUE(total_sales_median, true) OVER (PARTITION BY supplier_id ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_sales_median
+          ,event_timestamp 
+  FROM    feature_view_tab2

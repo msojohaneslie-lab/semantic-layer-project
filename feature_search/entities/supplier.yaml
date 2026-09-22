@@ -1,0 +1,5 @@
+name: supplier
+field_name: supplier_id
+type: STRING
+description: Identifier for supplier / showroom
+business_logic: The id originated from table dwh_dim_supplier_odps

@@ -1,0 +1,753 @@
+source_type: ODPS
+name: cdp_loan_behavior_v2
+description: loan behavior features (eg. representative of tenor, ntf, ltv, osp, etc.) for each customer
+entity: customer_cdp
+ttl: 7300d # 20 Years (20 * 365 days)
+feature_fields:
+  - name: cdp_uid
+    type: STRING
+    description: 1. Unique identifier for each customer
+    business_logic: This is the unique identifier for each customer in the CDP system
+  - name: ba_commission_max
+    type: DOUBLE
+    description: 2. Maximum business agency commission among all contract aggregated to customer level
+    business_logic: We look at the maximum business agency commission among all contract aggregated to customer level
+  - name: ba_commission_mean
+    type: DOUBLE
+    description: 3. Average business agency commission among all contract aggregated to customer level
+    business_logic: We look at the average business agency commission among all contract aggregated to customer level
+  - name: contract_active_2w_count
+    type: INTEGER
+    description: 4. How many 2-Wheelers active contracts
+    business_logic: We count 2-Wheelers active contracts
+  - name: contract_active_4w_count
+    type: INTEGER
+    description: 5. How many 4-Wheelers active contracts
+    business_logic: We count 4-Wheelers active contracts
+  - name: contract_active_count
+    type: INTEGER
+    description: 6. How many contracts the customer currently has that are still active
+    business_logic: We count all contracts where the status is Active
+  - name: contract_inactive_count
+    type: INTEGER
+    description: 7. How many contracts the customer currently has that are inactive
+    business_logic: We count all contracts where the status is Inactive
+  - name: credit_utilization_ratio
+    type: DOUBLE
+    description: 8. What percentage of their total credit limit they are currently using
+    business_logic: We divide their total outstanding principal by their total NTF
+  - name: customer_vintage_year
+    type: INTEGER
+    description: 9. How many years it has been since the customer first golive
+    business_logic: This is the difference in years between their very first golive and today
+  - name: fee_admin_total
+    type: DOUBLE
+    description: 10. Total administrative fee amount across all contracts
+    business_logic: Sum of administrative fee amount across all contract aggregated to customer level
+  - name: fee_insurance_total
+    type: DOUBLE
+    description: 11. Total insurance fee amount across all contracts
+    business_logic: Sum of insurance fee amount across all contract aggregated to customer level
+  - name: fee_legal_total
+    type: DOUBLE
+    description: 12. Total legal fee (fiducia / notary) amount across all contracts
+    business_logic: Sum of legal fee (fiducia / notary) amount across all contract aggregated to customer level
+  - name: fee_other_total
+    type: DOUBLE
+    description: 13. Total other fee (incl. survey, marketing) amount across all contracts
+    business_logic: Sum of other fee (incl. survey, marketing) amount across all contract aggregated to customer level
+  - name: fee_provision_total
+    type: DOUBLE
+    description: 14. Total provision fee amount across all contracts
+    business_logic: Sum of provision fee amount across all contract aggregated to customer level
+  - name: interest_rate_max
+    type: DOUBLE
+    description: 15. Maximum interest rate among all contract aggregated to customer level
+    business_logic: We look at the maximum interest rate among all contract aggregated to customer level
+  - name: interest_rate_min
+    type: DOUBLE
+    description: 16. Minimum interest rate among all contract aggregated to customer level
+    business_logic: We look at the minimum interest rate among all contract aggregated to customer level
+  - name: interest_rate_mean
+    type: DOUBLE
+    description: 17. Average interest rate among all contract aggregated to customer level
+    business_logic: We look at the average interest rate among all contract aggregated to customer level
+  - name: interest_rate_var
+    type: DOUBLE
+    description: 18. Variance of interest rate among all contract aggregated to customer level
+    business_logic: We look at the variance of interest rate among all contract aggregated to customer level
+  - name: interest_undue_total
+    type: DOUBLE
+    description: 19. The total amount of interest we expect to earn but have not yet received
+    business_logic: Sum of all future interest that is still owed
+  - name: latest_closed_recency_days
+    type: INTEGER
+    description: 20. How many days since their most recently closed contract
+    business_logic: Calculate the difference in days between recent closed contract and today
+  - name: ltv_mean
+    type: DOUBLE
+    description: 21. The average loan-to-value ratio across all their golive contracts
+    business_logic: The average loan-to-value ratio
+  - name: mob_last
+    type: INTEGER
+    description: 22. Month on Book - Number of months since the contract go live
+    business_logic: Months since last contract golive to current date
+  - name: ntf_capitalized_max
+    type: DOUBLE
+    description: 23. Maximum capitalized Net To Fund (NTF) amount across the customer's loan engagements
+    business_logic: Evaluates the maximum cap ceiling of the ntf_capitalized metric logged within the customer's asset history
+  - name: ntf_capitalized_mean
+    type: DOUBLE
+    description: 24. Average capitalized Net To Fund (NTF) amount across the customer's loan engagements
+    business_logic: Evaluates the arithmetic mean of the ntf_capitalized metric pulled from loan engagement records grouped by customer
+  - name: ntf_capitalized_std
+    type: DOUBLE
+    description: 25. Standard deviation of capitalized Net To Fund (NTF) amount across loan engagements
+    business_logic: Evaluates the statistical standard deviation (dispersion) of the ntf_capitalized values aggregated to the customer level
+  - name: ntf_capitalized_total
+    type: DOUBLE
+    description: 26. Total capitalized Net To Fund (NTF) amount across all of the customer's loan engagements
+    business_logic: Sum of the ntf_capitalized metric pulled from loan engagement records grouped by customer
+  - name: ntf_contract_active_max
+    type: DOUBLE
+    description: 27. Maximum Net To Fund (NTF) amount among the customer's active contracts
+    business_logic: Evaluates the maximum active contract ntf_amount aggregated to the customer level
+  - name: ntf_contract_active_mean
+    type: DOUBLE
+    description: 28. Average Net To Fund (NTF) amount among the customer's active contracts
+    business_logic: Evaluates the arithmetic mean of active contract ntf_amount aggregated to the customer level
+  - name: ntf_contract_active_std
+    type: DOUBLE
+    description: 29. Standard deviation of Net To Fund (NTF) amount among the customer's active contracts
+    business_logic: Evaluates the statistical standard deviation of active contract ntf_amount aggregated to the customer level
+  - name: ntf_contract_active_total
+    type: DOUBLE
+    description: 30. Total NTF amount of the active contract
+    business_logic: Total Net to Fund amount the customer currently has that are still active
+  - name: ntf_pengajuan_max
+    type: DOUBLE
+    description: 31. Maximum Net To Fund (NTF) amount in applications submitted by the customer
+    business_logic: Evaluates the maximum submitted loan application NTF amount
+  - name: ntf_pengajuan_mean
+    type: DOUBLE
+    description: 32. Average NTF amount in applications submitted by the customer
+    business_logic: Average submitted NTF amount
+  - name: ntf_pengajuan_std
+    type: DOUBLE
+    description: 33. Standard deviation of Net To Fund (NTF) amount in applications submitted by the customer
+    business_logic: Evaluates the standard deviation of submitted loan application NTF amounts
+  - name: ntf_pengajuan_total
+    type: DOUBLE
+    description: 34. Total Net To Fund (NTF) amount across all applications submitted by the customer
+    business_logic: Sum of all submitted loan application NTF amounts
+  - name: osp_total
+    type: DOUBLE
+    description: 35. The total loan outstanding principal amount
+    business_logic: Sum of the outstanding principal balance
+  - name: parent_agreement
+    type: STRING
+    description: 36. Parent agreement number as primary contract with newer asset age
+    business_logic: Agreement with recent manufacturing year
+  - name: parent_agreement_branch_active
+    type: INTEGER
+    description: 37. Parent agreement has active branch
+    business_logic: Indicates whether the branch of parent agreement is active
+  - name: parent_agreement_day_tolerance
+    type: INTEGER
+    description: 38. Number of tolerance day from due date
+    business_logic: Date difference from due date to current date
+  - name: parent_agreement_fiducia
+    type: STRING
+    description: 39. Fiducia validation status
+    business_logic: Indicates whether the fiducia validation of parent agreement is validated or failed
+  - name: parent_agreement_financing
+    type: STRING
+    description: 40. The way of financing of parent agreement
+    business_logic: We look at the way of financing of parent agreement
+  - name: potong_funding_count
+    type: INTEGER
+    description: 41. How many potong funding contract
+    business_logic: We count the number of potong funding contract
+  - name: product_first
+    type: STRING
+    description: 42. The first loan product of customer
+    business_logic: The first loan product the customer has ever had based on golive date
+  - name: product_last
+    type: STRING
+    description: 43. The latest loan product of customer
+    business_logic: The latest loan product the customer has ever had based on golive date
+  - name: product_most
+    type: STRING
+    description: 44. The primary loan product of customer
+    business_logic: Most frequent product per customer
+  - name: product_nunique
+    type: INTEGER
+    description: 45. Number of unique loan products the customer has ever had
+    business_logic: Number of unique product per customer
+  - name: remaining_installment_count
+    type: INTEGER
+    description: 46. The longest number of payments they still need to make
+    business_logic: Maximum of customer remaining installments
+  - name: soa_first
+    type: STRING
+    description: 47. The customer's first Source of Acquisition
+    business_logic: We look at the earliest timestamp of the customer's Source of Acquisition
+  - name: soa_last
+    type: STRING
+    description: 48. The customer's latest Source of Acquisition
+    business_logic: We look at the latest timestamp of the customer's Source of Acquisition
+  - name: soa_nunique
+    type: STRING
+    description: 49. Number of unique Sources of Acquisition for the customer
+    business_logic: Count of unique source of acquisition profiles registered under the customer
+  - name: takeover_count
+    type: INTEGER
+    description: 50. Number of takeover contract
+    business_logic: We count the number of takeover contract aggregated to customer level
+  - name: tenor_last
+    type: INTEGER
+    description: 51. The latest tenure of customer
+    business_logic: The tenure of the most recent contract based on golive date
+  - name: tenor_max
+    type: INTEGER
+    description: 52. The longest tenure of customer
+    business_logic: Longest tenure among all contracts belonging to the customer
+  - name: tenor_min
+    type: INTEGER
+    description: 53. The shortest tenure of customer
+    business_logic: Shortest tenure among all contracts belonging to the customer
+  - name: tenor_most
+    type: INTEGER
+    description: 54. The primary tenure of customer
+    business_logic: Most frequent tenure per customer
+  - name: way_financing_first
+    type: STRING
+    description: 55. The first way of financing in all contract aggregated to customer level
+    business_logic: We look at the first way of financing in all contract aggregated to customer level
+  - name: way_financing_last
+    type: STRING
+    description: 56. The last way of financing in all contract aggregated to customer level
+    business_logic: We look at the last way of financing in all contract aggregated to customer level
+  - name: way_financing_most
+    type: STRING
+    description: 57. The most frequent way of financing in all contract aggregated to customer level
+    business_logic: We look at the most frequent way of financing in all contract aggregated to customer level
+  - name: way_financing_nunique
+    type: INTEGER
+    description: 58. Number of distinct way of financing in all contract aggregated to customer level
+    business_logic: We count the number of distinct way of financing in all contract aggregated to customer level  
+  - name: event_timestamp
+    type: TIMESTAMP
+    description: 59. Latest operational snapshot timestamp for the customer mapping execution
+    business_logic: Captures the maximum value between the customer's most recent contract golive date and their latest identity profile update timestamp
+  - name: last_principle_amount_total
+    type: DOUBLE
+    description: 60. Total principle amount of the latest contract for the customer
+    business_logic: Captures the sum of the latest principle amounts for all contracts belonging to the customer
+  - name: late_charge_amount_total
+    type: DOUBLE
+    description: 61. Total late charge amount of the latest contract for the customer
+    business_logic: Captures the sum of the latest late charge amounts for all contracts belonging to the customer
+  - name: otr_loan_mean
+    type: DOUBLE
+    description: 62. The average On-The-Road (OTR) purchase price of all financed assets mapped to the customer
+    business_logic: Extracted by linking historical agreement records directly to the cdp_loan data warehouse table and calculating the arithmetic mean of the otr_price field.
+tags:
+  domain: customer_cdp
+  confidentiality: public
+sql: |-
+  WITH cdp_identity_resolution AS 
+  (
+      SELECT  dt
+              ,cdp_uid
+              ,lead_id
+              ,application_id
+              ,NULLIF(TRIM(agreement_number),'') AS agreement_number
+      FROM    wsdatainnovation.cdp_identity_resolution
+      WHERE   dt = CASE   WHEN '{bizdate}' < '20100101' THEN '20100101'
+              ELSE '{bizdate}'
+      END -- in order to get distinct rows of cdp_uid, lead_id, application_id, agreement_number
+      GROUP BY dt
+              ,cdp_uid
+              ,lead_id
+              ,application_id
+              ,agreement_number
+  )
+  ,feature_windowing_first_last AS -- tb2     
+  (
+      SELECT  t1.cdp_uid
+              ,CAST(TO_CHAR(CAST(t2.created_timestamp AS DATETIME),'yyyymmdd') AS INT) AS ts_id
+              ,FIRST_VALUE(t2.product) OVER (PARTITION BY t1.cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS product_first -- 42
+              ,LAST_VALUE(t2.product) OVER (PARTITION BY t1.cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS product_last -- 43
+              ,FIRST_VALUE(t2.soa) OVER (PARTITION BY t1.cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS soa_first -- 47
+              ,LAST_VALUE(t2.soa) OVER (PARTITION BY t1.cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS soa_last -- 48
+              ,LAST_VALUE(t2.tenor) OVER (PARTITION BY t1.cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS tenor_last -- 51
+              ,FIRST_VALUE(t2.way_of_financing) OVER (PARTITION BY t1.cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS way_financing_first -- 55
+              ,LAST_VALUE(t2.way_of_financing) OVER (PARTITION BY t1.cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS way_financing_last -- 56
+              ,FIRST_VALUE(t2.golive_at) OVER (PARTITION BY t1.cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS first_golive_at
+              ,LAST_VALUE(t2.golive_at) OVER (PARTITION BY t1.cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS latest_golive_at
+              ,created_timestamp
+      FROM    cdp_identity_resolution t1
+      INNER JOIN wsdatainnovation.cdp_loan t2
+      ON      t1.agreement_number = t2.agreement_number
+      AND     t1.dt = t2.dt -- 'CANCEL', 'PENDING', 'REJECT' status are not considered as they do not represent actual contract
+      WHERE   contract_status NOT IN ('CAN','PRP','RJC')
+  )
+  ,tb2_first_last AS 
+  (
+      SELECT  *
+              -- pick last copy of each entity snapshot
+              ,ROW_NUMBER() OVER (PARTITION BY cdp_uid,ts_id ORDER BY created_timestamp DESC) rn
+      FROM    feature_windowing_first_last
+      UNION ALL -- register the bizdate as also available data
+      SELECT  cdp_uid
+              ,CAST('{bizdate}' AS INT) AS ts_id
+              ,* EXCEPT(cdp_uid, ts_id, created_timestamp, rn_i) -- ordering columns
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS created_timestamp
+              ,rn_i AS rn
+      FROM (
+          -- only consider entity that not yet have the bizdate update
+          SELECT  *
+                  ,ROW_NUMBER() OVER(PARTITION BY cdp_uid ORDER BY created_timestamp DESC) rn_i
+          FROM feature_windowing_first_last
+      ) t2
+      WHERE t2.rn_i = 1
+      AND  ts_id < CAST('{bizdate}' AS INT)-- only refresh the old one       
+  )
+  ,product_frequencies AS 
+  (
+      SELECT  t1.cdp_uid
+              ,CAST(TO_CHAR(CAST(t2.created_timestamp AS DATETIME),'yyyymmdd') AS INT) AS ts_id
+              ,t2.product -- 1. Count how many times each product appears for this customer
+              ,t2.created_timestamp
+              ,COUNT(1) OVER (PARTITION BY t1.cdp_uid,t2.product ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS product_count -- 2. Find the latest timestamp for this product combination to break ties
+              ,MAX(created_timestamp) OVER (PARTITION BY t1.cdp_uid,t2.product ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS latest_product_ts
+      FROM    cdp_identity_resolution t1
+      INNER JOIN wsDataInnovation.cdp_loan t2
+      ON      t1.agreement_number = t2.agreement_number
+      AND     t1.dt = t2.dt
+      WHERE   t2.product IS NOT NULL
+      AND     t2.contract_status NOT IN ('CAN','PRP','RJC')
+  )
+  ,ranked_product_per_row AS 
+  (
+      SELECT  cdp_uid
+              ,ts_id -- 3. Rank the products per customer based on frequency and recency
+              ,FIRST_VALUE(product) OVER (PARTITION BY cdp_uid ORDER BY product_count DESC,latest_product_ts DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS product_most -- 44
+              ,ROW_NUMBER() OVER (PARTITION BY cdp_uid,ts_id ORDER BY created_timestamp DESC) rn
+              ,created_timestamp
+      FROM    product_frequencies
+      UNION ALL
+      SELECT  cdp_uid
+              ,CAST('{bizdate}' AS INT) AS ts_id
+              ,product_most
+              ,1 AS rn
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS created_timestamp
+      FROM (
+          -- only consider entity that not yet have the bizdate update
+          SELECT  cdp_uid
+                  -- ,FIRST_VALUE(product) OVER (PARTITION BY cdp_uid ORDER BY product_count DESC,latest_product_ts DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS product_most -- 44
+                  -- ,ROW_NUMBER() OVER(PARTITION BY cdp_uid ORDER BY created_timestamp DESC) rn_i
+                  ,MAX(ts_id) AS ts_id
+                  ,MAX_BY(product, STRUCT(product_count, latest_product_ts)) AS product_most
+                  ,MAX(created_timestamp) AS created_timestamp
+          FROM product_frequencies
+          GROUP BY cdp_uid
+      ) t2
+      WHERE t2.ts_id < CAST('{bizdate}' AS INT)
+  )
+  ,tenor_frequencies AS 
+  (
+      SELECT  t1.cdp_uid
+              ,CAST(TO_CHAR(CAST(t2.created_timestamp AS DATETIME),'yyyymmdd') AS INT) AS ts_id
+              ,t2.tenor
+              ,t2.created_timestamp
+              ,COUNT(1) OVER (PARTITION BY t1.cdp_uid,t2.tenor ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS tenor_count
+              ,MAX(created_timestamp) OVER (PARTITION BY t1.cdp_uid,t2.tenor ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS latest_ts
+      FROM    cdp_identity_resolution t1
+      INNER JOIN wsDataInnovation.cdp_loan t2
+      ON      t1.agreement_number = t2.agreement_number
+      AND     t1.dt = t2.dt
+      WHERE   t2.tenor IS NOT NULL
+      AND     t2.contract_status NOT IN ('CAN','PRP','RJC')
+  )
+  ,ranked_tenor_per_row AS 
+  (
+      SELECT  cdp_uid
+              ,ts_id
+              ,FIRST_VALUE(tenor) OVER (PARTITION BY cdp_uid ORDER BY tenor_count DESC,latest_ts DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS tenor_most -- 54
+              ,ROW_NUMBER() OVER (PARTITION BY cdp_uid,ts_id ORDER BY created_timestamp DESC) rn
+              ,created_timestamp
+      FROM    tenor_frequencies
+      UNION ALL
+      SELECT  cdp_uid
+              ,CAST('{bizdate}' AS INT) AS ts_id
+              ,tenor_most
+              ,1 AS rn
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS created_timestamp
+      FROM (
+          SELECT  cdp_uid
+                  -- ,FIRST_VALUE(tenor) OVER (PARTITION BY cdp_uid ORDER BY tenor_count DESC,latest_ts DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS tenor_most -- 54
+                  -- ,ROW_NUMBER() OVER(PARTITION BY cdp_uid ORDER BY created_timestamp DESC) rn_i
+                  ,MAX(ts_id) AS ts_id
+                  ,MAX_BY(tenor, STRUCT(tenor_count, latest_ts)) AS tenor_most
+                  -- ,MAX(created_timestamp) AS created_timestamp
+          FROM tenor_frequencies
+          GROUP BY cdp_uid
+      ) t2
+      WHERE t2.ts_id < CAST('{bizdate}' AS INT)
+  )
+  ,way_financing_frequencies AS 
+  (
+      SELECT  t1.cdp_uid
+              ,CAST(TO_CHAR(CAST(t2.created_timestamp AS DATETIME),'yyyymmdd') AS INT) AS ts_id
+              ,NULLIF(TRIM(t2.way_of_financing),'') AS way_of_financing -- 37
+              ,t2.created_timestamp
+              ,COUNT(1) OVER (PARTITION BY t1.cdp_uid,t2.way_of_financing ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS way_financing_count
+              ,MAX(created_timestamp) OVER (PARTITION BY t1.cdp_uid,t2.way_of_financing ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS latest_ts
+      FROM    cdp_identity_resolution t1
+      INNER JOIN wsDataInnovation.cdp_loan t2
+      ON      t1.agreement_number = t2.agreement_number
+      AND     t1.dt = t2.dt
+      WHERE   t2.contract_status NOT IN ('CAN','PRP','RJC')
+  )
+  ,ranked_way_financing_per_row AS 
+  (
+      SELECT  cdp_uid
+              ,ts_id
+              ,FIRST_VALUE(way_of_financing) OVER (PARTITION BY cdp_uid ORDER BY way_financing_count DESC,latest_ts DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS way_financing_most -- 57
+              ,ROW_NUMBER() OVER (PARTITION BY cdp_uid,ts_id ORDER BY created_timestamp DESC) rn
+              ,created_timestamp
+      FROM    way_financing_frequencies
+      UNION ALL
+      SELECT  cdp_uid
+              ,CAST('{bizdate}' AS INT) AS ts_id--'20260702'
+              ,way_financing_most
+              ,1 AS rn
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS created_timestamp
+      FROM (
+          SELECT  cdp_uid
+                  -- ,FIRST_VALUE(way_of_financing) OVER (PARTITION BY cdp_uid ORDER BY way_financing_count DESC,latest_ts DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS way_financing_most -- 57
+                  -- ,ROW_NUMBER() OVER(PARTITION BY cdp_uid ORDER BY created_timestamp DESC) rn_i
+                  ,MAX(ts_id) AS ts_id
+                  ,MAX_BY(way_of_financing, STRUCT(way_financing_count, latest_ts)) AS way_financing_most
+                  -- ,MAX(created_timestamp) AS created_timestamp
+          FROM way_financing_frequencies
+          GROUP BY cdp_uid
+      ) t2
+      WHERE t2.ts_id < CAST('{bizdate}' AS INT)
+  )
+  ,feature_windowing_nunique AS -- tb6    
+  (
+      SELECT  cdp_uid
+              ,CAST(TO_CHAR(CAST(t2.created_timestamp AS DATETIME),'yyyymmdd') AS INT) AS ts_id
+              ,COUNT(DISTINCT t2.product) OVER (PARTITION BY cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS product_nunique -- 45
+              ,COUNT(DISTINCT t2.way_of_financing) OVER (PARTITION BY cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS way_financing_nunique -- 58
+              ,COUNT(DISTINCT t2.soa) OVER (PARTITION BY cdp_uid ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS soa_nunique -- 49
+              ,created_timestamp
+      FROM    cdp_identity_resolution t1
+      INNER JOIN wsdatainnovation.cdp_loan t2
+      ON      t1.agreement_number = t2.agreement_number
+      AND     t1.dt = t2.dt
+      WHERE   t2.contract_status NOT IN ('CAN','PRP','RJC')
+  )
+  ,tb6_nunique AS 
+  (
+      SELECT  *
+              ,ROW_NUMBER() OVER (PARTITION BY cdp_uid,ts_id ORDER BY created_timestamp DESC) rn
+      FROM    feature_windowing_nunique
+      UNION ALL
+      SELECT  cdp_uid
+              ,CAST('{bizdate}' AS INT) AS ts_id-- '20260702'
+              ,* EXCEPT(cdp_uid, ts_id, created_timestamp)
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS created_timestamp
+              ,1 AS rn
+      FROM (
+          SELECT  cdp_uid
+                  ,MAX(ts_id) AS ts_id
+                  ,MAX_BY(product_nunique, created_timestamp) AS product_nunique
+                  ,MAX_BY(way_financing_nunique, created_timestamp) AS way_financing_nunique
+                  ,MAX_BY(soa_nunique, created_timestamp) AS soa_nunique
+                  ,MAX(created_timestamp) AS created_timestamp
+          FROM feature_windowing_nunique
+          GROUP BY cdp_uid
+          HAVING ts_id < CAST('{bizdate}' AS INT)-- only refresh the old one
+      )  
+  )
+  ,loan_engagement_v2 AS 
+  (
+      SELECT  cdp_uid
+              ,CAST(TO_CHAR(CAST(t2.created_timestamp AS DATETIME),'yyyymmdd') AS INT) AS ts_id
+              ,t1.application_id
+              ,t2.ntf_capitalized
+              ,t2.ntf_pengajuan
+              ,t2.take_over
+              ,created_timestamp
+      FROM    cdp_identity_resolution t1
+      INNER JOIN wsdatainnovation.cdp_los_loan_engagement t2
+      ON      t1.application_id = t2.application_id
+      AND     t1.dt = t2.dt
+      UNION ALL
+      SELECT  cdp_uid
+              ,CAST(TO_CHAR(CAST(t2.created_timestamp AS DATETIME),'yyyymmdd') AS INT) AS ts_id
+              ,t1.application_id
+              ,t2.ntf_capitalized
+              ,t2.ntf_pengajuan
+              ,t2.take_over
+              ,created_timestamp
+      FROM    cdp_identity_resolution t1
+      INNER JOIN wsdatainnovation.cdp_lora_loan_engagement t2
+      ON      t1.application_id = t2.application_id
+      AND     t1.dt = t2.dt
+  )
+  ,feature_windowing_basic_aggregations AS 
+  (
+      -- tb7: avg, max, min, sum of numeric features
+      SELECT  t1.cdp_uid
+              ,MAX(CAST(ba_commision AS DOUBLE)) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ba_commission_max -- 2
+              ,AVG(CAST(ba_commision AS DOUBLE)) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ba_commission_mean -- 3
+              ,COUNT(
+                    CASE    WHEN t2.contract_status IN ('LIV','ICP') AND t2.product IN ('DF Motorcycle','NDF Motorcycle') THEN 1 END
+              ) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS contract_active_2w_count -- 4
+              ,COUNT(
+                    CASE    WHEN t2.contract_status IN ('LIV','ICP') AND t2.product IN ('NDF Car','DF') THEN 1 END
+              ) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS contract_active_4w_count -- 5
+              -- EXP, RRD, INV status are considered as closed contract as they represent different stage of closed contract
+              ,COUNT(CASE    WHEN t2.contract_status IN ('LIV','ICP') THEN 1 END) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS contract_active_count -- 6
+              ,COUNT(CASE    WHEN t2.contract_status IN ('EXP','RRD','INV') THEN 1 END) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS contract_inactive_count -- 7
+              ,SUM(CASE    WHEN t2.contract_status IN ('LIV','ICP') THEN t2.osp END) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) / NULLIF(
+                    SUM(CASE    WHEN t2.contract_status IN ('LIV','ICP') THEN t2.ntf_amount END) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW )
+              ,0) AS credit_utilization_ratio -- 8
+              ,SUM(t2.admin_fee + t2.add_admin_fee) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS fee_admin_total -- 10
+              -- must be replaced by Frans/Fawwaz before enter production stage
+              ,CAST(NULL AS DOUBLE) fee_insurance_total -- 11
+              ,SUM(t2.fiducia_fee + t2.notary_fee) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS fee_legal_total -- 12
+              ,SUM(t2.survey_fee) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS fee_other_total -- 13
+              ,SUM(t2.provision_fee) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS fee_provision_total -- 14
+              ,MAX(t2.interest_rate) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS interest_rate_max -- 15
+              ,MIN(t2.interest_rate) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS interest_rate_min -- 16
+              ,AVG(t2.interest_rate) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS interest_rate_mean -- 17
+              ,VAR_SAMP(t2.interest_rate) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS interest_rate_var -- 18
+              ,SUM(COALESCE(t2.outstanding_interest_due,0)) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS interest_undue_total -- 19
+              ,AVG(t2.ltv) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ltv_mean -- 21
+              ,MAX(CASE    WHEN t2.contract_status IN ('LIV','ICP') THEN t2.ntf_amount ELSE 0 END) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_contract_active_max -- 26
+              ,AVG(CASE    WHEN t2.contract_status IN ('LIV','ICP') THEN t2.ntf_amount END) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_contract_active_mean -- 27
+              ,STDDEV(CASE    WHEN t2.contract_status IN ('LIV','ICP') THEN t2.ntf_amount END) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_contract_active_std -- 28
+              ,SUM(CASE    WHEN t2.contract_status IN ('LIV','ICP') THEN t2.ntf_amount ELSE 0 END) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_contract_active_total -- 29
+              ,SUM(COALESCE(t2.osp,0)) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS osp_total -- 35
+              ,SUM(CAST(t2.is_potong_funding AS BIGINT)) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS potong_funding_count -- 41
+              ,MAX(CASE    WHEN t2.contract_status IN ('LIV','ICP') THEN t2.remaining_installment_number END) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS remaining_installment_count -- 46
+              ,MAX(CAST(t2.tenor AS INT)) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS tenor_max -- 52 
+              ,MIN(CAST(t2.tenor AS INT)) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS tenor_min -- 53
+              ,MAX(t2.closed_loan_date) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS closed_loan_date_max
+              ,MAX(t3.ntf_capitalized) OVER (PARTITION BY t1.cdp_uid ORDER BY t3.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_capitalized_max -- 23
+              ,AVG(t3.ntf_capitalized) OVER (PARTITION BY t1.cdp_uid ORDER BY t3.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_capitalized_mean -- 24
+              ,STDDEV(t3.ntf_capitalized) OVER (PARTITION BY t1.cdp_uid ORDER BY t3.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_capitalized_std -- 25
+              ,SUM(t3.ntf_capitalized) OVER (PARTITION BY t1.cdp_uid ORDER BY t3.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_capitalized_total -- 26
+              ,MAX(t3.ntf_pengajuan) OVER (PARTITION BY t1.cdp_uid ORDER BY t3.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_pengajuan_max -- 31
+              ,AVG(t3.ntf_pengajuan) OVER (PARTITION BY t1.cdp_uid ORDER BY t3.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_pengajuan_mean -- 32
+              ,STDDEV(t3.ntf_pengajuan) OVER (PARTITION BY t1.cdp_uid ORDER BY t3.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_pengajuan_std -- 33
+              ,SUM(t3.ntf_pengajuan) OVER (PARTITION BY t1.cdp_uid ORDER BY t3.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ntf_pengajuan_total -- 34
+              ,COUNT(CASE    WHEN TOUPPER(TRIM(t3.take_over)) = 'YES' THEN 1 END) OVER (PARTITION BY t1.cdp_uid ORDER BY t3.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS takeover_count -- 50
+              ,SUM(COALESCE(t2.principle_akhir_amount, 0)) OVER (PARTITION BY t1.cdp_uid ORDER BY t3.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS last_principle_amount_total -- 60
+              ,SUM(COALESCE(t2.lcamount, 0)) OVER (PARTITION BY t1.cdp_uid ORDER BY t3.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS late_charge_amount_total -- 61
+              ,AVG(t2.otr_price) OVER (PARTITION BY t1.cdp_uid ORDER BY t2.created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS otr_loan_mean -- 62
+              ,GREATEST(t2.created_timestamp,t3.created_timestamp,CAST(t2.golive_at AS TIMESTAMP)) AS created_timestamp
+      FROM    cdp_identity_resolution t1
+      INNER JOIN wsdatainnovation.cdp_loan t2
+      ON      t1.agreement_number = t2.agreement_number
+      AND     t1.dt = t2.dt
+      LEFT JOIN loan_engagement_v2 t3
+      ON      t1.cdp_uid = t3.cdp_uid
+      AND     t1.application_id = t3.application_id
+  )
+  ,feature_windowing_aggregation_v2 AS 
+  (
+      SELECT  *
+              ,CAST(TO_CHAR(CAST(created_timestamp AS DATETIME),'yyyymmdd') AS INT) AS ts_id
+      FROM    feature_windowing_basic_aggregations
+  )
+  ,tb7_aggregation_v2 AS 
+  (
+      SELECT  *
+              ,ROW_NUMBER() OVER (PARTITION BY cdp_uid,ts_id ORDER BY created_timestamp DESC) rn
+      FROM    feature_windowing_aggregation_v2
+      UNION ALL
+      SELECT  * EXCEPT(created_timestamp, ts_id, rn_i)
+              ,CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS TIMESTAMP) AS created_timestamp
+              ,CAST('{bizdate}' AS INT) AS ts_id
+              ,rn_i AS rn
+      FROM (
+          SELECT  *
+                  ,ROW_NUMBER() OVER(PARTITION BY cdp_uid ORDER BY created_timestamp DESC) rn_i
+          FROM feature_windowing_aggregation_v2
+          -- don't filter here, avoid to add the bizdate to entity that has already been newer
+      ) t2
+      WHERE t2.rn_i = 1  
+      AND t2.ts_id < CAST('{bizdate}' AS INT)-- only refresh the old one
+  )
+  ,cdp_combination_v2 AS 
+  (
+      SELECT  cdp_uid
+              ,ts_id
+              ,created_timestamp
+      FROM    tb2_first_last
+      UNION ALL 
+      SELECT  cdp_uid
+              ,ts_id
+              ,created_timestamp
+      FROM    tb7_aggregation_v2
+  )
+  ,subset_view1 AS 
+  (
+      SELECT  t1.cdp_uid
+              ,t1.ts_id
+              ,t2.* EXCEPT (cdp_uid,ts_id,created_timestamp,rn)
+              ,t3.product_most -- 44
+              ,t4.tenor_most -- 54
+              ,t5.way_financing_most -- 57
+              ,t6.* EXCEPT (cdp_uid,ts_id,created_timestamp,rn)
+              ,t7.* EXCEPT (cdp_uid,ts_id,created_timestamp,rn)
+              -- ,GREATEST(t2.created_timestamp,t3.created_timestamp,t4.created_timestamp,t5.created_timestamp,t6.created_timestamp,t7.created_timestamp) AS event_ts
+              ,t1.event_timestamp
+      FROM    (
+                  SELECT  cdp_uid
+                          ,ts_id
+                          ,MAX(created_timestamp) AS event_timestamp
+                  FROM    cdp_combination_v2
+                  GROUP BY cdp_uid
+                          ,ts_id
+              ) t1
+      LEFT JOIN tb2_first_last t2
+      ON      t2.cdp_uid = t1.cdp_uid
+      AND     t2.ts_id = t1.ts_id
+      AND     t2.rn = 1
+      LEFT JOIN ranked_product_per_row t3
+      ON      t3.cdp_uid = t1.cdp_uid
+      AND     t3.ts_id = t1.ts_id
+      AND     t3.rn = 1
+      LEFT JOIN ranked_tenor_per_row t4
+      ON      t4.cdp_uid = t1.cdp_uid
+      AND     t4.ts_id = t1.ts_id
+      AND     t4.rn = 1
+      LEFT JOIN ranked_way_financing_per_row t5
+      ON      t5.cdp_uid = t1.cdp_uid
+      AND     t5.ts_id = t1.ts_id
+      AND     t5.rn = 1
+      LEFT JOIN tb6_nunique t6
+      ON      t6.cdp_uid = t1.cdp_uid
+      AND     t6.ts_id = t1.ts_id
+      AND     t6.rn = 1
+      LEFT JOIN tb7_aggregation_v2 t7
+      ON      t7.cdp_uid = t1.cdp_uid
+      AND     t7.ts_id = t1.ts_id
+      AND     t7.rn = 1
+  ) 
+  ,feature_subset_v2 AS 
+  (
+      SELECT  *
+              ,DATEDIFF(CAST(event_timestamp AS DATETIME),CAST(first_golive_at AS DATETIME),'yyyy') AS customer_vintage_year -- 9
+              ,MAX(
+                  
+                  -- not consider null or minus
+                  GREATEST(0,DATEDIFF(CAST(event_timestamp AS DATETIME),CAST(closed_loan_date_max AS DATETIME),'dd'))
+              ) OVER (PARTITION BY cdp_uid ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS latest_closed_recency_days -- 20
+              ,DATEDIFF(CAST(event_timestamp AS DATETIME),CAST(latest_golive_at AS DATETIME),'mm') AS mob_last -- 22
+      FROM    subset_view1
+  )
+  ,parent_agreement_cte AS 
+  (
+      SELECT    sv.cdp_uid
+                ,sv.ts_id
+                ,cl.agreement_number AS parent_agreement -- 36
+                ,(CASE   WHEN cb.is_branch_active = true THEN 1
+                        ELSE 0
+                END) parent_agreement_branch_active -- 37
+                ,GREATEST(0,
+                        DATEDIFF(CAST(sv.event_timestamp AS DATETIME),CAST(DATEADD(CAST(cl.next_installment_date AS DATETIME),-1,'mm') AS DATETIME),
+                        -- previous installment due date
+                        'dd')
+                ) AS parent_agreement_day_tolerance -- 38
+                ,cl.fiducia_validation_status AS parent_agreement_fiducia -- 39
+                ,cl.way_of_financing AS parent_agreement_financing -- 40
+                ,GREATEST(sv.event_timestamp, ca.created_timestamp) AS event_timestamp
+                ,ROW_NUMBER() OVER (PARTITION BY sv.cdp_uid, sv.ts_id ORDER BY CAST(ca.manufacturing_year AS INT) DESC,CAST(cl.golive_at AS DATETIME) DESC ) AS rn
+      FROM    feature_subset_v2 sv
+      INNER JOIN cdp_identity_resolution ci ON sv.cdp_uid = ci.cdp_uid -- exist on both main tables
+      LEFT JOIN wsDataInnovation.cdp_loan cl ON cl.dt = ci.dt AND cl.agreement_number = ci.agreement_number
+      LEFT JOIN wsDataInnovation.cdp_asset ca ON ca.dt = ci.dt AND ca.agreement_number = ci.agreement_number
+      LEFT JOIN wsDataInnovation.cdp_branch cb ON cb.dt = cl.dt AND cb.branch_id = cl.branch_id
+      -- Point-in-time check: asset must exist before or at the execution timeframe of the feature snap
+      WHERE CAST(TO_CHAR(CAST(ca.created_timestamp AS DATETIME), 'yyyymmdd') AS INT) <= sv.ts_id
+  )
+  SELECT  
+        sv.cdp_uid
+        --forward fill
+        ,LAST_VALUE(ba_commission_max, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ba_commission_max 
+        ,LAST_VALUE(ba_commission_mean, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ba_commission_mean 
+        ,LAST_VALUE(contract_active_2w_count, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS contract_active_2w_count 
+        ,LAST_VALUE(contract_active_4w_count, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS contract_active_4w_count 
+        ,LAST_VALUE(contract_active_count, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS contract_active_count 
+        ,LAST_VALUE(contract_inactive_count, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS contract_inactive_count 
+        ,LAST_VALUE(credit_utilization_ratio, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS credit_utilization_ratio 
+        ,LAST_VALUE(customer_vintage_year, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_vintage_year 
+        ,LAST_VALUE(fee_admin_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS fee_admin_total 
+        ,LAST_VALUE(fee_insurance_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS fee_insurance_total 
+        ,LAST_VALUE(fee_legal_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS fee_legal_total 
+        ,LAST_VALUE(fee_other_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS fee_other_total 
+        ,LAST_VALUE(fee_provision_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS fee_provision_total 
+        ,LAST_VALUE(interest_rate_max, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS interest_rate_max 
+        ,LAST_VALUE(interest_rate_min, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS interest_rate_min 
+        ,LAST_VALUE(interest_rate_mean, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS interest_rate_mean 
+        ,LAST_VALUE(interest_rate_var, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS interest_rate_var 
+        ,LAST_VALUE(interest_undue_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS interest_undue_total 
+        ,LAST_VALUE(latest_closed_recency_days, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS latest_closed_recency_days 
+        ,LAST_VALUE(ltv_mean, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ltv_mean 
+        ,LAST_VALUE(mob_last, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS mob_last 
+        ,LAST_VALUE(ntf_capitalized_max, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_capitalized_max 
+        ,LAST_VALUE(ntf_capitalized_mean, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_capitalized_mean 
+        ,LAST_VALUE(ntf_capitalized_std, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_capitalized_std 
+        ,LAST_VALUE(ntf_capitalized_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_capitalized_total 
+        ,LAST_VALUE(ntf_contract_active_max, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_contract_active_max 
+        ,LAST_VALUE(ntf_contract_active_mean, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_contract_active_mean 
+        ,LAST_VALUE(ntf_contract_active_std, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_contract_active_std 
+        ,LAST_VALUE(ntf_contract_active_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_contract_active_total 
+        ,LAST_VALUE(ntf_pengajuan_max, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_pengajuan_max 
+        ,LAST_VALUE(ntf_pengajuan_mean, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_pengajuan_mean 
+        ,LAST_VALUE(ntf_pengajuan_std, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_pengajuan_std 
+        ,LAST_VALUE(ntf_pengajuan_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS ntf_pengajuan_total 
+        ,LAST_VALUE(osp_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS osp_total 
+        ,LAST_VALUE(potong_funding_count, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS potong_funding_count 
+        ,LAST_VALUE(product_first, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS product_first 
+        ,LAST_VALUE(product_last, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS product_last 
+        ,LAST_VALUE(product_most, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS product_most 
+        ,LAST_VALUE(product_nunique, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS product_nunique 
+        
+        ,LAST_VALUE(parent_agreement, true) OVER(PARTITION BY sv.cdp_uid ORDER BY pa.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS parent_agreement
+        ,LAST_VALUE(parent_agreement_branch_active, true) OVER(PARTITION BY sv.cdp_uid ORDER BY pa.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS parent_agreement_branch_active
+        ,LAST_VALUE(parent_agreement_day_tolerance, true) OVER(PARTITION BY sv.cdp_uid ORDER BY pa.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS parent_agreement_day_tolerance
+        ,LAST_VALUE(parent_agreement_fiducia, true) OVER(PARTITION BY sv.cdp_uid ORDER BY pa.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS parent_agreement_fiducia
+        ,LAST_VALUE(parent_agreement_financing, true) OVER(PARTITION BY sv.cdp_uid ORDER BY pa.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS parent_agreement_financing
+        
+        ,LAST_VALUE(remaining_installment_count, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS remaining_installment_count 
+        ,LAST_VALUE(soa_first, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS soa_first 
+        ,LAST_VALUE(soa_last, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS soa_last 
+        ,LAST_VALUE(soa_nunique, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS soa_nunique 
+        ,LAST_VALUE(takeover_count, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS takeover_count 
+        ,LAST_VALUE(tenor_last, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS tenor_last 
+        ,LAST_VALUE(tenor_max, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS tenor_max 
+        ,LAST_VALUE(tenor_min, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS tenor_min 
+        ,LAST_VALUE(tenor_most, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS tenor_most 
+        ,LAST_VALUE(way_financing_first, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS way_financing_first 
+        ,LAST_VALUE(way_financing_last, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS way_financing_last 
+        ,LAST_VALUE(way_financing_most, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS way_financing_most 
+        ,LAST_VALUE(way_financing_nunique, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS way_financing_nunique
+        ,GREATEST(sv.event_timestamp, pa.event_timestamp) AS event_timestamp
+        ,LAST_VALUE(last_principle_amount_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS last_principle_amount_total
+        ,LAST_VALUE(late_charge_amount_total, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS late_charge_amount_total
+        ,LAST_VALUE(otr_loan_mean, true) OVER(PARTITION BY sv.cdp_uid ORDER BY sv.event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS otr_loan_mean
+  FROM      feature_subset_v2 sv
+  LEFT JOIN parent_agreement_cte pa
+  ON      sv.cdp_uid = pa.cdp_uid
+  AND     sv.ts_id = pa.ts_id
+  AND     pa.rn = 1;

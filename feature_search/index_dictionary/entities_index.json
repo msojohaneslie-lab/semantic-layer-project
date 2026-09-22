@@ -1,0 +1,131 @@
+{
+  "name_exact": {
+    "asset_code": [
+      "asset_code.yaml"
+    ],
+    "contract": [
+      "contract.yaml"
+    ],
+    "customer": [
+      "customer.yaml"
+    ],
+    "customer_cdp": [
+      "customer_cdp.yaml"
+    ],
+    "lead": [
+      "lead.yaml"
+    ],
+    "phone": [
+      "phone.yaml"
+    ],
+    "supplier": [
+      "supplier.yaml"
+    ],
+    "testing": [
+      "testing.yaml"
+    ],
+    "testing_customer": [
+      "testing_customer.yaml"
+    ]
+  },
+  "name_seperated": {
+    "asset code": [
+      "asset_code.yaml"
+    ],
+    "contract": [
+      "contract.yaml"
+    ],
+    "customer": [
+      "customer.yaml"
+    ],
+    "customer cdp": [
+      "customer_cdp.yaml"
+    ],
+    "lead": [
+      "lead.yaml"
+    ],
+    "phone": [
+      "phone.yaml"
+    ],
+    "supplier": [
+      "supplier.yaml"
+    ],
+    "testing": [
+      "testing.yaml"
+    ],
+    "testing customer": [
+      "testing_customer.yaml"
+    ]
+  },
+  "field_name": {
+    "asset_code": [
+      "asset_code.yaml"
+    ],
+    "agreement_number": [
+      "contract.yaml"
+    ],
+    "confins_customer_id": [
+      "customer.yaml"
+    ],
+    "cdp_uid": [
+      "customer_cdp.yaml"
+    ],
+    "lead_id": [
+      "lead.yaml"
+    ],
+    "phone_number": [
+      "phone.yaml"
+    ],
+    "supplier_id": [
+      "supplier.yaml"
+    ],
+    "testing": [
+      "testing.yaml"
+    ],
+    "testing_customer": [
+      "testing_customer.yaml"
+    ]
+  },
+  "field_name_seperated": {
+    "asset code": [
+      "asset_code.yaml"
+    ],
+    "agreement number": [
+      "contract.yaml"
+    ],
+    "confins customer id": [
+      "customer.yaml"
+    ],
+    "cdp uid": [
+      "customer_cdp.yaml"
+    ],
+    "lead id": [
+      "lead.yaml"
+    ],
+    "phone number": [
+      "phone.yaml"
+    ],
+    "supplier id": [
+      "supplier.yaml"
+    ],
+    "testing": [
+      "testing.yaml"
+    ],
+    "testing customer": [
+      "testing_customer.yaml"
+    ]
+  },
+  "type": {
+    "string": [
+      "asset_code.yaml",
+      "contract.yaml",
+      "customer.yaml",
+      "customer_cdp.yaml",
+      "lead.yaml",
+      "phone.yaml",
+      "supplier.yaml",
+      "testing.yaml",
+      "testing_customer.yaml"
+    ]
+  }
+}

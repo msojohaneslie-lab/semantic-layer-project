@@ -1,0 +1,5 @@
+name: testing
+field_name: testing
+type: STRING
+description: Just for testing
+business_logic: testing123

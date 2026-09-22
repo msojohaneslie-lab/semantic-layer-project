@@ -1,0 +1,42 @@
+source_type: ODPS
+name: customer_model_scoring
+description: Customer credit risk score per customer
+entity: customer
+feature_fields:
+  - name: confins_customer_id
+    type: STRING
+    description: Unique identifier for each customer in Confins system
+    business_logic: This is the customer ID that links risk scoring to a specific customer
+  - name: risk_score
+    type: DOUBLE
+    description: The customer credit risk score
+    business_logic: A higher score means lower risk
+  - name: event_timestamp
+    type: TIMESTAMP
+    description: Score load timestamp with bizdate fallback
+    business_logic: Taken from the most recent _load_timestamp of the score record, fallback to bizdate
+tags:
+  domain: customer
+  confidentiality: public
+sql: |-
+  WITH score AS (
+      SELECT
+          l.confins_customer_id
+          ,MIN(s.risk_score) AS risk_score
+          ,MAX(CAST(s._load_timestamp AS TIMESTAMP)) AS last_score_timestamp
+      FROM    wsdatainnovation.cdp_score s
+      INNER JOIN wsdatainnovation.cdp_loan l
+          ON  s.application_id = l.application_id
+          AND l.dt = '{bizdate}'
+      WHERE   s.dt = '{bizdate}'
+      AND     l.confins_customer_id IS NOT NULL
+      GROUP BY l.confins_customer_id
+  )
+  SELECT
+      confins_customer_id
+      ,risk_score
+      ,COALESCE(
+          last_score_timestamp,
+          CAST(TO_DATE('{bizdate}', 'yyyyMMdd') AS TIMESTAMP)
+      ) AS event_timestamp
+  FROM score

@@ -1,0 +1,406 @@
+source_type: ODPS
+name: cdp_payment_quality
+description: Feature view providing customer payment behavior, historical DPD metrics, and aggregated payment status tracking across 3-month, 6-month, and all-time windows based on combined CDP data.
+entity: customer_cdp
+ttl: 7300d # 20 Years (20 * 365 days)
+feature_fields:
+  - name: cdp_uid
+    type: STRING
+    description: 1. Unique identifier for Customer Data Platform (CDP) entity
+    business_logic: Primary identity tracking key mapped distinctively from cdp_identity_resolution.
+  - name: ontime_payment_ratio_first_3m
+    type: DOUBLE
+    description: 2. Rasio pembayaran tepat waktu dalam 3 bulan pertama
+    business_logic: (earlier_payment_count + ondue_payment_count) / installment_no evaluated at exactly installment_no = 3
+  - name: paid_ratio_first_3m
+    type: DOUBLE
+    description: 3. Ratio of paid installment in the first 3 month installment
+    business_logic: total payment of specified period N divided by N * installment 
+  - name: avg_dpd_first_3m
+    type: DOUBLE
+    description: 4. Average of day past due in the first 3 month installment
+    business_logic: calc. diff between paiddate and duedate for the first 3m and take the average
+  - name: max_dpd_first_3m
+    type: INTEGER
+    description: 5. Maximum of day past due in the first 3 month installment
+    business_logic: calc. diff between paiddate and duedate and get the maximum of it
+  - name: count_dpd_01_15_first_3m
+    type: INTEGER
+    description: 6. Count of late payment within bucket 1-15 in the first 3 month installment    
+    business_logic: bucketizing dpd and count size of the related bin (first half of 0+)
+  - name: count_dpd_16_30_first_3m
+    type: INTEGER
+    description: 7. Count of late payment within bucket 16-30 in the first 3 month installment    
+    business_logic: bucketizing dpd and count size of the related bin (last half of 0+)
+  - name: count_dpd_30plus_first_3m
+    type: INTEGER
+    description: 8. Count of late payment within bucket 30+ in the first 3 month installment    
+    business_logic: bucketizing dpd and count size of the bin 30+
+  - name: ontime_payment_ratio_first_6m
+    type: DOUBLE
+    description: 9. Rasio pembayaran tepat waktu dalam 6 bulan pertama
+    business_logic: (earlier_payment_count + ondue_payment_count) / installment_no evaluated at exactly installment_no = 6
+  - name: paid_ratio_first_6m
+    type: DOUBLE
+    description: 10. Ratio of paid installment in the first 6 month installment
+    business_logic: total payment of specified period N(6) divided by N * installment 
+  - name: avg_dpd_first_6m
+    type: DOUBLE
+    description: 11. Average of day past due in the first 6 month installment
+    business_logic: calc. diff between paiddate and duedate for the first 6m and take the average
+  - name: max_dpd_first_6m
+    type: INTEGER
+    description: 12. Maximum of day past due in the first 6 month installment
+    business_logic: calc. diff between paiddate and duedate and get the maximum of it
+  - name: count_dpd_01_15_first_6m
+    type: INTEGER
+    description: 13. Count of late payment within bucket 1-15 in the first 6 month installment    
+    business_logic: bucketizing dpd and count size of the related bin (first half of 0+)
+  - name: count_dpd_16_30_first_6m
+    type: INTEGER
+    description: 14. Count of late payment within bucket 16-30 in the first 6 month installment    
+    business_logic: bucketizing dpd and count size of the related bin (last half of 0+)
+  - name: count_dpd_30plus_first_6m
+    type: INTEGER
+    description: 15. Count of late payment within bucket 30+ in the first 6 month installment    
+    business_logic: bucketizing dpd and count size of the bin 30+
+  - name: avg_dpd_alltime
+    type: DOUBLE
+    description: 16. Average of day past due in the alltime installment
+    business_logic: calc. diff between paiddate and duedate up to last due installment and take the average
+  - name: max_dpd_alltime
+    type: INTEGER
+    description: 17. Maximum of day past due in the alltime installment
+    business_logic: calc. diff between paiddate and duedate and get the maximum of it 
+  - name: ontime_payment_ratio_alltime
+    type: DOUBLE
+    description: 18. ontime payment ratio of alltime installment (last due installment)
+    business_logic: Median value derived from cumulative (ontime_payment_count / installment_no) up to the most recent record.
+  - name: paid_ratio_alltime
+    type: DOUBLE
+    description: 19. Ratio of paid installment in the alltime installment
+    business_logic: total payment of specified period N(all existing) divided by N * installment
+  - name: complete_payment_count
+    type: INTEGER
+    description: 20. How many installment that customer paid (yang sudah dibayar terlepas ontime atau telat)
+    business_logic: Count of paid off installment in customer level
+  - name: late_payment_count
+    type: INTEGER
+    description: 21. How many late payment (bayar tapi telat)
+    business_logic: Count of paid off installment with late status in customer level 
+  - name: late_payment_ratio
+    type: DOUBLE
+    description: 22. What percentage of their late payment 
+    business_logic: We divide the number of late payments by the total complete payment they have made
+  - name: missed_payment_count
+    type: INTEGER
+    description: 23. How many missed payment (yang jatuh tempo tapi belum dibayar)
+    business_logic: Calculated dynamically via (installment_no - complete_payment_count).
+  - name: ondue_payment_count
+    type: INTEGER
+    description: 24. How many on duedate payment
+    business_logic: Count of paid off installment at due date in customer level
+  - name: earlier_payment_count
+    type: INTEGER
+    description: 25. How many earlier payment (bayar sebelum jatuh tempo)
+    business_logic: Count of paid off installment before due date in customer level
+  - name: ongoing_installment  
+    type: INTEGER
+    description: 26. Which installment number is currently due
+    business_logic: Extracted utilizing MAX_BY(ongoing_installment, event_timestamp) to get the installment number matching the newest update event.
+  - name: event_timestamp
+    type: TIMESTAMP 
+    description: 27. Primary event generation timestamp for Feast ingestion timeline orchestration
+    business_logic: The chronological max value comparing the structural identity data change timestamps vs transaction events.
+  - name: start_timestamp
+    type: TIMESTAMP
+    description: 28. First observed operational timestamp tracking the start boundary of records
+    business_logic: Calculated minimum value between the master record table initialization timestamps.
+  - name: complete_count_precompute
+    type: INTEGER
+    description: 29. Precomputed overall payment settlement totals pulled directly from historical summaries
+    business_logic: Grouped sum of completeness_count sourced directly from wsDataInnovation.cdp_payment_summary.
+  - name: late_count_precompute
+    type: INTEGER
+    description: 30. Precomputed late settlement volume tracked at the summary infrastructure table level
+    business_logic: Grouped sum of late_payment_count metrics sourced from wsDataInnovation.cdp_payment_summary.
+  - name: missed_count_precompute
+    type: INTEGER
+    description: 31. Precomputed total unfulfilled bills pulled directly from source payment summaries
+    business_logic: Grouped sum of missed_payment_count variables gathered from historical summaries.
+  - name: ontime_count_precompute
+    type: INTEGER
+    description: 32. Precomputed total strictly on-time or early payments mapped from summary architectures
+    business_logic: Grouped sum of on_time_payment_count fields sourced from cdp_payment_summary.
+  - name: early_count_precompute
+    type: INTEGER
+    description: 33. Precomputed ahead-of-schedule transaction volumes pulled from overview tracking tables
+    business_logic: Grouped sum of early_payment_count parameters evaluated at the base core summary table.
+  - name: consecutive_count_precompute
+    type: INTEGER
+    description: 34. Total structural tracking count of continuous overdue flags evaluated historically
+    business_logic: Grouped sum of consecutive_late_count values aggregated from the core summary framework.
+  - name: event_timestamp_precompute
+    type: TIMESTAMP
+    description: 35. Most recent tracking point update time extracted explicitly from the payment summary architecture
+    business_logic: Aggregated peak value choosing MAX(COALESCE(created_timestamp, updated_timestamp)) across records.
+  - name: complete_ratio_precompute
+    type: DOUBLE
+    description: 36. Normalized baseline completeness ratio sourced natively from operational aggregates
+    business_logic: Calculated median of summary completeness_ratio properties.
+  - name: late_ratio_precompute
+    type: DOUBLE
+    description: 37. Normalized overdue fraction calculated directly within summary layers
+    business_logic: Calculated median of summary late_payment_ratio tracking elements.
+  - name: early_ratio_precompute
+    type: DOUBLE
+    description: 38. Aggregated metric tracking historical early settlement percentages
+    business_logic: Calculated median of summary early_payment_ratio flags.
+  - name: missed_ratio_precompute
+    type: DOUBLE
+    description: 39. Structural proportional weight tracking completely abandoned installments
+    business_logic: Calculated median of summary missed_payment_ratio frameworks.
+  - name: ontime_ratio_precompute
+    type: DOUBLE
+    description: 40. Prebuilt target calculation marking exact standard timely settlement behaviors
+    business_logic: Calculated median of summary on_time_payment_ratio data.
+  - name: consecutive_ratio_precompute
+    type: DOUBLE
+    description: 41. Statistical representation indicating persistent default risks over time
+    business_logic: Calculated median of summary consecutive_late_ratio datasets.
+tags:
+  domain: customer_cdp
+  confidentiality: public
+sql: |-
+  WITH unified_customer_cdp AS 
+  (
+      SELECT  DISTINCT tb1.cdp_uid
+              ,tb1.application_id
+              ,NULLIF(TRIM(tb1.agreement_number),'') AS agreement_number
+              ,tb4.confins_customer_id
+              ,LEAST(COALESCE(tb2.created_timestamp,CURRENT_TIMESTAMP()),COALESCE(tb3.created_timestamp,CURRENT_TIMESTAMP()),COALESCE(tb4.created_timestamp,CURRENT_TIMESTAMP())) event_ts --not able to fully utilize this as cdp partition earliest start at 15 Jun 2026
+              ,GREATEST(tb3.updated_timestamp,tb4.updated_timestamp) last_ts
+              ,tb1.dt
+      FROM    wsDataInnovation.cdp_identity_resolution tb1
+      LEFT JOIN wsDataInnovation.cdp_loan tb2
+      ON      TRIM(tb1.agreement_number) = TRIM(tb2.agreement_number)
+      AND     tb1.dt = tb2.dt
+      LEFT JOIN wsDataInnovation.cdp_lead tb3
+      ON      tb1.lead_id = tb3.lead_id
+      AND     tb1.dt = tb3.dt
+      LEFT JOIN wsDataInnovation.cdp_payment_summary tb4
+      ON      tb1.confins_customer_id = tb4.confins_customer_id
+      AND     tb1.dt = tb4.dt
+    --   WHERE   tb1.dt = '20260621'
+      WHERE tb1.dt = CASE 
+                        -- If Feast requests a date before snapshots existed, fall back to your earliest stable partition
+                        WHEN '{bizdate}' < '20100101' THEN '2010101' 
+                        ELSE '{bizdate}' 
+                    END -- '20260621' -- 
+      AND     NULLIF(TRIM(tb1.agreement_number),"") IS NOT NULL
+      AND     tb1.cdp_uid IS NOT NULL
+      AND     tb1.application_id IS NOT NULL
+  )
+  ,pre_compute_tab1 AS 
+  (
+      SELECT  DISTINCT TRIM(applicationid) AS application_id
+              ,CAST(insseqno AS BIGINT) AS installment_no
+              ,installmentamount
+              ,SUM(paidamount) OVER (PARTITION BY applicationid,insseqno ) AS paidamount -- total pembayaran
+              ,CAST(paiddate AS DATETIME) AS paiddate
+              ,CAST(duedate AS DATETIME) AS duedate -- tied with insseqno
+              ,ROW_NUMBER() OVER (PARTITION BY applicationid,insseqno ORDER BY CAST(paiddate AS DATETIME) DESC ) AS rn
+              ,CAST(MAX(dtmupd) OVER (PARTITION BY applicationid,insseqno ) AS TIMESTAMP) AS event_ts
+      FROM    wsbfi_2.dwh_ods_installmentschedule_odps
+      WHERE   CAST(duedate AS DATETIME) <= CAST(TO_DATE(COALESCE(NULLIF('{bizdate}',''),TO_CHAR(GETDATE(),'yyyymmdd')),'yyyymmdd') AS DATETIME) 
+    --   WHERE CAST(duedate AS DATETIME) <= CAST(TO_DATE('20260621', 'yyyymmdd') AS DATETIME)
+  )
+  ,pre_compute_tab2 AS 
+  (
+      SELECT  application_id
+              ,installment_no
+              ,(paidamount - installmentamount) AS balance
+              ,CASE   WHEN installmentamount > 0 THEN CAST(paidamount AS DOUBLE) / CAST(installmentamount AS DOUBLE)
+                      ELSE NULL
+              END AS payout_ratio
+              ,paiddate
+              ,duedate
+              ,GREATEST(0,DATEDIFF(paiddate,duedate,'dd')) AS dpd
+              ,event_ts
+      FROM    pre_compute_tab1
+      WHERE   rn = 1 -- last installment
+  )
+  ,pre_compute_tab3 AS 
+  (
+      SELECT  application_id
+              ,installment_no -- installmentno_current
+              ,SUM(balance) OVER (PARTITION BY application_id ORDER BY installment_no ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS cumulative_balance
+              ,AVG(payout_ratio) OVER (PARTITION BY application_id ORDER BY installment_no ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS payout_ratio_at_installment
+              ,MAX(dpd) OVER (PARTITION BY application_id ORDER BY installment_no ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS max_dpd_at_installment
+              ,AVG(dpd) OVER (PARTITION BY application_id ORDER BY installment_no ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS avg_dpd_at_installment
+              ,CASE   WHEN dpd = 0 THEN 'CURRENT'
+                      WHEN dpd BETWEEN 1 AND 15 THEN '01-15'
+                      WHEN dpd BETWEEN 16 AND 30 THEN '16-30'
+                      WHEN dpd BETWEEN 31 AND 60 THEN '30+'
+                      WHEN dpd BETWEEN 61 AND 90 THEN '60+'
+                      WHEN dpd BETWEEN 91 AND 180 THEN '90+'
+                      WHEN dpd BETWEEN 180 AND 210 THEN '180+'
+                      WHEN dpd > 210 THEN '210+'
+                      ELSE 'UNKNOWN'
+              END AS bucket
+              ,SUM(CASE    WHEN DATEDIFF(paiddate,duedate,'dd') = 0 THEN 1 ELSE 0 END) OVER (PARTITION BY application_id ORDER BY installment_no ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS ondue_payment_count
+              ,SUM(CASE    WHEN DATEDIFF(paiddate,duedate,'dd') < 0 THEN 1 ELSE 0 END) OVER (PARTITION BY application_id ORDER BY installment_no ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS earlier_payment_count
+              ,SUM(CASE    WHEN DATEDIFF(paiddate,duedate,'dd') > 0 THEN 1 ELSE 0 END) OVER (PARTITION BY application_id ORDER BY installment_no ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS late_payment_count
+              ,event_ts
+      FROM    pre_compute_tab2
+  )
+  ,pre_compute_tab4 AS 
+  (
+      SELECT  * --application_id, installment_no
+              ,ROW_NUMBER() OVER (PARTITION BY application_id ORDER BY installment_no DESC ) AS reverse_num
+              ,earlier_payment_count + ondue_payment_count AS ontime_payment_count -- complete_payment = ontime_payment + late_payment
+              ,earlier_payment_count + ondue_payment_count + late_payment_count AS complete_payment_count -- miss_payment = installment_no - complete_payment
+              ,installment_no - (earlier_payment_count + ondue_payment_count + late_payment_count) AS missed_payment_count
+              ,SUM(CASE    WHEN bucket = '01-15' THEN 1 ELSE 0 END) OVER (PARTITION BY application_id ORDER BY installment_no ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS count_dpd_01_15_at_installment
+              ,SUM(CASE    WHEN bucket = '16-30' THEN 1 ELSE 0 END) OVER (PARTITION BY application_id ORDER BY installment_no ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS count_dpd_16_30_at_installment
+              ,SUM(CASE    WHEN bucket = '30+' THEN 1 ELSE 0 END) OVER (PARTITION BY application_id ORDER BY installment_no ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS count_dpd_30plus_at_installment
+              ,SUM(CASE    WHEN cumulative_balance >= 0 THEN 1 ELSE 0 END) OVER (PARTITION BY application_id ORDER BY installment_no ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS installment_complete
+      FROM    pre_compute_tab3
+  )
+  ,feature_view1 AS 
+  (
+      SELECT  tb1.*
+              ,tb2.cdp_uid -- tb2.confins_customer_id, 
+              -- tb2.dt, 
+              -- tb2.agreement_number,
+              -- CAST(TO_DATE(tb2.dt, 'yyyymmdd') AS TIMESTAMP) AS event_timestamp,
+              ,GREATEST(tb1.event_ts,tb2.event_ts) AS event_timestamp
+              ,LEAST(tb1.event_ts,tb2.event_ts) AS start_timestamp -- as ontime_payment and late_payment (count) already cumsum per installment_no
+              ,CAST(ontime_payment_count AS DOUBLE) / CAST(installment_no AS DOUBLE) AS ontime_payment_ratio_at_installment
+              ,CAST(late_payment_count AS DOUBLE) / CAST(installment_no AS DOUBLE) AS late_payment_ratio_at_installment
+              ,CASE   WHEN (installment_complete = complete_payment_count) THEN 1
+                      ELSE 0
+              END AS valid_logic
+      FROM    pre_compute_tab4 tb1
+      RIGHT JOIN  (
+                      SELECT  DISTINCT cdp_uid
+                              ,application_id
+                              ,event_ts
+                      FROM    unified_customer_cdp
+                  ) tb2
+      ON      tb1.application_id = tb2.application_id
+      WHERE   installment_no IN (3,6) -- first_3m and first_6m
+      OR      reverse_num = 1 -- alltime: up to last record
+  )
+  ,cdp_payment_fv2 AS 
+  (
+      SELECT      --alltime.*,
+              alltime.cdp_uid -- alltime.agreement_number,
+              ,first_3m.* EXCEPT (application_id,installment_no)
+              ,first_6m.* EXCEPT (application_id,installment_no)
+              ,alltime.ontime_payment_ratio_at_installment AS ontime_payment_ratio_alltime
+              ,alltime.payout_ratio_at_installment AS paid_ratio_alltime
+              ,alltime.max_dpd_at_installment AS max_dpd_alltime
+              ,alltime.avg_dpd_at_installment AS avg_dpd_alltime
+              ,alltime.complete_payment_count -- count
+              ,alltime.late_payment_count -- count
+              ,alltime.late_payment_ratio_at_installment AS late_payment_ratio
+              ,alltime.missed_payment_count -- count
+              ,alltime.ondue_payment_count -- count
+              ,alltime.earlier_payment_count
+              ,alltime.installment_no AS ongoing_installment -- current contract's life
+              ,alltime.event_timestamp
+              ,alltime.start_timestamp
+      FROM    (
+                  SELECT  *
+                  FROM    feature_view1
+                  WHERE   reverse_num = 1
+              ) alltime
+      LEFT JOIN   (
+                      SELECT  application_id
+                              ,installment_no
+                              ,ontime_payment_ratio_at_installment AS ontime_payment_ratio_first_3m
+                              ,payout_ratio_at_installment AS paid_ratio_first_3m
+                              ,max_dpd_at_installment AS max_dpd_first_3m
+                              ,avg_dpd_at_installment AS avg_dpd_first_3m
+                              ,count_dpd_01_15_at_installment AS count_dpd_01_15_first_3m
+                              ,count_dpd_16_30_at_installment AS count_dpd_16_30_first_3m
+                              ,count_dpd_30plus_at_installment AS count_dpd_30plus_first_3m
+                      FROM    feature_view1
+                      WHERE   installment_no = 3
+                  ) first_3m
+      ON      alltime.application_id = first_3m.application_id
+      LEFT JOIN   (
+                      SELECT  application_id
+                              ,installment_no
+                              ,ontime_payment_ratio_at_installment AS ontime_payment_ratio_first_6m
+                              ,payout_ratio_at_installment AS paid_ratio_first_6m
+                              ,max_dpd_at_installment AS max_dpd_first_6m
+                              ,avg_dpd_at_installment AS avg_dpd_first_6m
+                              ,count_dpd_01_15_at_installment AS count_dpd_01_15_first_6m
+                              ,count_dpd_16_30_at_installment AS count_dpd_16_30_first_6m
+                              ,count_dpd_30plus_at_installment AS count_dpd_30plus_first_6m
+                      FROM    feature_view1
+                      WHERE   installment_no = 6
+                  ) first_6m
+      ON      alltime.application_id = first_6m.application_id
+  )
+  ,payment_quality_fv AS 
+  (
+      SELECT  cdp_uid
+              ,ROUND(MEDIAN(ontime_payment_ratio_first_3m),2) AS ontime_payment_ratio_first_3m
+              ,ROUND(AVG(paid_ratio_first_3m),2) AS paid_ratio_first_3m
+              ,MAX(max_dpd_first_3m) AS max_dpd_first_3m
+              ,ROUND(AVG(avg_dpd_first_3m),2) AS avg_dpd_first_3m
+              ,SUM(count_dpd_01_15_first_3m) AS count_dpd_01_15_first_3m
+              ,SUM(count_dpd_16_30_first_3m) AS count_dpd_16_30_first_3m
+              ,SUM(count_dpd_30plus_first_3m) AS count_dpd_30plus_first_3m
+              ,ROUND(MEDIAN(ontime_payment_ratio_first_6m),2) AS ontime_payment_ratio_first_6m
+              ,ROUND(AVG(paid_ratio_first_6m),2) AS paid_ratio_first_6m
+              ,MAX(max_dpd_first_6m) AS max_dpd_first_6m
+              ,ROUND(AVG(avg_dpd_first_6m),2) AS avg_dpd_first_6m
+              ,SUM(count_dpd_01_15_first_6m) AS count_dpd_01_15_first_6m
+              ,SUM(count_dpd_16_30_first_6m) AS count_dpd_16_30_first_6m
+              ,SUM(count_dpd_30plus_first_6m) AS count_dpd_30plus_first_6m
+              ,ROUND(MEDIAN(ontime_payment_ratio_alltime),2) AS ontime_payment_ratio_alltime
+              ,ROUND(AVG(paid_ratio_alltime),2) AS paid_ratio_alltime
+              ,MAX(max_dpd_alltime) AS max_dpd_alltime
+              ,ROUND(AVG(avg_dpd_alltime),2) AS avg_dpd_alltime
+              ,SUM(complete_payment_count) AS complete_payment_count -- total complete payment across all contracts in customer level
+              ,SUM(late_payment_count) AS late_payment_count
+              ,ROUND(MEDIAN(late_payment_ratio),2) AS late_payment_ratio
+              ,SUM(missed_payment_count) AS missed_payment_count
+              ,SUM(ondue_payment_count) AS ondue_payment_count -- count
+              ,SUM(earlier_payment_count) AS earlier_payment_count --,FIRST_VALUE(ongoing_installment) OVER (PARTITION BY cdp_uid ORDER BY event_timestamp DESC ) AS ongoing_installment -- current contract's life
+              ,MAX_BY(ongoing_installment,event_timestamp) AS ongoing_installment
+              ,MAX(event_timestamp) AS event_timestamp
+              ,MIN(start_timestamp) AS start_timestamp
+      FROM    cdp_payment_fv2
+      GROUP BY cdp_uid
+  )
+  SELECT  t1.*
+          ,t2.* EXCEPT (cdp_uid)
+  FROM    payment_quality_fv t1
+  LEFT JOIN   (
+                  SELECT  cdp_uid
+                          ,SUM(completeness_count) AS complete_count_precompute
+                          ,SUM(late_payment_count) AS late_count_precompute
+                          ,SUM(missed_payment_count) AS missed_count_precompute
+                          ,SUM(on_time_payment_count) AS ontime_count_precompute
+                          ,SUM(early_payment_count) AS early_count_precompute
+                          ,SUM(consecutive_late_count) AS consecutive_count_precompute
+                          ,MAX(COALESCE(created_timestamp,updated_timestamp)) AS event_timestamp_precompute
+                          ,ROUND(MEDIAN(completeness_ratio),2) AS complete_ratio_precompute
+                          ,ROUND(MEDIAN(late_payment_ratio),2) AS late_ratio_precompute
+                          ,ROUND(MEDIAN(early_payment_ratio),2) AS early_ratio_precompute
+                          ,ROUND(MEDIAN(missed_payment_ratio),2) AS missed_ratio_precompute
+                          ,ROUND(MEDIAN(on_time_payment_ratio),2) AS ontime_ratio_precompute
+                          ,ROUND(MEDIAN(consecutive_late_ratio),2) AS consecutive_ratio_precompute
+                  FROM    wsDataInnovation.cdp_payment_summary tb1
+                  RIGHT JOIN unified_customer_cdp tb2
+                  ON      tb1.confins_customer_id = tb2.confins_customer_id
+                  WHERE   tb1.dt = '{bizdate}' -- '20260621' -- 
+                  GROUP BY cdp_uid
+              ) t2
+  ON      t1.cdp_uid = t2.cdp_uid
+  -- ORDER BY cdp_uid

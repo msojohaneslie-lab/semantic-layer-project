@@ -1,0 +1,5 @@
+name: phone
+field_name: phone_number
+type: STRING
+description: unique Identifier for contact number
+business_logic: the entity is represented by phone_number (cdp_identity_resolution & cdp_lead)

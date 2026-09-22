@@ -1,0 +1,21 @@
+source_type: ODPS
+name: testing
+description: Just for testing
+entity: testing
+feature_fields:
+- name: t3nor
+  type: Int
+  description: length of loan in months
+  business_logic: From the tenor field in our loan contract records
+- name: bbbbb
+  type: INTEGER
+  description: just tesing again
+  business_logic: get from zzz table
+- name: abc5dasar
+  type: STRING
+  description: buat testing
+  business_logic: SUM(A) + B
+tags:
+- Domain: testing
+sql: "WITH p AS (\n  SELECT\n    *\n  FROM zzz\n)\nSELECT\n  tenor,\n  bbbbb AS bbbbb\n\
+  FROM p"

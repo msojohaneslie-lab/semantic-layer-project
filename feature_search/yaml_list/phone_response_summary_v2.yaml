@@ -1,0 +1,648 @@
+source_type: ODPS
+name: phone_response_summary_v2
+description: >-
+  Phone call and follow-up response statistics aggregated per phone_number, reconstructed as a point-in-time historical series (one row per phone_number per observed date), following the same architecture as cdp_phone_history_v2. Note: follow-up/WAB source data only covers ~January 2026 onward, so metrics reflect that window even though the table spans back to 2017. Coverage: only includes phone numbers tied to LORA-channel applications (inherited from v1).
+entity: phone
+feature_fields:
+  - name: phone_number
+    type: STRING
+    description: The phone number that was used for communication with the customer
+    business_logic: This is the primary identifier for the phone response summary, and it is used to link all related features together
+  - name: first_call_days
+    type: INTEGER
+    description: How many days ago we first called them, as observed up to this point in time
+    business_logic: days difference between ts_id and the earliest outbound call attempt to the number, recomputed per ts_id
+  - name: total_call_attempt
+    type: INTEGER
+    description: Total number of times we tried to call them, as observed up to this point in time
+    business_logic: We count all outbound call attempts regardless of whether they answered or not
+  - name: total_call_answered
+    type: INTEGER
+    description: Total number of times they actually answered our calls, as observed up to this point in time
+    business_logic: We count only the call attempts where the customer picked up the phone
+  - name: total_call_unanswered
+    type: INTEGER
+    description: Total number of times they did not answer our calls, as observed up to this point in time
+    business_logic: We count call attempts that went to voicemail
+  - name: median_call_timespent_minute
+    type: INTEGER
+    description: The typical length of our phone calls with them in minutes, as observed up to this point in time
+    business_logic: We take the middle value (median) of call durations for all completed calls where they answered
+  - name: total_call_timespent_minute
+    type: INTEGER
+    description: Total amount of time we have spent on the phone with them in minutes, as observed up to this point in time
+    business_logic: We add up the duration of all completed calls where they answered
+  - name: first_follow_up_creating_schedule_days
+    type: INTEGER
+    description: How many days ago they first received a follow-up asking them to create a payment schedule, as observed up to this point in time
+    business_logic: days difference between ts_id and the earliest schedule creation follow-up message, recomputed per ts_id
+  - name: total_message_creating_schedule
+    type: INTEGER
+    description: Total number of messages we sent them about creating a payment schedule
+    business_logic: We count all messages related to schedule creation across all communication channels
+  - name: creating_schedule_follow_up_received
+    type: INTEGER
+    description: Whether they ever received a follow-up about creating a payment schedule
+    business_logic: This is marked as 1 if there is any schedule creation follow-up message sent to them
+  - name: total_customer_response_creating_schedule
+    type: INTEGER
+    description: How many times they responded to our schedule creation messages
+    business_logic: We count all customer replies that came in response to schedule creation follow-ups
+  - name: total_message_creating_schedule_auto
+    type: INTEGER
+    description: How many automated messages we sent them about creating a payment schedule
+    business_logic: count only the schedule creation messages that were sent automatically by the system
+  - name: total_customer_response_creating_schedule_auto
+    type: INTEGER
+    description: How many times they responded to our automated schedule creation messages
+    business_logic: We count customer replies that came in response to automated schedule creation messages
+  - name: total_message_creating_schedule_manual
+    type: INTEGER
+    description: How many manual messages we sent them about creating a payment schedule
+    business_logic: We count only the schedule creation messages that were sent manually by our agents
+  - name: total_customer_response_creating_schedule_manual
+    type: INTEGER
+    description: How many times they responded to our manual schedule creation messages
+    business_logic: We count customer replies that came in response to manually sent schedule creation messages
+  - name: total_message_creating_schedule_manual_template_1
+    type: INTEGER
+    description: How many manual messages using Template 1 we sent about schedule creation
+    business_logic: We count schedule creation messages sent manually that used our standard Template 1 wording
+  - name: total_customer_response_creating_schedule_manual_template_1
+    type: INTEGER
+    description: How many times they responded to manual Template 1 schedule creation messages
+    business_logic: count n times customer replies to manually sent schedule creation messages using Template 1
+  - name: total_message_creating_schedule_manual_template_2
+    type: INTEGER
+    description: How many manual messages using Template 2 we sent about schedule creation
+    business_logic: We count schedule creation messages sent manually that used our standard Template 2 wording
+  - name: total_customer_response_creating_schedule_manual_template_2
+    type: INTEGER
+    description: How many times they responded to manual Template 2 schedule creation messages
+    business_logic: count n times customer replies to manually sent schedule creation messages using Template 2
+  - name: total_message_creating_schedule_manual_template_3
+    type: INTEGER
+    description: How many manual messages using Template 3 we sent about schedule creation
+    business_logic: We count schedule creation messages sent manually that used our standard Template 3 wording
+  - name: total_customer_response_creating_schedule_manual_template_3
+    type: INTEGER
+    description: How many times they responded to manual Template 3 schedule creation messages
+    business_logic: count n times customer replies to manually sent schedule creation messages using Template 3
+  - name: total_message_creating_schedule_manual_free
+    type: INTEGER
+    description: How many manual free-text messages we sent about schedule creation
+    business_logic: count schedule creation messages sent manually that used custom free text
+  - name: total_customer_response_creating_schedule_manual_free
+    type: INTEGER
+    description: How many times they responded to manual free-text schedule creation messages
+    business_logic: count n times customer replies to the manually sent free-text schedule creation messages
+  - name: median_bfi_response_sla_creating_schedule
+    type: INTEGER
+    description: Our typical response time in minutes when replying to customers about schedule creation
+    business_logic: take the median of how long our agents respond to customer messages about schedule creation
+  - name: median_bfi_response_sla_ops_creating_schedule
+    type: INTEGER
+    description: Our operations team's typical response time in minutes for schedule creation inquiries
+    business_logic: take median of how long operations team specifically respond to schedule creation messages
+  - name: median_customer_response_sla_creating_schedule
+    type: INTEGER
+    description: The customer's typical response time in minutes when we message them about schedule creation
+    business_logic: take median of how long the customer typically reply to our schedule creation messages
+  - name: first_customer_response_creating_schedule_days
+    type: INTEGER
+    description: How many days ago the customer first responded to a schedule creation message, as observed up to this point in time
+    business_logic: days diff. between ts_id and the earliest customer response to any schedule creation follow-up, recomputed per ts_id
+  - name: first_follow_up_days
+    type: INTEGER
+    description: How many days ago they first received any follow-up message, as observed up to this point in time
+    business_logic: days diff. between ts_id and the earliest follow-up message sent to them, recomputed per ts_id
+  - name: total_message_follow_up
+    type: INTEGER
+    description: Total number of follow-up messages we sent them
+    business_logic: We count all messages related to follow-up activity
+  - name: follow_up_received
+    type: INTEGER
+    description: Whether they have ever received any follow-up message
+    business_logic: This is marked as 1 if there is at least one follow-up message sent to them
+  - name: total_customer_response
+    type: INTEGER
+    description: Total number of times they have responded to any of our follow-up messages
+    business_logic: We count all customer replies across all follow-up message threads
+  - name: total_message_follow_up_auto
+    type: INTEGER
+    description: How many automated follow-up messages we sent them
+    business_logic: count only the follow-up messages that were sent automatically by the system
+  - name: total_customer_response_auto
+    type: INTEGER
+    description: How many times they responded to our automated follow-up messages
+    business_logic: We count customer replies that came in response to automated follow-up messages
+  - name: total_message_follow_up_manual
+    type: INTEGER
+    description: How many manual follow-up messages we sent them
+    business_logic: We count only the follow-up messages that were sent manually by our agents
+  - name: total_customer_response_manual
+    type: INTEGER
+    description: How many times they responded to our manual follow-up messages
+    business_logic: We count customer replies that came in response to manually sent follow-up messages
+  - name: total_message_follow_up_manual_template
+    type: INTEGER
+    description: How many manual follow-up messages using standard templates we sent
+    business_logic: We count manually sent follow-up messages that used any of our standard response templates
+  - name: total_customer_response_manual_template
+    type: INTEGER
+    description: How many times they responded to our manual template follow-up messages
+    business_logic: count n times customer replies to manually sent follow-up messages that used standard templates
+  - name: total_message_follow_up_manual_free
+    type: INTEGER
+    description: How many manual free-text follow-up messages we sent
+    business_logic: count manually sent follow-up messages that used custom free text instead of a standard template
+  - name: total_customer_response_manual_free
+    type: INTEGER
+    description: How many times they responded to our manual free-text follow-up messages
+    business_logic: count n times customer replies to manually sent follow-up messages that were free text
+  - name: total_customer_response_attend
+    type: INTEGER
+    description: How many times they responded to say they would attend a scheduled payment or meeting
+    business_logic: We count customer responses that indicated agreement or confirmation of attendance
+  - name: total_customer_response_reschedule
+    type: INTEGER
+    description: How many times they responded to request rescheduling of a payment or meeting
+    business_logic: We count customer responses that asked to move a payment or meeting to a different date or time
+  - name: total_customer_response_cancel
+    type: INTEGER
+    description: How many times they responded to cancel a scheduled payment or meeting
+    business_logic: We count customer responses that asked to cancel
+  - name: median_bfi_response_sla
+    type: INTEGER
+    description: Our typical response time in minutes when replying to customers
+    business_logic: We take the middle value (median) of how long our agents took to respond to customer messages
+  - name: median_bfi_response_sla_ops
+    type: INTEGER
+    description: Our operations team's typical response time in minutes for inquiries
+    business_logic: take the median of how long operations team specifically took to respond to customer messages
+  - name: median_customer_response_sla
+    type: INTEGER
+    description: The customer's typical response time in minutes when we message them
+    business_logic: We take the middle value (median) of how long the customer took to reply to our messages
+  - name: first_customer_response_days
+    type: INTEGER
+    description: How many days ago the customer first responded to any of our messages, as observed up to this point in time
+    business_logic: days diff. between ts_id and the earliest customer response to any follow-up message, recomputed per ts_id
+  - name: last_conversation_days
+    type: INTEGER
+    description: When the most recent conversation with this customer took place, as observed up to this point in time
+    business_logic: days diff between ts_id and the time when last message sent or received in any comm. thread, recomputed per ts_id
+  - name: most_frequent_error
+    type: STRING
+    description: The most common or most recent error code encountered when trying to communicate with this customer, as observed up to this point in time
+    business_logic: This comes from failed message delivery attempts or invalid contact information errors. Ranked per (phone_number, ts_id) via ON-clause join condition, preserving LEFT JOIN semantics so phone numbers with no error codes correctly show NULL instead of being dropped (fixed from v1/v2 draft's WHERE-clause bug).
+  - name: follow_up_creating_schedule_flag
+    type: INTEGER
+    description: Whether they have ever been sent a schedule creation follow-up message
+    business_logic: simply yes/no flag set to 1 if any schedule creation follow-up exists for this customer
+  - name: follow_up_creating_schedule_flag_group_1
+    type: INTEGER
+    description: Whether they received schedule creation follow-ups classified under Group 1
+    business_logic: marks customer who receive schedule creation messages under 1st prio. grouping for collection
+  - name: follow_up_creating_schedule_flag_group_2
+    type: INTEGER
+    description: Whether they received schedule creation follow-ups classified under Group 2
+    business_logic: marks customers who receive schedule creation messages under 2nd prio. grouping for collection
+  - name: creating_schedule_follow_up_received_flag
+    type: INTEGER
+    description: Whether they have ever received a schedule creation follow-up message (duplicate flag)
+    business_logic: another ver. of the schedule creation follow-up indicator used for different reporting purposes
+  - name: customer_response_creating_schedule_flag
+    type: INTEGER
+    description: Whether they have ever responded to a schedule creation message
+    business_logic: This is marked as 1 if they have replied to any of our schedule creation follow-ups
+  - name: follow_up_flag
+    type: INTEGER
+    description: Whether they have ever received any collection follow-up message at all
+    business_logic: This is a general indicator set to 1 if any collection follow-up message has been sent to them
+  - name: follow_up_flag_group_1
+    type: INTEGER
+    description: Whether they received collection follow-ups classified under Group 1
+    business_logic: marks customers who receive collection messages under 1st prio. grouping strategy
+  - name: follow_up_flag_group_2
+    type: INTEGER
+    description: Whether they received collection follow-ups classified under Group 2
+    business_logic: markss customers who receive collection messages under 2nd prio. grouping strategy
+  - name: follow_up_received_flag
+    type: INTEGER
+    description: Whether they have ever received any collection follow-up (alternate indicator)
+    business_logic: another ver. of the general follow-up indicator used for different reporting purposes
+  - name: customer_response_flag
+    type: INTEGER
+    description: Whether they have ever responded to any collection message
+    business_logic: This is marked as 1 if they have replied to any of our collection follow-ups
+  - name: customer_response_attend_flag
+    type: INTEGER
+    description: Whether they have ever responded that they would attend a scheduled payment or meeting
+    business_logic: This is marked as 1 if they have ever given an affirmative response to attend
+  - name: customer_response_reschedule_flag
+    type: INTEGER
+    description: Whether they have ever requested to reschedule a payment or meeting
+    business_logic: This is marked as 1 if they have ever asked to move a scheduled activity to a different time
+  - name: customer_response_cancel_flag
+    type: INTEGER
+    description: Whether they have ever requested to cancel a scheduled payment or meeting
+    business_logic: This is marked as 1 if they have ever asked to cancel a scheduled activity
+  - name: first_time_initiate_appointment_days
+    type: INTEGER
+    description: How many days ago they first initiated an appointment scheduling request, as observed up to this point in time
+    business_logic: days diff between ts_id and the earliest appointment request they made, recomputed per ts_id
+  - name: total_response
+    type: INTEGER
+    description: Total number of responses they have made across all communication channels
+    business_logic: We add up every customer response to any message we have sent them
+  - name: event_timestamp
+    type: TIMESTAMP
+    description: Reconstructed snapshot date (ts_id) for this point in time
+    business_logic: Snapshot date used as the feature timestamp since no specific event timestamp is available
+tags:
+  domain: phone
+  confidentiality: public
+sql: |-
+  WITH cir_snapshot AS
+  (
+      SELECT  DISTINCT lead_id, application_id
+      FROM    wsDataInnovation.cdp_identity_resolution
+      WHERE   dt = '{bizdate}'
+      AND     lead_id IS NOT NULL
+  )
+  ,all_phone_stored AS
+  (
+      SELECT  t1.lead_id
+              ,t1.phone_number
+              ,cir.application_id
+              ,COALESCE(t2.updated_timestamp,t2.created_timestamp) AS phone_registered_time
+      FROM    (
+                  SELECT  lead_id, phone_number
+                  FROM    wsDataInnovation.cdp_lead
+                  WHERE   dt = '{bizdate}'
+                  AND     phone_number IS NOT NULL
+                  AND     lead_id IS NOT NULL
+                  UNION ALL
+                  SELECT  lead_id, spouse_phone_number AS phone_number
+                  FROM    wsDataInnovation.cdp_lead
+                  WHERE   dt = '{bizdate}'
+                  AND     spouse_phone_number IS NOT NULL
+                  AND     lead_id IS NOT NULL
+                  UNION ALL
+                  SELECT  lead_id, phone_number
+                  FROM    wsDataInnovation.cdp_identity_resolution
+                  WHERE   dt = '{bizdate}'
+                  AND     phone_number IS NOT NULL
+                  AND     lead_id IS NOT NULL
+              ) t1
+      LEFT JOIN wsDataInnovation.cdp_lead t2
+      ON      t1.lead_id = t2.lead_id
+      AND     t2.dt = '{bizdate}'
+      LEFT JOIN cir_snapshot cir
+      ON      t1.lead_id = cir.lead_id
+  )
+  ,valid_phone_stored AS
+  (
+      SELECT *
+      FROM   all_phone_stored
+      WHERE  phone_number IS NOT NULL
+      AND    TRIM(phone_number) NOT IN ('', '-', '0', '00', '000', '0000', '00000', '000000', '000000000000')
+      AND    LENGTH(TRIM(phone_number)) >= 8
+      AND    TRIM(phone_number) NOT REGEXP '^0*$'
+  )
+  ,phone_unique_record AS
+  (
+      SELECT * EXCEPT(rn)
+      FROM (
+          SELECT  aps.*
+                  ,ROW_NUMBER() OVER(PARTITION BY aps.phone_number, aps.phone_registered_time ORDER BY aps.phone_registered_time) rn
+          FROM    valid_phone_stored aps
+          WHERE   aps.phone_registered_time IS NOT NULL
+      ) sq
+      WHERE   sq.rn = 1
+  )
+  ,phone_ts_grid AS
+  (
+      SELECT  phone_number
+              ,TO_CHAR(phone_registered_time,'yyyymmdd') AS ts_id
+      FROM    phone_unique_record
+      UNION ALL
+      SELECT  phone_number, '{bizdate}' AS ts_id
+      FROM    (
+                  SELECT  phone_number, MAX(phone_registered_time) AS last_registered
+                  FROM    phone_unique_record
+                  GROUP BY phone_number
+              ) t
+      WHERE   DATEDIFF(CAST(TO_DATE('{bizdate}','yyyymmdd') AS DATETIME),CAST(t.last_registered AS DATETIME),'dd') > 0
+  )
+  ,phone_app_map AS
+  (
+      SELECT DISTINCT phone_number, application_id
+      FROM   valid_phone_stored
+      WHERE  application_id IS NOT NULL
+  )
+  ,followup_snapshot AS
+  (
+      SELECT  pam.phone_number
+              ,fu.*
+      FROM    phone_app_map pam
+      INNER JOIN wsDataInnovation.cdp_loan_engagement_follow_up_summary fu
+      ON      pam.application_id = fu.application_id
+      AND     fu.dt = '{bizdate}'
+  )
+  ,followup_ts_grid AS
+  (
+      SELECT DISTINCT phone_number, TO_CHAR(created_timestamp,'yyyymmdd') AS ts_id
+      FROM   followup_snapshot
+      WHERE  created_timestamp IS NOT NULL
+  )
+  ,followup_multi_ts_grid AS
+  (
+      SELECT phone_number, TO_CHAR(first_call_at,'yyyymmdd') AS ts_id
+      FROM   followup_snapshot WHERE first_call_at IS NOT NULL
+      UNION ALL
+      SELECT phone_number, TO_CHAR(first_follow_up_creating_schedule,'yyyymmdd') AS ts_id
+      FROM   followup_snapshot WHERE first_follow_up_creating_schedule IS NOT NULL
+      UNION ALL
+      SELECT phone_number, TO_CHAR(first_customer_response_creating_schedule,'yyyymmdd') AS ts_id
+      FROM   followup_snapshot WHERE first_customer_response_creating_schedule IS NOT NULL
+      UNION ALL
+      SELECT phone_number, TO_CHAR(first_follow_up,'yyyymmdd') AS ts_id
+      FROM   followup_snapshot WHERE first_follow_up IS NOT NULL
+      UNION ALL
+      SELECT phone_number, TO_CHAR(first_customer_response,'yyyymmdd') AS ts_id
+      FROM   followup_snapshot WHERE first_customer_response IS NOT NULL
+      UNION ALL
+      SELECT phone_number, TO_CHAR(first_time_initiate_appointment_at,'yyyymmdd') AS ts_id
+      FROM   followup_snapshot WHERE first_time_initiate_appointment_at IS NOT NULL
+  )
+
+  ,followup_agg AS
+  (
+      SELECT  fs.phone_number
+              ,ftg.ts_id
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_call_attempt ELSE 0 END) AS total_call_attempt
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_call_answered ELSE 0 END) AS total_call_answered
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_call_unanswered ELSE 0 END) AS total_call_unanswered
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_call_timespent_minute ELSE 0 END) AS total_call_timespent_minute
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_creating_schedule ELSE 0 END) AS total_message_creating_schedule
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.creating_schedule_follow_up_received ELSE 0 END) AS creating_schedule_follow_up_received
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_creating_schedule ELSE 0 END) AS total_customer_response_creating_schedule
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_creating_schedule_auto ELSE 0 END) AS total_message_creating_schedule_auto
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_creating_schedule_auto ELSE 0 END) AS total_customer_response_creating_schedule_auto
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_creating_schedule_manual ELSE 0 END) AS total_message_creating_schedule_manual
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_creating_schedule_manual ELSE 0 END) AS total_customer_response_creating_schedule_manual
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_creating_schedule_manual_template_1 ELSE 0 END) AS total_message_creating_schedule_manual_template_1
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_creating_schedule_manual_template_1 ELSE 0 END) AS total_customer_response_creating_schedule_manual_template_1
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_creating_schedule_manual_template_2 ELSE 0 END) AS total_message_creating_schedule_manual_template_2
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_creating_schedule_manual_template_2 ELSE 0 END) AS total_customer_response_creating_schedule_manual_template_2
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_creating_schedule_manual_template_3 ELSE 0 END) AS total_message_creating_schedule_manual_template_3
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_creating_schedule_manual_template_3 ELSE 0 END) AS total_customer_response_creating_schedule_manual_template_3
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_creating_schedule_manual_free ELSE 0 END) AS total_message_creating_schedule_manual_free
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_creating_schedule_manual_free ELSE 0 END) AS total_customer_response_creating_schedule_manual_free
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_follow_up ELSE 0 END) AS total_message_follow_up
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.follow_up_received ELSE 0 END) AS follow_up_received
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response ELSE 0 END) AS total_customer_response
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_follow_up_auto ELSE 0 END) AS total_message_follow_up_auto
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_auto ELSE 0 END) AS total_customer_response_auto
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_follow_up_manual ELSE 0 END) AS total_message_follow_up_manual
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_manual ELSE 0 END) AS total_customer_response_manual
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_follow_up_manual_template ELSE 0 END) AS total_message_follow_up_manual_template
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_manual_template ELSE 0 END) AS total_customer_response_manual_template
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_message_follow_up_manual_free ELSE 0 END) AS total_message_follow_up_manual_free
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_manual_free ELSE 0 END) AS total_customer_response_manual_free
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_attend ELSE 0 END) AS total_customer_response_attend
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_reschedule ELSE 0 END) AS total_customer_response_reschedule
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_customer_response_cancel ELSE 0 END) AS total_customer_response_cancel
+              ,SUM(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.total_response ELSE 0 END) AS total_response
+              ,MEDIAN(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.median_call_timespent_minute END) AS median_call_timespent_minute
+              ,MEDIAN(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.median_bfi_response_sla_creating_schedule END) AS median_bfi_response_sla_creating_schedule
+              ,MEDIAN(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.median_bfi_response_sla_ops_creating_schedule END) AS median_bfi_response_sla_ops_creating_schedule
+              ,MEDIAN(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.median_customer_response_sla_creating_schedule END) AS median_customer_response_sla_creating_schedule
+              ,MEDIAN(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.median_bfi_response_sla END) AS median_bfi_response_sla
+              ,MEDIAN(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.median_bfi_response_sla_ops END) AS median_bfi_response_sla_ops
+              ,MEDIAN(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.median_customer_response_sla END) AS median_customer_response_sla
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.follow_up_creating_schedule_flag ELSE 0 END) AS follow_up_creating_schedule_flag
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.follow_up_creating_schedule_flag_group_1 ELSE 0 END) AS follow_up_creating_schedule_flag_group_1
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.follow_up_creating_schedule_flag_group_2 ELSE 0 END) AS follow_up_creating_schedule_flag_group_2
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.creating_schedule_follow_up_received_flag ELSE 0 END) AS creating_schedule_follow_up_received_flag
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.customer_response_creating_schedule_flag ELSE 0 END) AS customer_response_creating_schedule_flag
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.follow_up_flag ELSE 0 END) AS follow_up_flag
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.follow_up_flag_group_1 ELSE 0 END) AS follow_up_flag_group_1
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.follow_up_flag_group_2 ELSE 0 END) AS follow_up_flag_group_2
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.follow_up_received_flag ELSE 0 END) AS follow_up_received_flag
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.customer_response_flag ELSE 0 END) AS customer_response_flag
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.customer_response_attend_flag ELSE 0 END) AS customer_response_attend_flag
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.customer_response_reschedule_flag ELSE 0 END) AS customer_response_reschedule_flag
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.customer_response_cancel_flag ELSE 0 END) AS customer_response_cancel_flag
+              ,MAX(CASE WHEN fs.first_call_at IS NOT NULL AND TO_CHAR(fs.first_call_at,'yyyymmdd') <= ftg.ts_id
+                  THEN DATEDIFF(TO_DATE(ftg.ts_id,'yyyymmdd'),CAST(fs.first_call_at AS DATETIME),'dd') END) AS first_call_days
+              ,MAX(CASE WHEN fs.first_follow_up_creating_schedule IS NOT NULL AND TO_CHAR(fs.first_follow_up_creating_schedule,'yyyymmdd') <= ftg.ts_id
+                  THEN DATEDIFF(TO_DATE(ftg.ts_id,'yyyymmdd'),CAST(fs.first_follow_up_creating_schedule AS DATETIME),'dd') END) AS first_follow_up_creating_schedule_days
+              ,MAX(CASE WHEN fs.first_customer_response_creating_schedule IS NOT NULL AND TO_CHAR(fs.first_customer_response_creating_schedule,'yyyymmdd') <= ftg.ts_id
+                  THEN DATEDIFF(TO_DATE(ftg.ts_id,'yyyymmdd'),CAST(fs.first_customer_response_creating_schedule AS DATETIME),'dd') END) AS first_customer_response_creating_schedule_days
+              ,MAX(CASE WHEN fs.first_follow_up IS NOT NULL AND TO_CHAR(fs.first_follow_up,'yyyymmdd') <= ftg.ts_id
+                  THEN DATEDIFF(TO_DATE(ftg.ts_id,'yyyymmdd'),CAST(fs.first_follow_up AS DATETIME),'dd') END) AS first_follow_up_days
+              ,MAX(CASE WHEN fs.first_customer_response IS NOT NULL AND TO_CHAR(fs.first_customer_response,'yyyymmdd') <= ftg.ts_id
+                  THEN DATEDIFF(TO_DATE(ftg.ts_id,'yyyymmdd'),CAST(fs.first_customer_response AS DATETIME),'dd') END) AS first_customer_response_days
+              ,MAX(CASE WHEN fs.first_time_initiate_appointment_at IS NOT NULL AND TO_CHAR(fs.first_time_initiate_appointment_at,'yyyymmdd') <= ftg.ts_id
+                  THEN DATEDIFF(TO_DATE(ftg.ts_id,'yyyymmdd'),CAST(fs.first_time_initiate_appointment_at AS DATETIME),'dd') END) AS first_time_initiate_appointment_days
+              ,MAX(CASE WHEN fs.last_conversation IS NOT NULL AND fs.last_conversation <= TO_CHAR(TO_DATE(ftg.ts_id,'yyyymmdd'),'yyyy-mm-dd')
+                  THEN DATEDIFF(TO_DATE(ftg.ts_id,'yyyymmdd'),TO_DATE(fs.last_conversation,'yyyy-mm-dd'),'dd') END) AS last_conversation_days
+              ,MAX(CASE WHEN TO_CHAR(fs.created_timestamp,'yyyymmdd') <= ftg.ts_id THEN fs.created_timestamp END) AS raw_event_timestamp
+      FROM    followup_ts_grid ftg
+      INNER JOIN followup_snapshot fs
+      ON      ftg.phone_number = fs.phone_number
+      GROUP BY fs.phone_number, ftg.ts_id
+  )
+
+  ,error_codes AS
+  (
+      SELECT  pam.phone_number
+              ,fu.dt AS ts_id
+              ,fu.error_code
+              ,COUNT(*) AS error_code_frequency
+      FROM    phone_app_map pam
+      INNER JOIN wsDataInnovation.cdp_loan_engagement_follow_up_summary fu
+      ON      pam.application_id = fu.application_id
+      AND     fu.dt = '{bizdate}'
+      WHERE   fu.error_code IS NOT NULL
+      GROUP BY pam.phone_number, fu.dt, fu.error_code
+  )
+  ,error_ts_grid AS
+  (
+      SELECT DISTINCT phone_number, ts_id FROM error_codes
+  )
+  ,error_agg AS
+  (
+      SELECT  etg.phone_number
+              ,etg.ts_id
+              ,FIRST_VALUE(ec.error_code) OVER (
+                  PARTITION BY etg.phone_number, etg.ts_id
+                  ORDER BY ec.error_code_frequency DESC
+                  ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+              ) AS most_frequent_error
+      FROM    error_ts_grid etg
+      INNER JOIN error_codes ec
+      ON      etg.phone_number = ec.phone_number
+      AND     etg.ts_id = ec.ts_id
+  )
+  ,error_agg_dedup AS
+  (
+      SELECT DISTINCT phone_number, ts_id, most_frequent_error FROM error_agg
+  )
+
+  ,combined_ts_grid AS
+  (
+      SELECT phone_number, ts_id FROM phone_ts_grid
+      UNION ALL
+      SELECT phone_number, ts_id FROM followup_ts_grid
+      UNION ALL
+      SELECT phone_number, ts_id FROM followup_multi_ts_grid
+      UNION ALL
+      SELECT phone_number, ts_id FROM error_ts_grid
+  )
+
+  ,joined AS
+  (
+      SELECT  g.phone_number
+              ,g.ts_id
+              ,fa.total_call_attempt
+              ,fa.total_call_answered
+              ,fa.total_call_unanswered
+              ,fa.total_call_timespent_minute
+              ,fa.total_message_creating_schedule
+              ,fa.creating_schedule_follow_up_received
+              ,fa.total_customer_response_creating_schedule
+              ,fa.total_message_creating_schedule_auto
+              ,fa.total_customer_response_creating_schedule_auto
+              ,fa.total_message_creating_schedule_manual
+              ,fa.total_customer_response_creating_schedule_manual
+              ,fa.total_message_creating_schedule_manual_template_1
+              ,fa.total_customer_response_creating_schedule_manual_template_1
+              ,fa.total_message_creating_schedule_manual_template_2
+              ,fa.total_customer_response_creating_schedule_manual_template_2
+              ,fa.total_message_creating_schedule_manual_template_3
+              ,fa.total_customer_response_creating_schedule_manual_template_3
+              ,fa.total_message_creating_schedule_manual_free
+              ,fa.total_customer_response_creating_schedule_manual_free
+              ,fa.total_message_follow_up
+              ,fa.follow_up_received
+              ,fa.total_customer_response
+              ,fa.total_message_follow_up_auto
+              ,fa.total_customer_response_auto
+              ,fa.total_message_follow_up_manual
+              ,fa.total_customer_response_manual
+              ,fa.total_message_follow_up_manual_template
+              ,fa.total_customer_response_manual_template
+              ,fa.total_message_follow_up_manual_free
+              ,fa.total_customer_response_manual_free
+              ,fa.total_customer_response_attend
+              ,fa.total_customer_response_reschedule
+              ,fa.total_customer_response_cancel
+              ,fa.total_response
+              ,fa.median_call_timespent_minute
+              ,fa.median_bfi_response_sla_creating_schedule
+              ,fa.median_bfi_response_sla_ops_creating_schedule
+              ,fa.median_customer_response_sla_creating_schedule
+              ,fa.median_bfi_response_sla
+              ,fa.median_bfi_response_sla_ops
+              ,fa.median_customer_response_sla
+              ,fa.follow_up_creating_schedule_flag
+              ,fa.follow_up_creating_schedule_flag_group_1
+              ,fa.follow_up_creating_schedule_flag_group_2
+              ,fa.creating_schedule_follow_up_received_flag
+              ,fa.customer_response_creating_schedule_flag
+              ,fa.follow_up_flag
+              ,fa.follow_up_flag_group_1
+              ,fa.follow_up_flag_group_2
+              ,fa.follow_up_received_flag
+              ,fa.customer_response_flag
+              ,fa.customer_response_attend_flag
+              ,fa.customer_response_reschedule_flag
+              ,fa.customer_response_cancel_flag
+              ,fa.first_call_days
+              ,fa.first_follow_up_creating_schedule_days
+              ,fa.first_customer_response_creating_schedule_days
+              ,fa.first_follow_up_days
+              ,fa.first_customer_response_days
+              ,fa.first_time_initiate_appointment_days
+              ,fa.last_conversation_days
+              ,ea.most_frequent_error
+              ,COALESCE(fa.raw_event_timestamp, CAST(TO_DATE(g.ts_id,'yyyymmdd') AS TIMESTAMP)) AS raw_event_timestamp
+      FROM    (SELECT DISTINCT phone_number, ts_id FROM combined_ts_grid) g
+      LEFT JOIN followup_agg fa
+      ON      g.phone_number = fa.phone_number
+      AND     g.ts_id = fa.ts_id
+      LEFT JOIN error_agg_dedup ea
+      ON      g.phone_number = ea.phone_number
+      AND     g.ts_id = ea.ts_id
+  )
+  SELECT
+      phone_number
+      ,ts_id
+      ,LAST_VALUE(total_call_attempt, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_call_attempt
+      ,LAST_VALUE(total_call_answered, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_call_answered
+      ,LAST_VALUE(total_call_unanswered, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_call_unanswered
+      ,LAST_VALUE(total_call_timespent_minute, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_call_timespent_minute
+      ,LAST_VALUE(total_message_creating_schedule, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_creating_schedule
+      ,LAST_VALUE(creating_schedule_follow_up_received, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creating_schedule_follow_up_received
+      ,LAST_VALUE(total_customer_response_creating_schedule, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_creating_schedule
+      ,LAST_VALUE(total_message_creating_schedule_auto, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_creating_schedule_auto
+      ,LAST_VALUE(total_customer_response_creating_schedule_auto, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_creating_schedule_auto
+      ,LAST_VALUE(total_message_creating_schedule_manual, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_creating_schedule_manual
+      ,LAST_VALUE(total_customer_response_creating_schedule_manual, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_creating_schedule_manual
+      ,LAST_VALUE(total_message_creating_schedule_manual_template_1, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_creating_schedule_manual_template_1
+      ,LAST_VALUE(total_customer_response_creating_schedule_manual_template_1, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_creating_schedule_manual_template_1
+      ,LAST_VALUE(total_message_creating_schedule_manual_template_2, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_creating_schedule_manual_template_2
+      ,LAST_VALUE(total_customer_response_creating_schedule_manual_template_2, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_creating_schedule_manual_template_2
+      ,LAST_VALUE(total_message_creating_schedule_manual_template_3, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_creating_schedule_manual_template_3
+      ,LAST_VALUE(total_customer_response_creating_schedule_manual_template_3, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_creating_schedule_manual_template_3
+      ,LAST_VALUE(total_message_creating_schedule_manual_free, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_creating_schedule_manual_free
+      ,LAST_VALUE(total_customer_response_creating_schedule_manual_free, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_creating_schedule_manual_free
+      ,LAST_VALUE(total_message_follow_up, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_follow_up
+      ,LAST_VALUE(follow_up_received, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_received
+      ,LAST_VALUE(total_customer_response, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response
+      ,LAST_VALUE(total_message_follow_up_auto, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_follow_up_auto
+      ,LAST_VALUE(total_customer_response_auto, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_auto
+      ,LAST_VALUE(total_message_follow_up_manual, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_follow_up_manual
+      ,LAST_VALUE(total_customer_response_manual, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_manual
+      ,LAST_VALUE(total_message_follow_up_manual_template, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_follow_up_manual_template
+      ,LAST_VALUE(total_customer_response_manual_template, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_manual_template
+      ,LAST_VALUE(total_message_follow_up_manual_free, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_message_follow_up_manual_free
+      ,LAST_VALUE(total_customer_response_manual_free, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_manual_free
+      ,LAST_VALUE(total_customer_response_attend, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_attend
+      ,LAST_VALUE(total_customer_response_reschedule, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_reschedule
+      ,LAST_VALUE(total_customer_response_cancel, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_customer_response_cancel
+      ,LAST_VALUE(total_response, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total_response
+      ,LAST_VALUE(median_call_timespent_minute, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS median_call_timespent_minute
+      ,LAST_VALUE(median_bfi_response_sla_creating_schedule, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS median_bfi_response_sla_creating_schedule
+      ,LAST_VALUE(median_bfi_response_sla_ops_creating_schedule, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS median_bfi_response_sla_ops_creating_schedule
+      ,LAST_VALUE(median_customer_response_sla_creating_schedule, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS median_customer_response_sla_creating_schedule
+      ,LAST_VALUE(median_bfi_response_sla, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS median_bfi_response_sla
+      ,LAST_VALUE(median_bfi_response_sla_ops, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS median_bfi_response_sla_ops
+      ,LAST_VALUE(median_customer_response_sla, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS median_customer_response_sla
+      ,LAST_VALUE(follow_up_creating_schedule_flag, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_creating_schedule_flag
+      ,LAST_VALUE(follow_up_creating_schedule_flag_group_1, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_creating_schedule_flag_group_1
+      ,LAST_VALUE(follow_up_creating_schedule_flag_group_2, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_creating_schedule_flag_group_2
+      ,LAST_VALUE(creating_schedule_follow_up_received_flag, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS creating_schedule_follow_up_received_flag
+      ,LAST_VALUE(customer_response_creating_schedule_flag, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_creating_schedule_flag
+      ,LAST_VALUE(follow_up_flag, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_flag
+      ,LAST_VALUE(follow_up_flag_group_1, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_flag_group_1
+      ,LAST_VALUE(follow_up_flag_group_2, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_flag_group_2
+      ,LAST_VALUE(follow_up_received_flag, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS follow_up_received_flag
+      ,LAST_VALUE(customer_response_flag, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_flag
+      ,LAST_VALUE(customer_response_attend_flag, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_attend_flag
+      ,LAST_VALUE(customer_response_reschedule_flag, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_reschedule_flag
+      ,LAST_VALUE(customer_response_cancel_flag, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS customer_response_cancel_flag
+      ,LAST_VALUE(first_call_days, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_call_days
+      ,LAST_VALUE(first_follow_up_creating_schedule_days, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_follow_up_creating_schedule_days
+      ,LAST_VALUE(first_customer_response_creating_schedule_days, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_customer_response_creating_schedule_days
+      ,LAST_VALUE(first_follow_up_days, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_follow_up_days
+      ,LAST_VALUE(first_customer_response_days, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_customer_response_days
+      ,LAST_VALUE(first_time_initiate_appointment_days, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS first_time_initiate_appointment_days
+      ,LAST_VALUE(last_conversation_days, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS last_conversation_days
+      ,LAST_VALUE(most_frequent_error, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS most_frequent_error
+      ,LAST_VALUE(raw_event_timestamp, true) OVER (PARTITION BY phone_number ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS event_timestamp
+  FROM joined

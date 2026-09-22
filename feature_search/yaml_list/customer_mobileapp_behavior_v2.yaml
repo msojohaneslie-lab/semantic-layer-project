@@ -1,0 +1,110 @@
+source_type: ODPS
+name: customer_mobileapp_behaviour_v2
+description: >-
+  Customer BFI Mobile app usage and journey behavior features aggregated per customer. v2: migrated to point-in-time historical reconstruction. Also fixes a duplicate-row bug in cdp_identity_resolution (present in v1 too) that was inflating count_notification_l3m/count_promo_l3m
+entity: customer
+feature_fields:
+  - name: confins_customer_id
+    type: STRING
+    description: Unique identifier for each customer in Confins system
+    business_logic: This is the customer ID that links BFI Mobile app behavior to a specific customer
+  - name: number_bfimobile_device
+    type: INTEGER
+    description: How many different devices they have used to access our mobile app, as observed up to this point in time
+    business_logic: We count distinct device IDs associated with their customer account
+  - name: first_install_days
+    type: INTEGER
+    description: How many days ago they first installed our mobile app, as observed up to this point in time
+    business_logic: We look at the earliest installation event for their device and calculate the difference in days from ts_id
+  - name: first_register_days
+    type: INTEGER
+    description: How many days ago they first completed the registration process, as observed up to this point in time
+    business_logic: We look at when they first successfully registered on our platform and calculate the difference in days from ts_id
+  - name: first_kyc_days
+    type: INTEGER
+    description: How many days ago they first went through the KYC verification process, as observed up to this point in time
+    business_logic: We look at the earliest KYC completion event for this customer and calculate the difference in days from ts_id
+  - name: first_submission_days
+    type: INTEGER
+    description: How many days ago they first submitted a loan application, as observed up to this point in time
+    business_logic: We look at the earliest loan submission event for this customer and calculate the difference in days from ts_id
+  - name: journey
+    type: STRING
+    description: The specific journey label attached to an event showing what the customer was trying to do in BFI Mobile, as observed up to this point in time
+    business_logic: This is extracted directly from our Mixpanel events
+  - name: count_notification_l3m
+    type: INTEGER
+    description: >-
+      Lifetime count of push notifications opened, as of this point in time. Name says "l3m" (last 3 months) but it's actually lifetime, not a rolling window -- upstream filter is a no-op.
+    business_logic: Count of screen-view events where stage = 'notification', accumulated since first recorded event. Not strictly monotonic -- see description.
+  - name: count_promo_l3m
+    type: INTEGER
+    description: >-
+      Lifetime count of promo pages opened, as of this point in time. Same "l3m" naming quirk as count_notification_l3m. Unlike that field, this one tested fully monotonic (no decreases found).
+    business_logic: Count of screen-view events where screen_name LIKE '%promo%', accumulated since first recorded event
+  - name: last_login_days
+    type: INTEGER
+    description: How many days ago they last logged into the app, as observed up to this point in time
+    business_logic: We look at their most recent login event and calculate the difference in days from ts_id
+  - name: event_timestamp
+    type: TIMESTAMP
+    description: Reconstructed snapshot date (ts_id) for this point in time, falling back to ts_id itself if no event timestamp is present
+    business_logic: Taken from the most recent last_segment_timestamp, fallback to ts_id
+tags:
+  domain: customer
+  confidentiality: public
+sql: |-
+  WITH ir_dedup AS (
+      SELECT DISTINCT confins_customer_id
+              ,bfimobile_device_id
+              ,dt
+      FROM    wsdatainnovation.cdp_identity_resolution
+      WHERE   confins_customer_id IS NOT NULL
+      AND     bfimobile_device_id IS NOT NULL
+  )
+  ,bfi_mobile AS (
+      SELECT
+          ir.confins_customer_id
+          ,ej.dt AS ts_id
+          ,COUNT(DISTINCT ej.bfi_device_id) AS number_bfimobile_device
+          ,MAX(
+              DATEDIFF(TO_DATE(ej.dt, 'yyyyMMdd'), CAST(ej.first_install_timestamp AS DATETIME), 'dd')
+          ) AS first_install_days
+          ,MAX(
+              DATEDIFF(TO_DATE(ej.dt, 'yyyyMMdd'), CAST(ej.first_register_timestamp AS DATETIME), 'dd')
+          ) AS first_register_days
+          ,MAX(
+              DATEDIFF(TO_DATE(ej.dt, 'yyyyMMdd'), CAST(ej.first_kyc_timestamp AS DATETIME), 'dd')
+          ) AS first_kyc_days
+          ,MAX(
+              DATEDIFF(TO_DATE(ej.dt, 'yyyyMMdd'), CAST(ej.first_submission_timestamp AS DATETIME), 'dd')
+          ) AS first_submission_days
+          ,SUM(ej.count_notification_l3m) AS count_notification_l3m
+          ,SUM(ej.count_promo_l3m) AS count_promo_l3m
+          ,MAX(ej.last_login_days) AS last_login_days
+          ,MAX(ej.last_segment) AS journey
+          ,MAX(CAST(ej.last_segment_timestamp AS TIMESTAMP)) AS last_segment_timestamp
+      FROM    ir_dedup ir
+      INNER JOIN wsdatainnovation.cdp_mixpanel_event_journey ej
+          ON  ir.bfimobile_device_id = ej.bfi_device_id
+          AND ir.dt = ej.dt
+      WHERE   ej.dt <= '{bizdate}'
+      GROUP BY ir.confins_customer_id
+              ,ej.dt
+  )
+  SELECT
+      confins_customer_id
+      ,number_bfimobile_device
+      ,first_install_days
+      ,first_register_days
+      ,first_kyc_days
+      ,first_submission_days
+      ,journey
+      ,count_notification_l3m
+      ,count_promo_l3m
+      ,last_login_days
+      ,COALESCE(
+          last_segment_timestamp,
+          CAST(TO_DATE(ts_id, 'yyyyMMdd') AS TIMESTAMP)
+      ) AS event_timestamp
+  FROM bfi_mobile

@@ -1,0 +1,5 @@
+name: contract
+field_name: agreement_number
+type: STRING
+description: Identifier for a contract
+business_logic: This comes from agreement_number

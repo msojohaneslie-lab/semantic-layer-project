@@ -1,0 +1,5 @@
+name: lead
+field_name: lead_id
+type: STRING
+description: Identifier for a customer leads
+business_logic: This comes from LOS (lead_id from bpm table), LORA (id from doc master table) & confins_customer_id

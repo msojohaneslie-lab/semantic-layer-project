@@ -1,0 +1,159 @@
+source_type: ODPS
+name: customer_payment_activity_v2
+description: >-
+  Customer payment/installment activity (complete, late, missed, on-time, early counts).
+entity: customer
+feature_fields:
+  - name: confins_customer_id
+    type: STRING
+    description: unique identifier for each customer in BFI's system
+    business_logic: this is the common ID that links all the tables together and allows us to aggregate at customer level
+  - name: complete_payment_count
+    type: INTEGER
+    description: How many installments the customer has paid off, as observed up to this point in time
+    business_logic: Cumulative count of resolved installments (early + on-time + late); strictly non-decreasing
+  - name: late_payment_count
+    type: INTEGER
+    description: How many installments were paid late, as observed up to this point in time
+    business_logic: Cumulative count of installments paid after their due date; strictly non-decreasing
+  - name: late_payment_ratio
+    type: DOUBLE
+    description: What percentage of completed payments were late, as observed up to this point in time
+    business_logic: late_payment_count divided by complete_payment_count (as of this point in time), as a percentage
+  - name: missed_payment_count
+    type: INTEGER
+    description: How many installments are currently past due and unpaid, as of this point in time. This is a current-state gauge, NOT cumulative
+    business_logic: Running count of unresolved past-due installments (delta +1 at duedate if unpaid, -1 at paiddate if paid late); never negative, but can fluctuate
+  - name: on_time_payment_count
+    type: INTEGER
+    description: How many installments were paid exactly on their due date, as observed up to this point in time
+    business_logic: Cumulative count of installments where paiddate = duedate; strictly non-decreasing
+  - name: early_payment_count
+    type: INTEGER
+    description: How many installments were paid before their due date, as observed up to this point in time
+    business_logic: Cumulative count of installments where paiddate < duedate; strictly non-decreasing
+  - name: event_timestamp
+    type: TIMESTAMP
+    description: Reconstructed snapshot date (ts_id) for this point in time
+    business_logic: Derived from the installment duedate/paiddate that anchors this ts_id, falling back to ts_id itself
+tags:
+  domain: customer
+  confidentiality: public
+sql: |-
+  WITH stg_agreement AS
+  (
+      SELECT  agreement_number, application_id, confins_customer_id
+      FROM    (
+                  SELECT  TRIM(agreementno) AS agreement_number
+                          ,applicationid AS application_id
+                          ,TRIM(customerid) AS confins_customer_id
+                          ,ROW_NUMBER() OVER (PARTITION BY agreementno ORDER BY applicationid DESC) AS rn
+                  FROM    wsbfi_2.confins_stg_agreement_odps
+                  WHERE   TRIM(agreementno) <> '-'
+                  AND     golivedate IS NOT NULL
+              ) t
+      WHERE   rn = 1
+  )
+  ,installment AS
+  (
+      SELECT  i.applicationid
+              ,i.insseqno
+              ,CAST(i.duedate AS DATETIME) AS duedate
+              ,CAST(i.paiddate AS DATETIME) AS paiddate
+              ,CASE   WHEN i.paiddate IS NULL THEN 'MISSED'
+                      WHEN i.paiddate < i.duedate THEN 'EARLY'
+                      WHEN i.paiddate = i.duedate THEN 'ONTIME'
+                      ELSE 'LATE'
+              END AS payment_status
+      FROM    wsbfi_2.dwh_ods_installmentschedule_odps i
+      WHERE   CAST(i.duedate AS DATETIME) <= CAST(TO_DATE('{bizdate}','yyyymmdd') AS DATETIME)
+  )
+  ,mapped AS
+  (
+      SELECT  sa.confins_customer_id
+              ,ins.duedate
+              ,ins.paiddate
+              ,ins.payment_status
+      FROM    installment ins
+      INNER JOIN stg_agreement sa
+      ON      CAST(ins.applicationid AS STRING) = sa.application_id
+  )
+  ,events AS
+  (
+      SELECT  confins_customer_id
+              ,TO_CHAR(duedate,'yyyymmdd') AS ts_id
+              ,1 AS delta_missed, 0 AS delta_complete, 0 AS delta_early, 0 AS delta_ontime, 0 AS delta_late
+      FROM    mapped
+      WHERE   payment_status IN ('MISSED','LATE')
+
+      UNION ALL
+
+      SELECT  confins_customer_id
+              ,TO_CHAR(paiddate,'yyyymmdd') AS ts_id
+              ,0 AS delta_missed, 1 AS delta_complete
+              ,CASE WHEN payment_status = 'EARLY' THEN 1 ELSE 0 END AS delta_early
+              ,CASE WHEN payment_status = 'ONTIME' THEN 1 ELSE 0 END AS delta_ontime
+              ,0 AS delta_late
+      FROM    mapped
+      WHERE   payment_status IN ('EARLY','ONTIME')
+
+      UNION ALL
+
+      SELECT  confins_customer_id
+              ,TO_CHAR(paiddate,'yyyymmdd') AS ts_id
+              ,-1 AS delta_missed, 1 AS delta_complete, 0 AS delta_early, 0 AS delta_ontime, 1 AS delta_late
+      FROM    mapped
+      WHERE   payment_status = 'LATE'
+  )
+  ,event_agg AS
+  (
+      SELECT  confins_customer_id
+              ,ts_id
+              ,SUM(delta_missed) AS delta_missed
+              ,SUM(delta_complete) AS delta_complete
+              ,SUM(delta_early) AS delta_early
+              ,SUM(delta_ontime) AS delta_ontime
+              ,SUM(delta_late) AS delta_late
+      FROM    events
+      GROUP BY confins_customer_id, ts_id
+  )
+  ,customer_ts_grid AS
+  (
+      SELECT DISTINCT confins_customer_id, ts_id FROM event_agg
+      UNION ALL
+      SELECT confins_customer_id, '{bizdate}' AS ts_id
+      FROM   (
+                 SELECT confins_customer_id, MAX(ts_id) AS last_ts_id
+                 FROM   event_agg
+                 GROUP BY confins_customer_id
+             ) t
+      WHERE  t.last_ts_id < '{bizdate}'
+  )
+  ,joined AS
+  (
+      SELECT  g.confins_customer_id
+              ,g.ts_id
+              ,COALESCE(ea.delta_missed, 0) AS delta_missed
+              ,COALESCE(ea.delta_complete, 0) AS delta_complete
+              ,COALESCE(ea.delta_early, 0) AS delta_early
+              ,COALESCE(ea.delta_ontime, 0) AS delta_ontime
+              ,COALESCE(ea.delta_late, 0) AS delta_late
+      FROM    (SELECT DISTINCT confins_customer_id, ts_id FROM customer_ts_grid) g
+      LEFT JOIN event_agg ea
+      ON      g.confins_customer_id = ea.confins_customer_id
+      AND     g.ts_id = ea.ts_id
+  )
+  SELECT
+      confins_customer_id
+      ,ts_id
+      ,SUM(delta_complete) OVER (PARTITION BY confins_customer_id ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS complete_payment_count
+      ,SUM(delta_late) OVER (PARTITION BY confins_customer_id ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS late_payment_count
+      ,ROUND(
+          100.0 * SUM(delta_late) OVER (PARTITION BY confins_customer_id ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+          / NULLIF(SUM(delta_complete) OVER (PARTITION BY confins_customer_id ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 0)
+      , 2) AS late_payment_ratio
+      ,SUM(delta_missed) OVER (PARTITION BY confins_customer_id ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS missed_payment_count
+      ,SUM(delta_ontime) OVER (PARTITION BY confins_customer_id ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS on_time_payment_count
+      ,SUM(delta_early) OVER (PARTITION BY confins_customer_id ORDER BY ts_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS early_payment_count
+      ,CAST(TO_DATE(ts_id,'yyyymmdd') AS TIMESTAMP) AS event_timestamp
+  FROM joined

@@ -1,0 +1,6219 @@
+{
+  "name_exact": {
+    "asset_detail_history": [
+      "asset_detail_history.yaml"
+    ],
+    "cdp_collection_record": [
+      "cdp_collection_record.yaml"
+    ],
+    "cdp_loan_behavior_v2": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "cdp_payment_quality": [
+      "cdp_payment_quality.yaml"
+    ],
+    "cdp_phone_history_v2": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "contract_asset_attribute_v2": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "contract_basic_info": [
+      "contract_basic_info.yaml"
+    ],
+    "contract_collection_record_v2": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "customer_mobileapp_behavior_v2": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "customer_model_scoring": [
+      "customer_model_scoring.yaml"
+    ],
+    "customer_payment_activity_v2": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "customer_ro_df_car": [
+      "customer_ro_df_car.yaml"
+    ],
+    "phone_response_summary_v2": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "supplier_lifetime_value_v2": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  "name_words": {
+    "asset": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "detail": [
+      "asset_detail_history.yaml"
+    ],
+    "history": [
+      "asset_detail_history.yaml",
+      "cdp_phone_history_v2.yaml"
+    ],
+    "cdp": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml"
+    ],
+    "collection": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "record": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "loan": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "behavior": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "v2": [
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_payment_activity_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "payment": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "quality": [
+      "cdp_payment_quality.yaml"
+    ],
+    "phone": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "contract": [
+      "contract_asset_attribute_v2.yaml",
+      "contract_basic_info.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "attribute": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "basic": [
+      "contract_basic_info.yaml"
+    ],
+    "info": [
+      "contract_basic_info.yaml"
+    ],
+    "customer": [
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "mobileapp": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "behaviour": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "model": [
+      "customer_model_scoring.yaml"
+    ],
+    "scoring": [
+      "customer_model_scoring.yaml"
+    ],
+    "activity": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "ro": [
+      "customer_ro_df_car.yaml"
+    ],
+    "df": [
+      "customer_ro_df_car.yaml"
+    ],
+    "car": [
+      "customer_ro_df_car.yaml"
+    ],
+    "response": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "summary": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "supplier": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "lifetime": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "value": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  "name_seperated": {
+    "asset detail history": [
+      "asset_detail_history.yaml"
+    ],
+    "cdp collection record": [
+      "cdp_collection_record.yaml"
+    ],
+    "cdp loan behavior v2": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "cdp payment quality": [
+      "cdp_payment_quality.yaml"
+    ],
+    "cdp phone history v2": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "contract asset attribute v2": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "contract basic info": [
+      "contract_basic_info.yaml"
+    ],
+    "contract collection record v2": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "customer mobileapp behaviour v2": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "customer model scoring": [
+      "customer_model_scoring.yaml"
+    ],
+    "customer payment activity v2": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "customer ro df car": [
+      "customer_ro_df_car.yaml"
+    ],
+    "phone response summary v2": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "supplier lifetime value": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  "description": {
+    "historical": [
+      "asset_detail_history.yaml",
+      "cdp_payment_quality.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "and": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "cdp_payment_quality.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "aggregated": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "cdp_payment_quality.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "rolling": [
+      "asset_detail_history.yaml"
+    ],
+    "features": [
+      "asset_detail_history.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "for": [
+      "asset_detail_history.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_phone_history_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "vehicle": [
+      "asset_detail_history.yaml"
+    ],
+    "assets": [
+      "asset_detail_history.yaml"
+    ],
+    "computes": [
+      "asset_detail_history.yaml"
+    ],
+    "averages": [
+      "asset_detail_history.yaml"
+    ],
+    "exponential": [
+      "asset_detail_history.yaml"
+    ],
+    "moving": [
+      "asset_detail_history.yaml"
+    ],
+    "ema": [
+      "asset_detail_history.yaml"
+    ],
+    "exponentially": [
+      "asset_detail_history.yaml"
+    ],
+    "weighted": [
+      "asset_detail_history.yaml"
+    ],
+    "ewm": [
+      "asset_detail_history.yaml"
+    ],
+    "asset": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "prices": [
+      "asset_detail_history.yaml"
+    ],
+    "otr": [
+      "asset_detail_history.yaml"
+    ],
+    "across": [
+      "asset_detail_history.yaml",
+      "cdp_payment_quality.yaml"
+    ],
+    "multiple": [
+      "asset_detail_history.yaml"
+    ],
+    "lookback": [
+      "asset_detail_history.yaml"
+    ],
+    "windows": [
+      "asset_detail_history.yaml",
+      "cdp_payment_quality.yaml"
+    ],
+    "90": [
+      "asset_detail_history.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "days": [
+      "asset_detail_history.yaml"
+    ],
+    "6": [
+      "asset_detail_history.yaml",
+      "cdp_payment_quality.yaml"
+    ],
+    "months": [
+      "asset_detail_history.yaml"
+    ],
+    "as": [
+      "asset_detail_history.yaml",
+      "contract_collection_record_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "well": [
+      "asset_detail_history.yaml"
+    ],
+    "profile": [
+      "asset_detail_history.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "status": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "cdp_payment_quality.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "changes": [
+      "asset_detail_history.yaml"
+    ],
+    "customer": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "collection": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "record": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "including": [
+      "cdp_collection_record.yaml",
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "dpd": [
+      "cdp_collection_record.yaml",
+      "cdp_payment_quality.yaml"
+    ],
+    "default": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "inventory": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "repossession": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "per": [
+      "cdp_collection_record.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "loan": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "behavior": [
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "eg": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "representative": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "of": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "tenor": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ltv": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "osp": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "etc": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "each": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "feature": [
+      "cdp_payment_quality.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "view": [
+      "cdp_payment_quality.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "providing": [
+      "cdp_payment_quality.yaml"
+    ],
+    "payment": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "metrics": [
+      "cdp_payment_quality.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "tracking": [
+      "cdp_payment_quality.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "3": [
+      "cdp_payment_quality.yaml"
+    ],
+    "month": [
+      "cdp_payment_quality.yaml"
+    ],
+    "all": [
+      "cdp_payment_quality.yaml"
+    ],
+    "time": [
+      "cdp_payment_quality.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_payment_activity_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "based": [
+      "cdp_payment_quality.yaml"
+    ],
+    "on": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "combined": [
+      "cdp_payment_quality.yaml"
+    ],
+    "cdp": [
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml"
+    ],
+    "data": [
+      "cdp_payment_quality.yaml",
+      "contract_collection_record_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "phone": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "call": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "history": [
+      "cdp_phone_history_v2.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "incl": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wa": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "business": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "users": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "attributes": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "at": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "the": [
+      "contract_asset_attribute_v2.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract": [
+      "contract_asset_attribute_v2.yaml",
+      "contract_basic_info.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "level": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "negative": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "list": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "flag": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "agreement": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "basic": [
+      "contract_basic_info.yaml"
+    ],
+    "info": [
+      "contract_basic_info.yaml"
+    ],
+    "ever30": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "60": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "fid": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "reconstructed": [
+      "contract_collection_record_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "a": [
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "point": [
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "in": [
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "series": [
+      "contract_collection_record_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "ts_id": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "combines": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "two": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "sources": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "cdp_loan": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "s": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "origination": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "date": [
+      "contract_collection_record_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "real": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "back": [
+      "contract_collection_record_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "to": [
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "1993": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "cdp_collection": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "daily": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "delinquency": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "only": [
+      "contract_collection_record_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "from": [
+      "contract_collection_record_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "april": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "2026": [
+      "contract_collection_record_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "onward": [
+      "contract_collection_record_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "counters": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "0": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "not": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "null": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "before": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "existed": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "since": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "genuinely": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "has": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "zero": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "events": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "until": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "then": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "bfi": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "mobile": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "app": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "usage": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "journey": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "v2": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "migrated": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "reconstruction": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "also": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "fixes": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "duplicate": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "row": [
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "bug": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "cdp_identity_resolution": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "present": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "v1": [
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "too": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "that": [
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "was": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "inflating": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "count_notification_l3m": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "count_promo_l3m": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "credit": [
+      "customer_model_scoring.yaml"
+    ],
+    "risk": [
+      "customer_model_scoring.yaml"
+    ],
+    "score": [
+      "customer_model_scoring.yaml"
+    ],
+    "installment": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "activity": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "complete": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "late": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "missed": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "early": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "counts": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "follow": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "up": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "response": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "statistics": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "phone_number": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "one": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "observed": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "following": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "same": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "architecture": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "cdp_phone_history_v2": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "note": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "wab": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "source": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "covers": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "january": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "so": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "reflect": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "window": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "even": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "though": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "table": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "spans": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "2017": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "coverage": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "includes": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "numbers": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "tied": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "lora": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "channel": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "applications": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "inherited": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "capturing": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "comprehensive": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "behavioral": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "lifetime": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "performance": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "value": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "suppliers": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  "entity": {
+    "asset_code": [
+      "asset_detail_history.yaml"
+    ],
+    "customer_cdp": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml"
+    ],
+    "contract": [
+      "contract_asset_attribute_v2.yaml",
+      "contract_basic_info.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "customer": [
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "phone": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "supplier": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  "domain": {},
+  "tags": {
+    "domain": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_basic_info.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "confidentiality": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  "ttl": {
+    "3650d": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "10 years": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "7300d": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml"
+    ],
+    "20 years": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml"
+    ],
+    "5500d": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "15.07 years": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  "field_exact": {
+    "asset_id": [
+      "asset_detail_history.yaml"
+    ],
+    "asset_code": [
+      "asset_detail_history.yaml"
+    ],
+    "agreement_number": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "asset_seq_no": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "otr_price": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "row_idx": [
+      "asset_detail_history.yaml"
+    ],
+    "lag_month": [
+      "asset_detail_history.yaml"
+    ],
+    "asset_type": [
+      "asset_detail_history.yaml"
+    ],
+    "bpkb_ownership": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "bpkb_status": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "brand": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "stnk_status": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "tax_status": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "vehicle_category": [
+      "asset_detail_history.yaml"
+    ],
+    "vehicle_category_nunique": [
+      "asset_detail_history.yaml"
+    ],
+    "description_changed": [
+      "asset_detail_history.yaml"
+    ],
+    "manufacturing_changed": [
+      "asset_detail_history.yaml"
+    ],
+    "manufacturing_newer": [
+      "asset_detail_history.yaml"
+    ],
+    "manufacturing_older": [
+      "asset_detail_history.yaml"
+    ],
+    "manufacturing_year": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "otr_rolling_mean_m3": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_rolling_median_m3": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_rolling_std_m3": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_rolling_mean_m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_rolling_median_m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_rolling_std_m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ema_v0_m3": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ema_v0_m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ema_v0_y1": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ema_v1_m3": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ema_v1_m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ema_v1_y1": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ewm_base_m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ewm_fast_m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ewm_slow_m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ewm_base_y1": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ewm_fast_y1": [
+      "asset_detail_history.yaml"
+    ],
+    "otr_ewm_slow_y1": [
+      "asset_detail_history.yaml"
+    ],
+    "asset_count": [
+      "asset_detail_history.yaml"
+    ],
+    "contract_count": [
+      "asset_detail_history.yaml"
+    ],
+    "event_timestamp": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "cdp_uid": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "fid": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "max_dpd": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "max_dpd_last_1_month": [
+      "cdp_collection_record.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "max_dpd_last_3_month": [
+      "cdp_collection_record.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "latest_collection_effectiveness": [
+      "cdp_collection_record.yaml"
+    ],
+    "latest_persona": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "lor_gor_amount": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "max_bucket": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "number_ever30": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "number_ever60": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "number_ever90": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "default_status": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "wo_contract": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "npl_contract": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "collection_expenses": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "max_days_overdue_tolerance": [
+      "cdp_collection_record.yaml"
+    ],
+    "ba_commission_max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ba_commission_mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "contract_active_2w_count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "contract_active_4w_count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "contract_active_count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "contract_inactive_count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "credit_utilization_ratio": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "customer_vintage_year": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "fee_admin_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "fee_insurance_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "fee_legal_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "fee_other_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "fee_provision_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "interest_rate_max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "interest_rate_min": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "interest_rate_mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "interest_rate_var": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "interest_undue_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "latest_closed_recency_days": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ltv_mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "mob_last": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_capitalized_max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_capitalized_mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_capitalized_std": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_capitalized_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_contract_active_max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_contract_active_mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_contract_active_std": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_contract_active_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_pengajuan_max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_pengajuan_mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_pengajuan_std": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf_pengajuan_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "osp_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "parent_agreement": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "parent_agreement_branch_active": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "parent_agreement_day_tolerance": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "parent_agreement_fiducia": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "parent_agreement_financing": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "potong_funding_count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "product_first": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "product_last": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "product_most": [
+      "cdp_loan_behavior_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "product_nunique": [
+      "cdp_loan_behavior_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "remaining_installment_count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "soa_first": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "soa_last": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "soa_nunique": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "takeover_count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "tenor_last": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "tenor_max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "tenor_min": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "tenor_most": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "way_financing_first": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "way_financing_last": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "way_financing_most": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "way_financing_nunique": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "last_principle_amount_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "late_charge_amount_total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "otr_loan_mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ontime_payment_ratio_first_3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "paid_ratio_first_3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "avg_dpd_first_3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "max_dpd_first_3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count_dpd_01_15_first_3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count_dpd_16_30_first_3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count_dpd_30plus_first_3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "ontime_payment_ratio_first_6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "paid_ratio_first_6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "avg_dpd_first_6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "max_dpd_first_6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count_dpd_01_15_first_6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count_dpd_16_30_first_6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count_dpd_30plus_first_6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "avg_dpd_alltime": [
+      "cdp_payment_quality.yaml"
+    ],
+    "max_dpd_alltime": [
+      "cdp_payment_quality.yaml"
+    ],
+    "ontime_payment_ratio_alltime": [
+      "cdp_payment_quality.yaml"
+    ],
+    "paid_ratio_alltime": [
+      "cdp_payment_quality.yaml"
+    ],
+    "complete_payment_count": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "late_payment_count": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "late_payment_ratio": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "missed_payment_count": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "ondue_payment_count": [
+      "cdp_payment_quality.yaml"
+    ],
+    "earlier_payment_count": [
+      "cdp_payment_quality.yaml"
+    ],
+    "ongoing_installment": [
+      "cdp_payment_quality.yaml"
+    ],
+    "start_timestamp": [
+      "cdp_payment_quality.yaml"
+    ],
+    "complete_count_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "late_count_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "missed_count_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "ontime_count_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "early_count_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "consecutive_count_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "event_timestamp_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "complete_ratio_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "late_ratio_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "early_ratio_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "missed_ratio_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "ontime_ratio_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "consecutive_ratio_precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "bfi_response_sla_creating_schedule_median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "bfi_response_sla_median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "bfi_response_sla_ops_creating_schedule_median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "bfi_response_sla_ops_median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "call_answered_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "call_attempt_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "call_timespent_minute_median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "call_timespent_minute_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "call_unanswered_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "creating_schedule_follow_up_received_flag_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "creating_schedule_follow_up_received_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_attend_flag_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_attend_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_auto_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_cancel_flag_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_cancel_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_creating_schedule_auto_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_creating_schedule_flag_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_creating_schedule_manual_free_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_creating_schedule_manual_template_1_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_creating_schedule_manual_template_2_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_creating_schedule_manual_template_3_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_creating_schedule_manual_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_creating_schedule_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_flag_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_manual_free_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_manual_template_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_manual_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_reschedule_flag_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_reschedule_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_sla_creating_schedule_median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_sla_median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer_response_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "error_most": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first_call_days_ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first_customer_response_creating_schedule_days_ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first_customer_response_days_ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first_follow_up_creating_schedule_days_ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first_follow_up_days_ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first_time_initiate_appointment_days_ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow_up_creating_schedule_flag_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow_up_creating_schedule_flag_group_1_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow_up_creating_schedule_flag_group_2_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow_up_flag_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow_up_flag_group_1_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow_up_flag_group_2_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow_up_received_flag_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow_up_received_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "last_conversation_days_ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "last_conversation_on_side": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "last_wab_sent_days_ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_creating_schedule_auto_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_creating_schedule_manual_free_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_creating_schedule_manual_template_1_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_creating_schedule_manual_template_2_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_creating_schedule_manual_template_3_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_creating_schedule_manual_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_creating_schedule_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_follow_up_auto_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_follow_up_manual_free_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_follow_up_manual_template_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_follow_up_manual_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message_follow_up_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "phone_age_max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "phone_age_min": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "phone_count": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "response_total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab_deliver_l3m_rate": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab_read_l3m_count": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab_read_l3m_rate": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab_read_per_delivered_l3m_rate": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab_reply_l3m_count": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab_reply_l3m_rate": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab_sent_l3m_count": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab_submit_l3m_rate": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "asset_age_newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset_code_nunique": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset_condition_newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset_negative_list_flag_max": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset_price_max": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset_price_newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset_price_std": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset_seqno_count": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset_usage_newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset_validation_days_ago": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "bpkb_ownership_newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "bpkb_status_newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "brand_newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "product_type_newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "stnk_date_days_ago": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "stnk_status_newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "sub_category_newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "tax_status_newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "tenor": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "ltv": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "ntf_amount": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "outstanding_interest_due": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "remaining_installment_number": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "inventory": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "repossess": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "latest_collection_effect": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "confins_customer_id": [
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "number_bfimobile_device": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "first_install_days": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "first_register_days": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "first_kyc_days": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "first_submission_days": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "journey": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "count_notification_l3m": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "count_promo_l3m": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "last_login_days": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "risk_score": [
+      "customer_model_scoring.yaml"
+    ],
+    "on_time_payment_count": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "early_payment_count": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "application_id": [
+      "customer_ro_df_car.yaml"
+    ],
+    "productname": [
+      "customer_ro_df_car.yaml"
+    ],
+    "productgroup": [
+      "customer_ro_df_car.yaml"
+    ],
+    "prev_contract": [
+      "customer_ro_df_car.yaml"
+    ],
+    "next_contract": [
+      "customer_ro_df_car.yaml"
+    ],
+    "upper_time_limit": [
+      "customer_ro_df_car.yaml"
+    ],
+    "main_branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "sub_branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "collection_effectiveness": [
+      "customer_ro_df_car.yaml"
+    ],
+    "ever_30": [
+      "customer_ro_df_car.yaml"
+    ],
+    "ever_60": [
+      "customer_ro_df_car.yaml"
+    ],
+    "ever_90": [
+      "customer_ro_df_car.yaml"
+    ],
+    "prev_bucket": [
+      "customer_ro_df_car.yaml"
+    ],
+    "latest_bucket": [
+      "customer_ro_df_car.yaml"
+    ],
+    "dpd": [
+      "customer_ro_df_car.yaml"
+    ],
+    "repossess_date": [
+      "customer_ro_df_car.yaml"
+    ],
+    "inventory_date": [
+      "customer_ro_df_car.yaml"
+    ],
+    "settlement_date": [
+      "customer_ro_df_car.yaml"
+    ],
+    "amount_due": [
+      "customer_ro_df_car.yaml"
+    ],
+    "collection_created": [
+      "customer_ro_df_car.yaml"
+    ],
+    "collection_updated": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer_age": [
+      "customer_ro_df_car.yaml"
+    ],
+    "age_precomputed": [
+      "customer_ro_df_car.yaml"
+    ],
+    "monthly_income": [
+      "customer_ro_df_car.yaml"
+    ],
+    "home_status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "home_location": [
+      "customer_ro_df_car.yaml"
+    ],
+    "stay_since_year": [
+      "customer_ro_df_car.yaml"
+    ],
+    "length_of_stay_year": [
+      "customer_ro_df_car.yaml"
+    ],
+    "occupation_type": [
+      "customer_ro_df_car.yaml"
+    ],
+    "education": [
+      "customer_ro_df_car.yaml"
+    ],
+    "marital_status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "dependent_number": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer_profession": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer_economy_sector": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer_industry_type_group": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer_purpose": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer_status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "duration_of_work": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer_rating": [
+      "customer_ro_df_car.yaml"
+    ],
+    "lead_created": [
+      "customer_ro_df_car.yaml"
+    ],
+    "lead_updated": [
+      "customer_ro_df_car.yaml"
+    ],
+    "admin_fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "fiducia_fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "provision_fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "survey_fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "other_fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "life_insurance_coverage": [
+      "customer_ro_df_car.yaml"
+    ],
+    "life_insurance_premium": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset_insurance_premium": [
+      "customer_ro_df_car.yaml"
+    ],
+    "way_of_financing": [
+      "customer_ro_df_car.yaml"
+    ],
+    "marketing1_id": [
+      "customer_ro_df_car.yaml"
+    ],
+    "marketing_name": [
+      "customer_ro_df_car.yaml"
+    ],
+    "soa": [
+      "customer_ro_df_car.yaml"
+    ],
+    "funding_amount": [
+      "customer_ro_df_car.yaml"
+    ],
+    "interest_rate": [
+      "customer_ro_df_car.yaml"
+    ],
+    "mature_at": [
+      "customer_ro_df_car.yaml"
+    ],
+    "rrd_date": [
+      "customer_ro_df_car.yaml"
+    ],
+    "ba_commision": [
+      "customer_ro_df_car.yaml"
+    ],
+    "loan_inserted": [
+      "customer_ro_df_car.yaml"
+    ],
+    "outstanding_principal": [
+      "customer_ro_df_car.yaml"
+    ],
+    "contract_status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "active_status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "fiducia_validation_status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "consecutive_late_count": [
+      "customer_ro_df_car.yaml"
+    ],
+    "consecutive_late_ratio": [
+      "customer_ro_df_car.yaml"
+    ],
+    "prepayment_count": [
+      "customer_ro_df_car.yaml"
+    ],
+    "prepayment_amount": [
+      "customer_ro_df_car.yaml"
+    ],
+    "payment_created": [
+      "customer_ro_df_car.yaml"
+    ],
+    "payment_updated": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset_registered": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset_category": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset_condition": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset_usage": [
+      "customer_ro_df_car.yaml"
+    ],
+    "sub_category": [
+      "customer_ro_df_car.yaml"
+    ],
+    "product_type": [
+      "customer_ro_df_car.yaml"
+    ],
+    "num_of_asset_owned": [
+      "customer_ro_df_car.yaml"
+    ],
+    "owner_relationship": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo_profile_total_installment": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo_profile_max_collection_last_12_month": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo_profile_pefindo_detail_scoring_type": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo_profile_pefindo_detail_customer_grade": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo_created": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo_updated": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierid": [
+      "customer_ro_df_car.yaml"
+    ],
+    "insrefundtosupplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "insrefundtosupplierpaid": [
+      "customer_ro_df_car.yaml"
+    ],
+    "insrefundtosupplierinprocess": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierrate": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierinvoicedate": [
+      "customer_ro_df_car.yaml"
+    ],
+    "isincentivesupplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierflatrate": [
+      "customer_ro_df_car.yaml"
+    ],
+    "suppliername": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_kelurahan_mailing_reference": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_kecamatan_mailing_reference": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_city_mailing_reference": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_zipcode_mailing_reference": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_kelurahan_mailing_supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_kecamatan_mailing_supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_city_mailing_supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_kelurahan_reference_supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_kecamatan_reference_supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_city_reference_supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_city_mailing_branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_zipcode_mailing_branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_city_reference_branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_zipcode_reference_branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_kelurahan_customerlead_supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_kecamatan_customerlead_supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_city_customerlead_branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is_same_zipcode_customerlead_branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "total_fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset_age": [
+      "customer_ro_df_car.yaml"
+    ],
+    "idx": [
+      "customer_ro_df_car.yaml"
+    ],
+    "phone_number": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first_call_days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_call_attempt": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_call_answered": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_call_unanswered": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median_call_timespent_minute": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_call_timespent_minute": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first_follow_up_creating_schedule_days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_creating_schedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "creating_schedule_follow_up_received": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_creating_schedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_creating_schedule_auto": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_creating_schedule_auto": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_creating_schedule_manual": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_creating_schedule_manual": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_creating_schedule_manual_template_1": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_creating_schedule_manual_template_1": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_creating_schedule_manual_template_2": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_creating_schedule_manual_template_2": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_creating_schedule_manual_template_3": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_creating_schedule_manual_template_3": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_creating_schedule_manual_free": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_creating_schedule_manual_free": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median_bfi_response_sla_creating_schedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median_bfi_response_sla_ops_creating_schedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median_customer_response_sla_creating_schedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first_customer_response_creating_schedule_days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first_follow_up_days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_follow_up": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow_up_received": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_follow_up_auto": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_auto": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_follow_up_manual": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_manual": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_follow_up_manual_template": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_manual_template": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_message_follow_up_manual_free": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_manual_free": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_attend": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_reschedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_customer_response_cancel": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median_bfi_response_sla": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median_bfi_response_sla_ops": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median_customer_response_sla": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first_customer_response_days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "last_conversation_days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "most_frequent_error": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow_up_creating_schedule_flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow_up_creating_schedule_flag_group_1": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow_up_creating_schedule_flag_group_2": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "creating_schedule_follow_up_received_flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "customer_response_creating_schedule_flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow_up_flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow_up_flag_group_1": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow_up_flag_group_2": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow_up_received_flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "customer_response_flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "customer_response_attend_flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "customer_response_reschedule_flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "customer_response_cancel_flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first_time_initiate_appointment_days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total_response": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "supplier_id": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "beforeexpired_days_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "beforeexpired_days_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "beforeexpired_days_median": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "beforeexpired_days_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "business_npwp_most": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "business_ownership_most": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract_npl_count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract_release_count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract_wo_count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditreview_waiting_time_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditreview_waiting_time_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditreview_waiting_time_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditreview_waiting_time_std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditscoring_waiting_time_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditscoring_waiting_time_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditscoring_waiting_time_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditscoring_waiting_time_std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "delivery_to_purchase_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "delivery_to_purchase_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "delivery_to_purchase_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "delivery_to_purchase_std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "earliest_checkin_time": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entry_lifeinsurance_count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entrydata_process_time_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entrydata_process_time_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entrydata_process_time_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entrydata_process_time_std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "flat_rate_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "flat_rate_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "flat_rate_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "harvest_day_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "harvest_day_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "harvest_day_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "harvest_day_median": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "isautomotive_first": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "isautomotive_last": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "isautomotive_modified": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "kecamatan_match_count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "kelurahan_match_count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "kota_match_count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_experience_anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_experience_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_experience_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_experience_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_partnership_anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_partnership_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_partnership_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_partnership_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mailing_kecamatan_most": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mailing_kecamatan_nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mailing_kota_most": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mailing_kota_nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "number_of_contract": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "number_of_updates": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "pdc_promised_count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "percentage_reward_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "percentage_reward_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "percentage_supplier_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "percentage_supplier_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "rca_waiting_time_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "rca_waiting_time_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "rca_waiting_time_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "rca_waiting_time_std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "return_days_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "return_days_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "return_days_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "return_days_std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_location_first": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_location_last": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_location_modified": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_ownerage_anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_ownerage_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_ownerage_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_ownerage_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_ownership_first": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_ownership_last": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_ownership_modified": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk_region": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk_supplier": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk_supplier_category": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_assetstatus_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_assetstatus_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_assetstatus_nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_group": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_industry_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_industry_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_industry_nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_kecamatan": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_kelurahan": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_kota": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_level_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_level_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_level_nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_name": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_npwp": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_npwp_nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_potency_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_potency_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_potency_nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_rate_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_rate_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_rate_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_size_first": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_size_last": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_size_modified": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_status_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_status_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_status_nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplierinvoice_days_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplierinvoice_days_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplierinvoice_days_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplierinvoice_days_std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "survey_waiting_time_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "survey_waiting_time_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "survey_waiting_time_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "survey_waiting_time_std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time_lcinstallmentcalc_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time_lcinstallmentcalc_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time_lcinstallmentcalc_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time_lcinstallmentcalc_std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time_mature_max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time_mature_mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time_mature_min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time_mature_std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "total_sales_anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "total_sales_first": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "total_sales_last": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "total_sales_median": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  "field_seperated": {
+    "asset id": [
+      "asset_detail_history.yaml"
+    ],
+    "asset code": [
+      "asset_detail_history.yaml"
+    ],
+    "agreement number": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "asset seq no": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "otr price": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "row idx": [
+      "asset_detail_history.yaml"
+    ],
+    "lag month": [
+      "asset_detail_history.yaml"
+    ],
+    "asset type": [
+      "asset_detail_history.yaml"
+    ],
+    "bpkb ownership": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "bpkb status": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "brand": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "stnk status": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "tax status": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "vehicle category": [
+      "asset_detail_history.yaml"
+    ],
+    "vehicle category nunique": [
+      "asset_detail_history.yaml"
+    ],
+    "description changed": [
+      "asset_detail_history.yaml"
+    ],
+    "manufacturing changed": [
+      "asset_detail_history.yaml"
+    ],
+    "manufacturing newer": [
+      "asset_detail_history.yaml"
+    ],
+    "manufacturing older": [
+      "asset_detail_history.yaml"
+    ],
+    "manufacturing year": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "otr rolling mean m3": [
+      "asset_detail_history.yaml"
+    ],
+    "otr rolling median m3": [
+      "asset_detail_history.yaml"
+    ],
+    "otr rolling std m3": [
+      "asset_detail_history.yaml"
+    ],
+    "otr rolling mean m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr rolling median m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr rolling std m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ema v0 m3": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ema v0 m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ema v0 y1": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ema v1 m3": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ema v1 m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ema v1 y1": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ewm base m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ewm fast m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ewm slow m6": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ewm base y1": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ewm fast y1": [
+      "asset_detail_history.yaml"
+    ],
+    "otr ewm slow y1": [
+      "asset_detail_history.yaml"
+    ],
+    "asset count": [
+      "asset_detail_history.yaml"
+    ],
+    "contract count": [
+      "asset_detail_history.yaml"
+    ],
+    "event timestamp": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "cdp uid": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "fid": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "max dpd": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "max dpd last 1 month": [
+      "cdp_collection_record.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "max dpd last 3 month": [
+      "cdp_collection_record.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "latest collection effectiveness": [
+      "cdp_collection_record.yaml"
+    ],
+    "latest persona": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "lor gor amount": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "max bucket": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "number ever30": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "number ever60": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "number ever90": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "default status": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "wo contract": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "npl contract": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "collection expenses": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "max days overdue tolerance": [
+      "cdp_collection_record.yaml"
+    ],
+    "ba commission max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ba commission mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "contract active 2w count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "contract active 4w count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "contract active count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "contract inactive count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "credit utilization ratio": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "customer vintage year": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "fee admin total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "fee insurance total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "fee legal total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "fee other total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "fee provision total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "interest rate max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "interest rate min": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "interest rate mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "interest rate var": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "interest undue total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "latest closed recency days": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ltv mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "mob last": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf capitalized max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf capitalized mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf capitalized std": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf capitalized total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf contract active max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf contract active mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf contract active std": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf contract active total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf pengajuan max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf pengajuan mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf pengajuan std": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf pengajuan total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "osp total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "parent agreement": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "parent agreement branch active": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "parent agreement day tolerance": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "parent agreement fiducia": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "parent agreement financing": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "potong funding count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "product first": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "product last": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "product most": [
+      "cdp_loan_behavior_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "product nunique": [
+      "cdp_loan_behavior_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "remaining installment count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "soa first": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "soa last": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "soa nunique": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "takeover count": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "tenor last": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "tenor max": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "tenor min": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "tenor most": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "way financing first": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "way financing last": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "way financing most": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "way financing nunique": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "last principle amount total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "late charge amount total": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "otr loan mean": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ontime payment ratio first 3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "paid ratio first 3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "avg dpd first 3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "max dpd first 3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count dpd 01 15 first 3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count dpd 16 30 first 3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count dpd 30plus first 3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "ontime payment ratio first 6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "paid ratio first 6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "avg dpd first 6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "max dpd first 6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count dpd 01 15 first 6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count dpd 16 30 first 6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "count dpd 30plus first 6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "avg dpd alltime": [
+      "cdp_payment_quality.yaml"
+    ],
+    "max dpd alltime": [
+      "cdp_payment_quality.yaml"
+    ],
+    "ontime payment ratio alltime": [
+      "cdp_payment_quality.yaml"
+    ],
+    "paid ratio alltime": [
+      "cdp_payment_quality.yaml"
+    ],
+    "complete payment count": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "late payment count": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "late payment ratio": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "missed payment count": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "ondue payment count": [
+      "cdp_payment_quality.yaml"
+    ],
+    "earlier payment count": [
+      "cdp_payment_quality.yaml"
+    ],
+    "ongoing installment": [
+      "cdp_payment_quality.yaml"
+    ],
+    "start timestamp": [
+      "cdp_payment_quality.yaml"
+    ],
+    "complete count precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "late count precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "missed count precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "ontime count precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "early count precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "consecutive count precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "event timestamp precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "complete ratio precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "late ratio precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "early ratio precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "missed ratio precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "ontime ratio precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "consecutive ratio precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "bfi response sla creating schedule median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "bfi response sla median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "bfi response sla ops creating schedule median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "bfi response sla ops median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "call answered total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "call attempt total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "call timespent minute median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "call timespent minute total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "call unanswered total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "creating schedule follow up received flag max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "creating schedule follow up received total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response attend flag max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response attend total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response auto total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response cancel flag max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response cancel total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response creating schedule auto total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response creating schedule flag max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response creating schedule manual free total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response creating schedule manual template 1 total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response creating schedule manual template 2 total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response creating schedule manual template 3 total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response creating schedule manual total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response creating schedule total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response flag max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response manual free total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response manual template total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response manual total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response reschedule flag max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response reschedule total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response sla creating schedule median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response sla median": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "customer response total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "error most": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first call days ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first customer response creating schedule days ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first customer response days ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first follow up creating schedule days ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first follow up days ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "first time initiate appointment days ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow up creating schedule flag max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow up creating schedule flag group 1 max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow up creating schedule flag group 2 max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow up flag max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow up flag group 1 max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow up flag group 2 max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow up received flag max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "follow up received total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "last conversation days ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "last conversation on side": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "last wab sent days ago": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message creating schedule auto total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message creating schedule manual free total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message creating schedule manual template 1 total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message creating schedule manual template 2 total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message creating schedule manual template 3 total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message creating schedule manual total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message creating schedule total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message follow up auto total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message follow up manual free total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message follow up manual template total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message follow up manual total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message follow up total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "phone age max": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "phone age min": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "phone count": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "response total": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab deliver l3m rate": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab read l3m count": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab read l3m rate": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab read per delivered l3m rate": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab reply l3m count": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab reply l3m rate": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab sent l3m count": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab submit l3m rate": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "asset age newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset code nunique": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset condition newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset negative list flag max": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset price max": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset price newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset price std": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset seqno count": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset usage newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "asset validation days ago": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "bpkb ownership newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "bpkb status newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "brand newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "product type newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "stnk date days ago": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "stnk status newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "sub category newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "tax status newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "tenor": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "ltv": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "ntf amount": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "outstanding interest due": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "remaining installment number": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "inventory": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "repossess": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "latest collection effect": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "confins customer id": [
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "number bfimobile device": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "first install days": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "first register days": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "first kyc days": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "first submission days": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "journey": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "count notification l3m": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "count promo l3m": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "last login days": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "risk score": [
+      "customer_model_scoring.yaml"
+    ],
+    "on time payment count": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "early payment count": [
+      "customer_payment_activity_v2.yaml"
+    ],
+    "application id": [
+      "customer_ro_df_car.yaml"
+    ],
+    "productname": [
+      "customer_ro_df_car.yaml"
+    ],
+    "productgroup": [
+      "customer_ro_df_car.yaml"
+    ],
+    "prev contract": [
+      "customer_ro_df_car.yaml"
+    ],
+    "next contract": [
+      "customer_ro_df_car.yaml"
+    ],
+    "upper time limit": [
+      "customer_ro_df_car.yaml"
+    ],
+    "main branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "sub branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "collection effectiveness": [
+      "customer_ro_df_car.yaml"
+    ],
+    "ever 30": [
+      "customer_ro_df_car.yaml"
+    ],
+    "ever 60": [
+      "customer_ro_df_car.yaml"
+    ],
+    "ever 90": [
+      "customer_ro_df_car.yaml"
+    ],
+    "prev bucket": [
+      "customer_ro_df_car.yaml"
+    ],
+    "latest bucket": [
+      "customer_ro_df_car.yaml"
+    ],
+    "dpd": [
+      "customer_ro_df_car.yaml"
+    ],
+    "repossess date": [
+      "customer_ro_df_car.yaml"
+    ],
+    "inventory date": [
+      "customer_ro_df_car.yaml"
+    ],
+    "settlement date": [
+      "customer_ro_df_car.yaml"
+    ],
+    "amount due": [
+      "customer_ro_df_car.yaml"
+    ],
+    "collection created": [
+      "customer_ro_df_car.yaml"
+    ],
+    "collection updated": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer age": [
+      "customer_ro_df_car.yaml"
+    ],
+    "age precomputed": [
+      "customer_ro_df_car.yaml"
+    ],
+    "monthly income": [
+      "customer_ro_df_car.yaml"
+    ],
+    "home status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "home location": [
+      "customer_ro_df_car.yaml"
+    ],
+    "stay since year": [
+      "customer_ro_df_car.yaml"
+    ],
+    "length of stay year": [
+      "customer_ro_df_car.yaml"
+    ],
+    "occupation type": [
+      "customer_ro_df_car.yaml"
+    ],
+    "education": [
+      "customer_ro_df_car.yaml"
+    ],
+    "marital status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "dependent number": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer profession": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer economy sector": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer industry type group": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer purpose": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "duration of work": [
+      "customer_ro_df_car.yaml"
+    ],
+    "customer rating": [
+      "customer_ro_df_car.yaml"
+    ],
+    "lead created": [
+      "customer_ro_df_car.yaml"
+    ],
+    "lead updated": [
+      "customer_ro_df_car.yaml"
+    ],
+    "admin fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "fiducia fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "provision fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "survey fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "other fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "life insurance coverage": [
+      "customer_ro_df_car.yaml"
+    ],
+    "life insurance premium": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset insurance premium": [
+      "customer_ro_df_car.yaml"
+    ],
+    "way of financing": [
+      "customer_ro_df_car.yaml"
+    ],
+    "marketing1 id": [
+      "customer_ro_df_car.yaml"
+    ],
+    "marketing name": [
+      "customer_ro_df_car.yaml"
+    ],
+    "soa": [
+      "customer_ro_df_car.yaml"
+    ],
+    "funding amount": [
+      "customer_ro_df_car.yaml"
+    ],
+    "interest rate": [
+      "customer_ro_df_car.yaml"
+    ],
+    "mature at": [
+      "customer_ro_df_car.yaml"
+    ],
+    "rrd date": [
+      "customer_ro_df_car.yaml"
+    ],
+    "ba commision": [
+      "customer_ro_df_car.yaml"
+    ],
+    "loan inserted": [
+      "customer_ro_df_car.yaml"
+    ],
+    "outstanding principal": [
+      "customer_ro_df_car.yaml"
+    ],
+    "contract status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "active status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "fiducia validation status": [
+      "customer_ro_df_car.yaml"
+    ],
+    "consecutive late count": [
+      "customer_ro_df_car.yaml"
+    ],
+    "consecutive late ratio": [
+      "customer_ro_df_car.yaml"
+    ],
+    "prepayment count": [
+      "customer_ro_df_car.yaml"
+    ],
+    "prepayment amount": [
+      "customer_ro_df_car.yaml"
+    ],
+    "payment created": [
+      "customer_ro_df_car.yaml"
+    ],
+    "payment updated": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset registered": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset category": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset condition": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset usage": [
+      "customer_ro_df_car.yaml"
+    ],
+    "sub category": [
+      "customer_ro_df_car.yaml"
+    ],
+    "product type": [
+      "customer_ro_df_car.yaml"
+    ],
+    "num of asset owned": [
+      "customer_ro_df_car.yaml"
+    ],
+    "owner relationship": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo profile total installment": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo profile max collection last 12 month": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo profile pefindo detail scoring type": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo profile pefindo detail customer grade": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo created": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo updated": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierid": [
+      "customer_ro_df_car.yaml"
+    ],
+    "insrefundtosupplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "insrefundtosupplierpaid": [
+      "customer_ro_df_car.yaml"
+    ],
+    "insrefundtosupplierinprocess": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierrate": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierinvoicedate": [
+      "customer_ro_df_car.yaml"
+    ],
+    "isincentivesupplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierflatrate": [
+      "customer_ro_df_car.yaml"
+    ],
+    "suppliername": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same kelurahan mailing reference": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same kecamatan mailing reference": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same city mailing reference": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same zipcode mailing reference": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same kelurahan mailing supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same kecamatan mailing supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same city mailing supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same kelurahan reference supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same kecamatan reference supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same city reference supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same city mailing branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same zipcode mailing branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same city reference branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same zipcode reference branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same kelurahan customerlead supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same kecamatan customerlead supplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same city customerlead branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is same zipcode customerlead branch": [
+      "customer_ro_df_car.yaml"
+    ],
+    "total fee": [
+      "customer_ro_df_car.yaml"
+    ],
+    "asset age": [
+      "customer_ro_df_car.yaml"
+    ],
+    "idx": [
+      "customer_ro_df_car.yaml"
+    ],
+    "phone number": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first call days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total call attempt": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total call answered": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total call unanswered": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median call timespent minute": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total call timespent minute": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first follow up creating schedule days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message creating schedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "creating schedule follow up received": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response creating schedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message creating schedule auto": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response creating schedule auto": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message creating schedule manual": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response creating schedule manual": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message creating schedule manual template 1": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response creating schedule manual template 1": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message creating schedule manual template 2": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response creating schedule manual template 2": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message creating schedule manual template 3": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response creating schedule manual template 3": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message creating schedule manual free": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response creating schedule manual free": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median bfi response sla creating schedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median bfi response sla ops creating schedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median customer response sla creating schedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first customer response creating schedule days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first follow up days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message follow up": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow up received": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message follow up auto": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response auto": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message follow up manual": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response manual": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message follow up manual template": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response manual template": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total message follow up manual free": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response manual free": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response attend": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response reschedule": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total customer response cancel": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median bfi response sla": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median bfi response sla ops": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "median customer response sla": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first customer response days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "last conversation days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "most frequent error": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow up creating schedule flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow up creating schedule flag group 1": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow up creating schedule flag group 2": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "creating schedule follow up received flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "customer response creating schedule flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow up flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow up flag group 1": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow up flag group 2": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow up received flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "customer response flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "customer response attend flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "customer response reschedule flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "customer response cancel flag": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "first time initiate appointment days": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "total response": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "supplier id": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "beforeexpired days max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "beforeexpired days mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "beforeexpired days median": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "beforeexpired days min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "business npwp most": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "business ownership most": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract npl count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract release count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract wo count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditreview waiting time max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditreview waiting time mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditreview waiting time min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditreview waiting time std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditscoring waiting time max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditscoring waiting time mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditscoring waiting time min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditscoring waiting time std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "delivery to purchase max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "delivery to purchase mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "delivery to purchase min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "delivery to purchase std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "earliest checkin time": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entry lifeinsurance count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entrydata process time max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entrydata process time mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entrydata process time min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entrydata process time std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "flat rate max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "flat rate mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "flat rate min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "harvest day max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "harvest day min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "harvest day mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "harvest day median": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "isautomotive first": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "isautomotive last": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "isautomotive modified": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "kecamatan match count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "kelurahan match count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "kota match count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length experience anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length experience max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length experience mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length experience min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length partnership anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length partnership max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length partnership mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length partnership min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mailing kecamatan most": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mailing kecamatan nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mailing kota most": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mailing kota nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "number of contract": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "number of updates": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "pdc promised count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "percentage reward max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "percentage reward min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "percentage supplier max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "percentage supplier min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "rca waiting time max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "rca waiting time mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "rca waiting time min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "rca waiting time std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "return days max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "return days mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "return days min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "return days std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom location first": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom location last": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom location modified": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom ownerage anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom ownerage max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom ownerage mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom ownerage min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom ownership first": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom ownership last": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom ownership modified": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk region": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk supplier": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk supplier category": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier assetstatus max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier assetstatus min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier assetstatus nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier group": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier industry max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier industry min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier industry nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier kecamatan": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier kelurahan": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier kota": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier level max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier level min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier level nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier name": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier npwp": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier npwp nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier potency max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier potency min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier potency nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier rate max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier rate mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier rate min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier size first": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier size last": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier size modified": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier status max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier status min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier status nunique": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplierinvoice days max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplierinvoice days mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplierinvoice days min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplierinvoice days std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "survey waiting time max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "survey waiting time mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "survey waiting time min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "survey waiting time std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time lcinstallmentcalc max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time lcinstallmentcalc mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time lcinstallmentcalc min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time lcinstallmentcalc std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time mature max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time mature mean": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time mature min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time mature std": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "total sales anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "total sales first": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "total sales last": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "total sales median": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  "field_words": {
+    "asset": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "id": [
+      "asset_detail_history.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "code": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "agreement": [
+      "asset_detail_history.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "number": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_basic_info.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "seq": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "no": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "otr": [
+      "asset_detail_history.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "price": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "row": [
+      "asset_detail_history.yaml"
+    ],
+    "idx": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "lag": [
+      "asset_detail_history.yaml"
+    ],
+    "month": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "type": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "bpkb": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "ownership": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "status": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "brand": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "stnk": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "tax": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "vehicle": [
+      "asset_detail_history.yaml"
+    ],
+    "category": [
+      "asset_detail_history.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "nunique": [
+      "asset_detail_history.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "description": [
+      "asset_detail_history.yaml"
+    ],
+    "changed": [
+      "asset_detail_history.yaml"
+    ],
+    "manufacturing": [
+      "asset_detail_history.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "newer": [
+      "asset_detail_history.yaml"
+    ],
+    "older": [
+      "asset_detail_history.yaml"
+    ],
+    "year": [
+      "asset_detail_history.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "rolling": [
+      "asset_detail_history.yaml"
+    ],
+    "mean": [
+      "asset_detail_history.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "m3": [
+      "asset_detail_history.yaml"
+    ],
+    "median": [
+      "asset_detail_history.yaml",
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "std": [
+      "asset_detail_history.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "m6": [
+      "asset_detail_history.yaml"
+    ],
+    "ema": [
+      "asset_detail_history.yaml"
+    ],
+    "v0": [
+      "asset_detail_history.yaml"
+    ],
+    "y1": [
+      "asset_detail_history.yaml"
+    ],
+    "v1": [
+      "asset_detail_history.yaml"
+    ],
+    "ewm": [
+      "asset_detail_history.yaml"
+    ],
+    "base": [
+      "asset_detail_history.yaml"
+    ],
+    "fast": [
+      "asset_detail_history.yaml"
+    ],
+    "slow": [
+      "asset_detail_history.yaml"
+    ],
+    "count": [
+      "asset_detail_history.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "event": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "timestamp": [
+      "asset_detail_history.yaml",
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "cdp": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "uid": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "fid": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "max": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "dpd": [
+      "cdp_collection_record.yaml",
+      "cdp_payment_quality.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "last": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "1": [
+      "cdp_collection_record.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "3": [
+      "cdp_collection_record.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "latest": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "collection": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "effectiveness": [
+      "cdp_collection_record.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "persona": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "lor": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "gor": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "amount": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "contract_basic_info.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "bucket": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "ever30": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "ever60": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "ever90": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml"
+    ],
+    "default": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "wo": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "npl": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "expenses": [
+      "cdp_collection_record.yaml",
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "days": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "overdue": [
+      "cdp_collection_record.yaml"
+    ],
+    "tolerance": [
+      "cdp_collection_record.yaml",
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ba": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "commission": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "active": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "2w": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "4w": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "inactive": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "credit": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "utilization": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ratio": [
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "customer": [
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "vintage": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "fee": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "admin": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "total": [
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "insurance": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "legal": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "other": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "provision": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "interest": [
+      "cdp_loan_behavior_v2.yaml",
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "rate": [
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "min": [
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_phone_history_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "var": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "undue": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "closed": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "recency": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ltv": [
+      "cdp_loan_behavior_v2.yaml",
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "mob": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "ntf": [
+      "cdp_loan_behavior_v2.yaml",
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "capitalized": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "pengajuan": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "osp": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "parent": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "branch": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "day": [
+      "cdp_loan_behavior_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "fiducia": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "financing": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "potong": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "funding": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "product": [
+      "cdp_loan_behavior_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "first": [
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "cdp_phone_history_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "most": [
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "remaining": [
+      "cdp_loan_behavior_v2.yaml",
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "installment": [
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "soa": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "takeover": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "tenor": [
+      "cdp_loan_behavior_v2.yaml",
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "way": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "principle": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "late": [
+      "cdp_loan_behavior_v2.yaml",
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "charge": [
+      "cdp_loan_behavior_v2.yaml"
+    ],
+    "loan": [
+      "cdp_loan_behavior_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "ontime": [
+      "cdp_payment_quality.yaml"
+    ],
+    "payment": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "3m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "paid": [
+      "cdp_payment_quality.yaml"
+    ],
+    "avg": [
+      "cdp_payment_quality.yaml"
+    ],
+    "01": [
+      "cdp_payment_quality.yaml"
+    ],
+    "15": [
+      "cdp_payment_quality.yaml"
+    ],
+    "16": [
+      "cdp_payment_quality.yaml"
+    ],
+    "30": [
+      "cdp_payment_quality.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "30plus": [
+      "cdp_payment_quality.yaml"
+    ],
+    "6m": [
+      "cdp_payment_quality.yaml"
+    ],
+    "alltime": [
+      "cdp_payment_quality.yaml"
+    ],
+    "complete": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "missed": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "ondue": [
+      "cdp_payment_quality.yaml"
+    ],
+    "earlier": [
+      "cdp_payment_quality.yaml"
+    ],
+    "ongoing": [
+      "cdp_payment_quality.yaml"
+    ],
+    "start": [
+      "cdp_payment_quality.yaml"
+    ],
+    "precompute": [
+      "cdp_payment_quality.yaml"
+    ],
+    "early": [
+      "cdp_payment_quality.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "consecutive": [
+      "cdp_payment_quality.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "bfi": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "response": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "sla": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "creating": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "schedule": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "ops": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "call": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "answered": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "attempt": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "timespent": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "minute": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "unanswered": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "follow": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "up": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "received": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "flag": [
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "attend": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "auto": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "cancel": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "manual": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "free": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "template": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "2": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "reschedule": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "error": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "ago": [
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "time": [
+      "cdp_phone_history_v2.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "initiate": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "appointment": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "group": [
+      "cdp_phone_history_v2.yaml",
+      "customer_ro_df_car.yaml",
+      "phone_response_summary_v2.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "conversation": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "on": [
+      "cdp_phone_history_v2.yaml",
+      "customer_payment_activity_v2.yaml"
+    ],
+    "side": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "wab": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "sent": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "message": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "phone": [
+      "cdp_phone_history_v2.yaml",
+      "phone_response_summary_v2.yaml"
+    ],
+    "age": [
+      "cdp_phone_history_v2.yaml",
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "deliver": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "l3m": [
+      "cdp_phone_history_v2.yaml",
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "read": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "per": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "delivered": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "reply": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "submit": [
+      "cdp_phone_history_v2.yaml"
+    ],
+    "newest": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "condition": [
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "negative": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "list": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "seqno": [
+      "contract_asset_attribute_v2.yaml"
+    ],
+    "usage": [
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "validation": [
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "date": [
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "sub": [
+      "contract_asset_attribute_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "outstanding": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "due": [
+      "contract_basic_info.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "inventory": [
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "repossess": [
+      "contract_collection_record_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "effect": [
+      "contract_collection_record_v2.yaml"
+    ],
+    "confins": [
+      "customer_mobileapp_behavior_v2.yaml",
+      "customer_model_scoring.yaml",
+      "customer_payment_activity_v2.yaml",
+      "customer_ro_df_car.yaml"
+    ],
+    "bfimobile": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "device": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "install": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "register": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "kyc": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "submission": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "journey": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "notification": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "promo": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "login": [
+      "customer_mobileapp_behavior_v2.yaml"
+    ],
+    "risk": [
+      "customer_model_scoring.yaml"
+    ],
+    "score": [
+      "customer_model_scoring.yaml"
+    ],
+    "application": [
+      "customer_ro_df_car.yaml"
+    ],
+    "productname": [
+      "customer_ro_df_car.yaml"
+    ],
+    "productgroup": [
+      "customer_ro_df_car.yaml"
+    ],
+    "prev": [
+      "customer_ro_df_car.yaml"
+    ],
+    "next": [
+      "customer_ro_df_car.yaml"
+    ],
+    "upper": [
+      "customer_ro_df_car.yaml"
+    ],
+    "limit": [
+      "customer_ro_df_car.yaml"
+    ],
+    "main": [
+      "customer_ro_df_car.yaml"
+    ],
+    "ever": [
+      "customer_ro_df_car.yaml"
+    ],
+    "60": [
+      "customer_ro_df_car.yaml"
+    ],
+    "90": [
+      "customer_ro_df_car.yaml"
+    ],
+    "settlement": [
+      "customer_ro_df_car.yaml"
+    ],
+    "created": [
+      "customer_ro_df_car.yaml"
+    ],
+    "updated": [
+      "customer_ro_df_car.yaml"
+    ],
+    "precomputed": [
+      "customer_ro_df_car.yaml"
+    ],
+    "monthly": [
+      "customer_ro_df_car.yaml"
+    ],
+    "income": [
+      "customer_ro_df_car.yaml"
+    ],
+    "home": [
+      "customer_ro_df_car.yaml"
+    ],
+    "location": [
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "stay": [
+      "customer_ro_df_car.yaml"
+    ],
+    "since": [
+      "customer_ro_df_car.yaml"
+    ],
+    "length": [
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "of": [
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "occupation": [
+      "customer_ro_df_car.yaml"
+    ],
+    "education": [
+      "customer_ro_df_car.yaml"
+    ],
+    "marital": [
+      "customer_ro_df_car.yaml"
+    ],
+    "dependent": [
+      "customer_ro_df_car.yaml"
+    ],
+    "profession": [
+      "customer_ro_df_car.yaml"
+    ],
+    "economy": [
+      "customer_ro_df_car.yaml"
+    ],
+    "sector": [
+      "customer_ro_df_car.yaml"
+    ],
+    "industry": [
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "purpose": [
+      "customer_ro_df_car.yaml"
+    ],
+    "duration": [
+      "customer_ro_df_car.yaml"
+    ],
+    "work": [
+      "customer_ro_df_car.yaml"
+    ],
+    "rating": [
+      "customer_ro_df_car.yaml"
+    ],
+    "lead": [
+      "customer_ro_df_car.yaml"
+    ],
+    "survey": [
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "life": [
+      "customer_ro_df_car.yaml"
+    ],
+    "coverage": [
+      "customer_ro_df_car.yaml"
+    ],
+    "premium": [
+      "customer_ro_df_car.yaml"
+    ],
+    "marketing1": [
+      "customer_ro_df_car.yaml"
+    ],
+    "marketing": [
+      "customer_ro_df_car.yaml"
+    ],
+    "name": [
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mature": [
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "at": [
+      "customer_ro_df_car.yaml"
+    ],
+    "rrd": [
+      "customer_ro_df_car.yaml"
+    ],
+    "commision": [
+      "customer_ro_df_car.yaml"
+    ],
+    "inserted": [
+      "customer_ro_df_car.yaml"
+    ],
+    "principal": [
+      "customer_ro_df_car.yaml"
+    ],
+    "prepayment": [
+      "customer_ro_df_car.yaml"
+    ],
+    "registered": [
+      "customer_ro_df_car.yaml"
+    ],
+    "num": [
+      "customer_ro_df_car.yaml"
+    ],
+    "owned": [
+      "customer_ro_df_car.yaml"
+    ],
+    "owner": [
+      "customer_ro_df_car.yaml"
+    ],
+    "relationship": [
+      "customer_ro_df_car.yaml"
+    ],
+    "pefindo": [
+      "customer_ro_df_car.yaml"
+    ],
+    "profile": [
+      "customer_ro_df_car.yaml"
+    ],
+    "12": [
+      "customer_ro_df_car.yaml"
+    ],
+    "detail": [
+      "customer_ro_df_car.yaml"
+    ],
+    "scoring": [
+      "customer_ro_df_car.yaml"
+    ],
+    "grade": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierid": [
+      "customer_ro_df_car.yaml"
+    ],
+    "insrefundtosupplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "insrefundtosupplierpaid": [
+      "customer_ro_df_car.yaml"
+    ],
+    "insrefundtosupplierinprocess": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierrate": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierinvoicedate": [
+      "customer_ro_df_car.yaml"
+    ],
+    "isincentivesupplier": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplierflatrate": [
+      "customer_ro_df_car.yaml"
+    ],
+    "suppliername": [
+      "customer_ro_df_car.yaml"
+    ],
+    "is": [
+      "customer_ro_df_car.yaml"
+    ],
+    "same": [
+      "customer_ro_df_car.yaml"
+    ],
+    "kelurahan": [
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mailing": [
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "reference": [
+      "customer_ro_df_car.yaml"
+    ],
+    "kecamatan": [
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "city": [
+      "customer_ro_df_car.yaml"
+    ],
+    "zipcode": [
+      "customer_ro_df_car.yaml"
+    ],
+    "supplier": [
+      "customer_ro_df_car.yaml",
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "customerlead": [
+      "customer_ro_df_car.yaml"
+    ],
+    "frequent": [
+      "phone_response_summary_v2.yaml"
+    ],
+    "beforeexpired": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "business": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "npwp": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "release": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditreview": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "waiting": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditscoring": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "delivery": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "to": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "purchase": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "earliest": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "checkin": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entry": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "lifeinsurance": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entrydata": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "process": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "flat": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "harvest": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "isautomotive": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "modified": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "match": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "kota": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "experience": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "partnership": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "updates": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "pdc": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "promised": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "percentage": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "reward": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "rca": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "return": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "ownerage": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "region": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "assetstatus": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "level": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "potency": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "size": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplierinvoice": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "lcinstallmentcalc": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sales": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  },
+  "business_logic": {
+    "nullif": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "trim": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "id_supplier": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "max": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "day_before_expire": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "avg": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "by": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "excluding": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "the": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "negative": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "number": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "median": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "min": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "row_number": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "over": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "partition": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_id": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "order": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "count": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "desc": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sum": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract_npl_exist": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "event_timestamp": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "rows": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "between": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "unbounded": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "preceding": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "and": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "current": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "row": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract_release_exist": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract_wo_exist": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditreview_waiting_time": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "stddev": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "creditscoring_waiting_time": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "delivery_to_purchase": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "created_timestamp": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entry_lifeinsurance_exist": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "entrydata_process_time": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplierflatrate": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "harvest_day": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "case": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "when": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "0": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "then": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "end": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "min_by": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "isautomotive": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "contract_timestamp": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "max_by": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "distinct": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "1": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "true": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "else": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "false": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "kecamatan_match": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "kelurahan_match": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "kota_match": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_experience_anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "year": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "cast": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "pengalamansejaktahun": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "as": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "int": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "round": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_experience": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_partnership_anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "pkddenganbfitahun": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "length_partnership": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mailing_kecamatan": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "mailing_kota": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "greatest": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "application_id": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "agreement_number": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk_supplier": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "pdc_promised_exist": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "percentagerewardsupplier": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "percentagesupplier": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "product": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "rca_waiting_time": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "return_days_ago": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "lokasishowroomdescription": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_ownerage_anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "showroom_ownerage": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "kepemilikantempatusaha": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk_region": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk_supplier_category": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk_supplier_asset_status": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_group": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk_supplier_industry": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_kecamatan": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_kelurahan": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_kota": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk_supplier_level": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "toupper": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_npwp": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk_supplier_potency": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_rate": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplier_size": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "sk_supplier_status": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "supplierinvoice_days_ago": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "survey_waiting_time": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time_to_lcinstallmentcalc": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "time_to_mature": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "total_sales_anomaly": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "pow": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "5": [
+      "supplier_lifetime_value_v2.yaml"
+    ],
+    "total_sales": [
+      "supplier_lifetime_value_v2.yaml"
+    ]
+  }
+}

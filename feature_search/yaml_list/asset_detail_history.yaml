@@ -1,0 +1,618 @@
+source_type: ODPS
+name: asset_detail_history
+description: |
+  Historical and aggregated rolling features for vehicle assets. 
+  Computes rolling averages, exponential moving averages (EMA), and exponentially weighted moving averages (EWM) 
+  for asset prices (OTR) across multiple lookback windows (90 days and 6 months), as well as asset profile status changes.
+entity: asset_code
+ttl: 3650d # 10 Years (10 * 365 days)
+feature_fields:
+  - name: asset_id
+    type: STRING
+    description: 1. Cleaned and standardized unique identifier generated from machine, chassis, or plate number.
+    business_logic: REGEXP_REPLACE(TOUPPER(COALESCE(machine_number, chassis_number, vehicle_plate_no)), '[^A-Z0-9]+$', '')
+  - name: asset_code
+    type: STRING
+    description: 2. Compound identifier matching asset code with its manufacturing year.
+    business_logic: CONCAT(asset_code, '#', manufacturing_year)
+  - name: agreement_number
+    type: STRING
+    description: 3. Core financial contract or agreement number mapped from the source identifier.
+    business_logic: SPLIT_PART(collateral_id, '-', 1)
+  - name: asset_seq_no
+    type: INTEGER
+    description: 4. Sequence number identifying the individual asset within a single agreement.
+    business_logic: CAST(SPLIT_PART(collateral_id, '-', 3) AS INT)
+  - name: otr_price
+    type: FLOAT
+    description: 5. On-The-Road (OTR) market price of the asset.
+    business_logic: Parsed and cast OTR price from source telemetry/collateral systems.
+  - name: row_idx
+    type: INTEGER
+    description: 6. The sequential transaction/event order index for a given unique asset.
+    business_logic: ROW_NUMBER() OVER (PARTITION BY asset_id ORDER BY created_timestamp)
+  - name: lag_month
+    type: INTEGER
+    description: 7. Number of months elapsed between the transaction date and the operational business date.
+    business_logic: DATEDIFF(business_date, created_timestamp, 'mm')
+  - name: asset_type
+    type: STRING
+    description: 8. Type classification of the asset.
+    business_logic: Forward-filled last available standardized uppercase value.
+  - name: bpkb_ownership
+    type: STRING
+    description: 9. The ownership type or name stated on the BPKB document.
+    business_logic: Forward-filled last available value per asset_id ordered by time.
+  - name: bpkb_status
+    type: STRING
+    description: 10. The current document status of the BPKB.
+    business_logic: Forward-filled last available value per asset_id ordered by time.
+  - name: brand
+    type: STRING
+    description: 11. Brand/merk of the vehicle.
+    business_logic: Forward-filled last available value per asset_id ordered by time.
+  - name: stnk_status
+    type: STRING
+    description: 12. The vehicle registration status (STNK) of the asset.
+    business_logic: Forward-filled last available value per asset_id ordered by time.
+  - name: tax_status
+    type: STRING
+    description: 13. The registration tax validity status of the asset.
+    business_logic: Forward-filled last available value per asset_id ordered by time.
+  - name: vehicle_category
+    type: STRING
+    description: 14. Category classification detail of the vehicle.
+    business_logic: Forward-filled last available standardized uppercase value.
+  - name: vehicle_category_nunique
+    type: INTEGER
+    description: 15. The cumulative count of distinct categories this asset identifier has held over its history.
+    business_logic: COUNT(DISTINCT vehicle_category) OVER (PARTITION BY asset_id ROWS UNBOUNDED PRECEDING)
+  - name: description_changed
+    type: BOOLEAN
+    description: 16. Flag indicating if the asset description text has drifted/changed over time.
+    business_logic: TRUE if cumulative distinct count of description strings > 1, otherwise FALSE.
+  - name: manufacturing_changed
+    type: BOOLEAN
+    description: 17. Flag indicating if inconsistencies exist in the manufacturing year data records.
+    business_logic: TRUE if cumulative distinct count of manufacturing years > 1, otherwise FALSE.
+  - name: manufacturing_newer
+    type: INTEGER
+    description: 18. Cumulative count of events where the sequential next asset production year is newer than current.
+    business_logic: COUNT(CASE WHEN next_production > manufacturing_year THEN 1 END) OVER(PARTITION BY asset_code ORDER BY created_timestamp)
+  - name: manufacturing_older
+    type: INTEGER
+    description: 19. Cumulative count of events where the sequential next asset production year is older than current.
+    business_logic: COUNT(CASE WHEN next_production < manufacturing_year THEN 1 END) OVER(PARTITION BY asset_code ORDER BY created_timestamp)
+  - name: manufacturing_year
+    type: INTEGER
+    description: 20. The documented production or manufacturing year of the vehicle asset.
+    business_logic: CAST(vehicle_production_year AS INT)
+  - name: otr_rolling_mean_m3
+    type: FLOAT
+    description: 21. 90-day rolling arithmetic mean of the asset price.
+    business_logic: AVG(otr_price) over a moving window of 90 days preceding the event.
+  - name: otr_rolling_median_m3
+    type: FLOAT
+    description: 22. 90-day rolling median price of the asset.
+    business_logic: PERCENTILE_CONT(otr_price, 0.5) over a moving window of 90 days preceding the event.
+  - name: otr_rolling_std_m3
+    type: FLOAT
+    description: 23. 90-day rolling standard deviation of the asset price.
+    business_logic: Sample standard deviation (STDDEV_SAMP) over a 90-day lookback window.
+  - name: otr_rolling_mean_m6
+    type: FLOAT
+    description: 24. 6-month rolling arithmetic mean of the asset price.
+    business_logic: AVG(otr_price) over a moving window of 6 months preceding the event.
+  - name: otr_rolling_median_m6
+    type: FLOAT
+    description: 25. 6-month rolling median price of the asset.
+    business_logic: PERCENTILE_CONT(otr_price, 0.5) over a moving window of 6 months preceding the event.
+  - name: otr_rolling_std_m6
+    type: FLOAT
+    description: 26. 6-month rolling standard deviation of the asset price.
+    business_logic: Sample standard deviation (STDDEV_SAMP) over a 6-month lookback window.
+  - name: otr_ema_v0_m3
+    type: FLOAT
+    description: 27. Native Exponential Moving Average (EMA) balancing current price with dynamic historical averages.
+    business_logic: (otr_price * alpha_v0) + (COALESCE(historical_mean, otr_price) * (1.0 - alpha_v0))
+  - name: otr_ema_v0_m6
+    type: FLOAT
+    description: 28. Native Exponential Moving Average (EMA) price balancing current price with dynamic 6-month historical averages.
+    business_logic: (otr_price * alpha_v0_m6) + (COALESCE(historical_mean_m6, otr_price) * (1.0 - alpha_v0_m6))
+  - name: otr_ema_v0_y1
+    type: FLOAT
+    description: 29. Native Exponential Moving Average (EMA) price balancing current price with dynamic 1-year historical averages.
+    business_logic: (otr_price * alpha_v0_y1) + (COALESCE(historical_mean_y1, otr_price) * (1.0 - alpha_v0_y1))
+  - name: otr_ema_v1_m3
+    type: FLOAT
+    description: 30. Exact mathematical Exponential Moving Average (EMA) price utilizing static alpha over row indices.
+    business_logic: SUM((otr_price * alpha_v1) / (1 - alpha_v1)^row_idx) weighted backward recursively.
+  - name: otr_ema_v1_m6
+    type: FLOAT
+    description: 31. Exact mathematical Exponential Moving Average (EMA) price utilizing static alpha (0.011) over 6 months lookback.
+    business_logic: SUM((otr_price * alpha_v1_m6) / (1 - alpha_v1_m6)^row_idx) weighted backward recursively.
+  - name: otr_ema_v1_y1
+    type: FLOAT
+    description: 32. Exact mathematical Exponential Moving Average (EMA) price utilizing static alpha (0.00546) over 1 year lookback.
+    business_logic: SUM((otr_price * alpha_v1_y1) / (1 - alpha_v1_y1)^row_idx) weighted backward recursively.
+  - name: otr_ewm_base_m6
+    type: FLOAT
+    description: 33. 6-month exponentially weighted moving average price under normal time decay configurations.
+    business_logic: SUM(otr_price * (weight_i_normal / weight_accum_normal)) over a 6-month range window.
+  - name: otr_ewm_fast_m6
+    type: FLOAT
+    description: 34. 6-month exponentially weighted moving average price heavily focused on rapid adaptation to current asset trends.
+    business_logic: SUM(otr_price * (weight_i_fast_update / weight_accum_fast)) over a 6-month range window.
+  - name: otr_ewm_slow_m6
+    type: FLOAT
+    description: 35. 6-month exponentially weighted moving average price accentuating older historical baseline values.
+    business_logic: SUM(otr_price * (weight_i_slow_living / weight_accum_slow)) over a 6-month range window.
+  - name: otr_ewm_base_y1
+    type: FLOAT
+    description: 36. 1-year exponentially weighted moving average price under normal time decay configurations.
+    business_logic: SUM(otr_price * (weight_i_normal / weight_accum_normal)) over a 12-month range window.
+  - name: otr_ewm_fast_y1
+    type: FLOAT
+    description: 37. 1-year exponentially weighted moving average price heavily focused on rapid adaptation to current asset trends.
+    business_logic: SUM(otr_price * (weight_i_fast_update / weight_accum_fast)) over a 12-month range window.  
+  - name: otr_ewm_slow_y1
+    type: FLOAT
+    description: 38. 1-year exponentially weighted moving average price accentuating older historical baseline values.
+    business_logic: SUM(otr_price * (weight_i_slow_living / weight_accum_slow)) over a 12-month range window.
+  - name: asset_count
+    type: INTEGER
+    description: 39. Cumulative distinct count of raw asset IDs assigned to this unified asset code.
+    business_logic: COUNT(DISTINCT asset_id) Grouped by asset_code
+  - name: contract_count
+    type: INTEGER
+    description: 40. Total unique agreement financial contracts associated with this unified asset code.
+    business_logic: COUNT(DISTINCT agreement_number) Grouped by asset_code
+  - name: event_timestamp
+    type: TIMESTAMP
+    description: 41. The primary timestamp when the asset event record was created or registered.
+    business_logic: COALESCE of source_ts_ms, operation_ts_ms, and inserted_date from raw source tables.
+tags:
+  domain: asset_code
+  confidentiality: public
+sql: |-
+  WITH unified_asset AS 
+  (
+      SELECT  * EXCEPT(asset_code, asset_seq_no)
+              ,REGEXP_REPLACE(
+                            TOUPPER(
+                                    COALESCE(NULLIF(TRIM(machine_number),''),NULLIF(TRIM(chassis_number),''),NULLIF(TRIM(vehicle_plate_no),''))
+                            )
+              ,'[^A-Z0-9]+$','') AS asset_id
+              ,asset_code AS backup_key
+              ,CONCAT(asset_code,'#',manufacturing_year) AS asset_code
+              ,COALESCE(asset_seq_no, 0) AS asset_seq_no
+      FROM    (
+                  -- SELECT  vehicle_plate_no
+                  --         ,chassis_number
+                  --         ,machine_number
+                  --         ,CAST(COALESCE(source_ts_ms,operation_ts_ms,inserted_date) AS TIMESTAMP) created_timestamp
+                  --         ,bpkb_ownership
+                  --         ,asset_description
+                  --         ,CAST(vehicle_production_year AS INT) AS manufacturing_year
+                  --         ,CAST(OTR AS DECIMAL(12,2)) AS otr_price
+                  --         ,SPLIT_PART(collateral_id,'-',1) AS agreement_number
+                  --         ,CAST(SPLIT_PART(collateral_id,'-',3) AS INT) AS asset_seq_no
+                  --         ,vehicle_merk AS brand
+                  --         ,TOUPPER(TRIM(vehicle_type)) AS asset_type
+                  --         ,vehicle_category
+                  --         ,bpkb_status
+                  --         ,tax_status
+                  --         ,stnk_status
+                  --         ,2 AS source_no
+                  --         ,asset_id AS asset_code
+                  -- FROM    bravo.ro_collateral_odps
+                  -- UNION
+                  -- SELECT  vehicle_plate_no
+                  --         ,chassis_number
+                  --         ,machine_number
+                  --         ,CAST(COALESCE(source_ts_ms,operation_ts_ms,inserted_date) AS TIMESTAMP) created_timestamp
+                  --         ,bpkb_ownership
+                  --         ,asset_description
+                  --         ,CAST(vehicle_production_year AS INT) AS manufacturing_year
+                  --         ,CAST(OTR AS DECIMAL(12,2)) AS otr_price
+                  --         ,SPLIT_PART(collateral_id,'-',1) AS agreement_number
+                  --         ,CAST(SPLIT_PART(collateral_id,'-',3) AS INT) AS asset_seq_no
+                  --         ,vehicle_merk AS brand
+                  --         ,(CASE   WHEN TOUPPER(TRIM(product_type_id)) = 'NDF2W' THEN 'MOTOR'
+                  --                 WHEN TOUPPER(TRIM(product_type_id)) = 'NDF4W' THEN 'MOBIL'
+                  --         END) AS asset_type
+                  --         ,vehicle_category
+                  --         ,bpkb_status
+                  --         ,'' AS tax_status
+                  --         ,'' AS stnk_status
+                  --         ,3 AS source_no
+                  --         ,asset_code
+                  -- FROM    bravo.ro_tele_collateral
+                  -- WHERE   pt = '20260626' 
+                  -- -- WHERE   pt = CASE 
+                  -- --     WHEN '{bizdate}' < '20100101' THEN '20100101'
+                  -- --     ELSE '{bizdate}'
+                  -- --     END
+                  -- UNION
+                  SELECT  NULLIF(TOUPPER(TRIM(license_plate)),'') AS vehicle_plate_no
+                          ,chassis_number
+                          ,NULLIF(TOUPPER(TRIM(engine_number)),'') AS machine_number
+                          ,created_timestamp
+                          ,bpkb_ownership
+                          ,asset_description
+                          ,manufacturing_year
+                          ,avg_market_price AS otr_price
+                          ,agreement_number
+                          ,CAST(asset_seq_no AS INT) asset_seq_no
+                          ,brand
+                          ,TOUPPER(TRIM(asset_type_id)) AS asset_type
+                          ,TOUPPER(TRIM(sub_category_detail)) AS vehicle_category
+                          ,bpkb_status
+                          ,tax_status
+                          ,stnk_status
+                          ,1 AS source_no
+                          ,asset_code
+                  FROM    wsdatainnovation.cdp_asset
+                  -- WHERE   dt = '20260626'
+                  WHERE   dt = CASE 
+                      WHEN '{bizdate}' < '20100101' THEN '20100101'
+                      ELSE '{bizdate}'
+                      END
+              ) 
+  )
+  ,unified_asset2 AS -- remove duplicate among different source             
+  (
+      SELECT  *
+              ,ROW_NUMBER() OVER (PARTITION BY agreement_number,asset_seq_no ORDER BY created_timestamp,source_no ) AS rn
+      FROM    unified_asset
+      WHERE   NULLIF(TRIM(asset_id),'') IS NOT NULL
+      AND     TRIM(asset_id) NOT IN ('','0','-')
+  )
+  ,unified_asset2B AS 
+  (
+      SELECT  * EXCEPT (rn, otr_price)
+              --forward fill
+              ,COALESCE(otr_price,LAG(otr_price,1) OVER (PARTITION BY asset_code ORDER BY created_timestamp)) otr_price
+      FROM    unified_asset2
+      WHERE   rn = 1
+      -- ORDER BY agreement_number,asset_seq_no,created_timestamp
+  )
+  ,sample_size2 AS (
+      SELECT  asset_code
+              ,COUNT(DISTINCT asset_id) AS asset_count
+              ,COUNT(DISTINCT agreement_number) AS contract_count
+      FROM    unified_asset2B
+      GROUP BY asset_code
+  )
+  ,unified_asset3 AS (
+      SELECT  t1.* EXCEPT (asset_code,backup_key)
+              -- if sample size too small then revert to asset code only without manufacturing year
+              ,(CASE   WHEN (t2.asset_count < 30) AND (t2.contract_count < 30) THEN backup_key
+                      ELSE t2.asset_code
+              END) AS asset_code
+      FROM    unified_asset2B t1
+      LEFT JOIN sample_size2 t2
+      ON      t1.asset_code = t2.asset_code
+  )
+  ,rolling_feature AS 
+  (
+      SELECT  asset_code
+              ,agreement_number
+              ,asset_seq_no -- asset_id -- replaced by asset_code
+              -- 1. MEAN (AVG) translation over 90 Days and 6 Months lookback
+              ,ROUND(
+                    AVG(otr_price) OVER (PARTITION BY asset_code ORDER BY created_timestamp 
+                    RANGE BETWEEN INTERVAL '3' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_rolling_mean_m3 -- 2. MEDIAN (PERCENTILE_CONT) translation over 30 Days lookback
+              ,ROUND(
+                    PERCENTILE_CONT(otr_price,0.5) OVER (PARTITION BY asset_code ORDER BY created_timestamp 
+                    RANGE BETWEEN INTERVAL '3' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_rolling_median_m3 -- 3. STD (STDDEV_SAMP) translation over 30 Days lookback
+              ,ROUND(
+                    STDDEV_SAMP(otr_price) OVER (PARTITION BY asset_code ORDER BY created_timestamp 
+                    RANGE BETWEEN INTERVAL '3' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_rolling_std_m3
+              ,ROUND(
+                    AVG(otr_price) OVER (PARTITION BY asset_code ORDER BY created_timestamp 
+                    RANGE BETWEEN INTERVAL '6' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_rolling_mean_m6
+              ,ROUND(
+                    PERCENTILE_CONT(otr_price,0.5) OVER (PARTITION BY asset_code ORDER BY created_timestamp 
+                    RANGE BETWEEN INTERVAL '6' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_rolling_median_m6
+              ,ROUND(
+                    STDDEV_SAMP(otr_price) OVER (PARTITION BY asset_code ORDER BY created_timestamp 
+                    RANGE BETWEEN INTERVAL '6' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_rolling_std_m6
+      FROM    unified_asset3
+      WHERE NULLIF(TRIM(asset_code), '') IS NOT NULL AND otr_price > 0
+  )
+  ,one_representation AS 
+  (
+      SELECT  asset_code
+              ,agreement_number
+              ,asset_seq_no
+              ,created_timestamp
+              ,LAST_VALUE(asset_type) OVER (PARTITION BY asset_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS asset_type
+              ,LAST_VALUE(bpkb_ownership) OVER (PARTITION BY asset_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS bpkb_ownership
+              ,LAST_VALUE(bpkb_status) OVER (PARTITION BY asset_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS bpkb_status
+              ,LAST_VALUE(brand) OVER (PARTITION BY asset_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS brand
+              
+              ,LAST_VALUE(stnk_status) OVER (PARTITION BY asset_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS stnk_status
+              ,LAST_VALUE(tax_status) OVER (PARTITION BY asset_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS tax_status
+              ,LAST_VALUE(vehicle_category) OVER (PARTITION BY asset_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS vehicle_category
+              ,COUNT(DISTINCT vehicle_category) OVER (PARTITION BY asset_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS vehicle_category_nunique
+             
+              ,COUNT(DISTINCT asset_description) OVER (PARTITION BY asset_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS description_nunique
+              ,COUNT(DISTINCT manufacturing_year) OVER (PARTITION BY asset_code ORDER BY created_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ) AS manufacturing_nunique
+              ,manufacturing_year
+              ,LEAD(manufacturing_year) OVER(PARTITION BY asset_code ORDER BY created_timestamp, asset_seq_no) AS next_production
+              
+      FROM    unified_asset3
+  )
+  ,ranked_asset AS 
+  (
+      SELECT  asset_id
+              ,asset_code
+              ,agreement_number
+              ,asset_seq_no
+              ,created_timestamp AS event_timestamp
+              ,otr_price -- Assign a sequential row index per customer sequence
+              ,ROW_NUMBER() OVER (PARTITION BY asset_code ORDER BY created_timestamp,asset_seq_no ) AS row_idx
+              -- ,DATEDIFF(CAST(TO_DATE('20260626','yyyymmdd') AS DATETIME),CAST(created_timestamp AS DATETIME),'mm') AS lag_month 
+              ,FLOOR(DATEDIFF(CAST(TO_DATE('{bizdate}', 'yyyymmdd') AS DATETIME), CAST(created_timestamp AS DATETIME), 'dd') / 14) AS lag_month
+      FROM    unified_asset3
+      WHERE NULLIF(TRIM(asset_code), '') IS NOT NULL AND otr_price > 0
+  )
+  ,ema_prep AS 
+  (
+      SELECT  asset_code -- asset_id -- replaced by asset_code
+              ,agreement_number
+              ,asset_seq_no
+              ,otr_price
+              ,event_timestamp
+              ,row_idx 
+              -- Define constant alpha for a 90-period span: 2 / (90 + 1) = 0.021978
+              ,0.021978 AS alpha_v1_m3 -- static
+              -- 1. Get N_period: Count rows within the 30-day window up to the current row
+              ,COUNT(*) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '30' DAY PRECEDING AND CURRENT ROW ) AS N_period_m3 
+              -- 2. Get Historical Mean: Average excluding the current record's timestamp
+              ,AVG(otr_price) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '30' DAY PRECEDING AND INTERVAL '1' SECOND PRECEDING ) AS historical_mean_m3
+              ,0.011 AS alpha_v1_m6
+              ,COUNT(*) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '90' DAY PRECEDING AND CURRENT ROW ) AS N_period_m6
+              ,AVG(otr_price) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '90' DAY PRECEDING AND INTERVAL '1' SECOND PRECEDING ) AS historical_mean_m6
+              ,0.00546 AS alpha_v1_y1
+              ,COUNT(*) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '365' DAY PRECEDING AND CURRENT ROW ) AS N_period_y1
+              ,AVG(otr_price) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '365' DAY PRECEDING AND INTERVAL '1' SECOND PRECEDING ) AS historical_mean_y1
+      FROM    ranked_asset
+      -- ORDER BY asset_code,row_idx
+  )
+  ,ema_prep2 AS 
+  (
+      SELECT  *
+              ,ROUND(2.0 / (N_period_m3 + 1),2) AS alpha_v0_m3 -- dynamic
+              ,ROUND(2.0 / (N_period_m6 + 1),2) AS alpha_v0_m6
+              ,ROUND(2.0 / (N_period_y1 + 1),2) AS alpha_v0_y1
+      FROM    ema_prep
+  )
+  , LogTransform AS (
+      SELECT
+          asset_code,
+          asset_seq_no,
+          row_idx,
+          event_timestamp,
+          alpha_v1_m3,
+          alpha_v1_m6,
+          alpha_v1_y1,
+          -- Mathematical Conversion:
+          -- Instead of: (otr_price * alpha) / POWER(1.0 - alpha, row_idx)
+          -- We do:     EXP( LN(otr_price * alpha) - (row_idx * LN(1.0 - alpha)) )
+          EXP(LN(otr_price * alpha_v1_m3) - (row_idx * LN(1.0 - alpha_v1_m3))) AS transformed_val_m3,
+          EXP(LN(otr_price * alpha_v1_m6) - (row_idx * LN(1.0 - alpha_v1_m6))) AS transformed_val_m6,
+          EXP(LN(otr_price * alpha_v1_y1) - (row_idx * LN(1.0 - alpha_v1_y1))) AS transformed_val_y1
+      FROM ema_prep
+  )
+  , ema_feat_v1 AS (
+      SELECT 
+          *,
+          ROUND(
+              -- Running Sum of the transformed values
+              SUM(transformed_val_m3) OVER (PARTITION BY asset_code ORDER BY event_timestamp
+              ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) 
+              -- Multiply back by the current row's decay scale using the same Log-Exp trick
+              * EXP(row_idx * LN(1.0 - alpha_v1_m3)), 
+              2
+          ) AS otr_ema_v1_m3,
+
+          ROUND(
+              SUM(transformed_val_m6) OVER (PARTITION BY asset_code ORDER BY event_timestamp
+              ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) 
+              * EXP(row_idx * LN(1.0 - alpha_v1_m6)), 
+              2
+          ) AS otr_ema_v1_m6,
+          ROUND(
+              SUM(transformed_val_y1) OVER (PARTITION BY asset_code ORDER BY event_timestamp
+              ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) 
+              * EXP(row_idx * LN(1.0 - alpha_v1_y1)), 
+              2
+          ) AS otr_ema_v1_y1
+      FROM LogTransform
+  )
+  ,ema_feature AS 
+  (
+      SELECT  tA.*
+              -- ,ROUND(SUM((otr_price * alpha_v1_m3) / POWER(1.0 - alpha_v1_m3,row_idx)) OVER (
+              --     PARTITION BY asset_code ORDER BY event_timestamp ROWS UNBOUNDED PRECEDING 
+              -- ) * POWER(1.0 - alpha_v1_m3,row_idx),2) AS otr_ema_v1_m3 -- exact trick
+              ,ROUND((otr_price * alpha_v0_m3) + (COALESCE(historical_mean_m3,otr_price) * (
+                          1.0 - alpha_v0_m3
+              )),2) AS otr_ema_v0_m3 -- native
+
+              -- ,ROUND(SUM((otr_price * alpha_v1_m6) / POWER(1.0 - alpha_v1_m6,row_idx)) OVER (
+              --     PARTITION BY asset_code ORDER BY event_timestamp ROWS UNBOUNDED PRECEDING 
+              -- ) * POWER(1.0 - alpha_v1_m6,row_idx),2) AS otr_ema_v1_m6
+              ,ROUND((otr_price * alpha_v0_m6) + (COALESCE(historical_mean_m6,otr_price) * (
+                          1.0 - alpha_v0_m6
+              )),2) AS otr_ema_v0_m6
+              -- ,ROUND(SUM((otr_price * alpha_v1_y1) / POWER(1.0 - alpha_v1_y1,row_idx)) OVER (
+              --     PARTITION BY asset_code ORDER BY event_timestamp ROWS UNBOUNDED PRECEDING 
+              -- ) * POWER(1.0 - alpha_v1_y1,row_idx),2) AS otr_ema_v1_y1
+              ,ROUND((otr_price * alpha_v0_y1) + (COALESCE(historical_mean_y1,otr_price) * (
+                          1.0 - alpha_v0_y1
+              )),2) AS otr_ema_v0_y1
+              ,tB.otr_ema_v1_m3
+              ,tB.otr_ema_v1_m6
+              ,tB.otr_ema_v1_y1
+    FROM    ema_prep2 tA
+    INNER JOIN ema_feat_v1 tB
+    ON tA.asset_code = tB.asset_code
+    AND tA.row_idx = tB.row_idx
+  )
+  ,ewm_prep AS 
+  (
+      --exponential weighted moving
+      SELECT      -- asset_id -- replaced by asset_code
+              asset_code
+              ,agreement_number
+              ,asset_seq_no
+              ,event_timestamp 
+              ,otr_price
+              ,EXP(-1.0 * lag_month) AS wi_base
+              ,EXP(+0.2 * lag_month) AS wi_slow -- recent < past
+              ,EXP(-2.0 * lag_month) AS wi_fast -- recent > past
+      FROM    ranked_asset
+      -- ORDER BY asset_code,lag_month,event_timestamp
+  )
+  ,ewm_prep2 AS 
+  (
+      SELECT  *
+              ,SUM(wi_base) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '6' MONTH PRECEDING AND CURRENT ROW ) AS wA_base_m6
+              ,SUM(wi_slow) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '6' MONTH PRECEDING AND CURRENT ROW ) AS wA_slow_m6
+              ,SUM(wi_fast) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '6' MONTH PRECEDING AND CURRENT ROW ) AS wA_fast_m6
+              ,SUM(wi_base) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '12' MONTH PRECEDING AND CURRENT ROW ) AS wA_base_y1
+              ,SUM(wi_slow) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '12' MONTH PRECEDING AND CURRENT ROW ) AS wA_slow_y1
+              ,SUM(wi_fast) OVER (PARTITION BY asset_code ORDER BY event_timestamp 
+                  RANGE BETWEEN INTERVAL '12' MONTH PRECEDING AND CURRENT ROW ) AS wA_fast_y1
+      FROM    ewm_prep
+  )
+  ,ewm_feature AS 
+  (
+      SELECT  *
+              ,ROUND(
+                    SUM(otr_price * (wi_base / wA_base_m6)) OVER (
+                        PARTITION BY asset_code ORDER BY event_timestamp 
+                        RANGE BETWEEN INTERVAL '6' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_ewm_base_m6
+              ,ROUND(
+                    SUM(otr_price * (wi_slow / wA_slow_m6)) OVER (
+                        PARTITION BY asset_code ORDER BY event_timestamp 
+                        RANGE BETWEEN INTERVAL '6' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_ewm_slow_m6
+              ,ROUND(
+                    SUM(otr_price * (wi_fast / wA_fast_m6)) OVER (
+                        PARTITION BY asset_code ORDER BY event_timestamp 
+                        RANGE BETWEEN INTERVAL '6' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_ewm_fast_m6
+              ,ROUND(
+                    SUM(otr_price * (wi_base / wA_base_y1)) OVER (
+                        PARTITION BY asset_code ORDER BY event_timestamp 
+                        RANGE BETWEEN INTERVAL '12' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_ewm_base_y1
+              ,ROUND(
+                    SUM(otr_price * (wi_slow / wA_slow_y1)) OVER (
+                        PARTITION BY asset_code ORDER BY event_timestamp 
+                        RANGE BETWEEN INTERVAL '12' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_ewm_slow_y1
+              ,ROUND(
+                    SUM(otr_price * (wi_fast / wA_fast_y1)) OVER (
+                        PARTITION BY asset_code ORDER BY event_timestamp 
+                        RANGE BETWEEN INTERVAL '12' MONTH PRECEDING AND CURRENT ROW )
+              ,2) AS otr_ewm_fast_y1
+      FROM    ewm_prep2
+  )
+  ,final_joined_view AS 
+  (
+      SELECT  t0.* EXCEPT(event_timestamp)
+              -- t0.asset_id
+              -- ,t0.asset_code
+              -- ,t0.agreement_number
+              -- ,t0.asset_seq_no
+              -- ,t0.otr_price
+              -- ,t0.row_idx
+              -- ,t0.lag_month
+              ,t1.* EXCEPT (asset_code,agreement_number,asset_seq_no,description_nunique,manufacturing_nunique,created_timestamp,manufacturing_year,next_production)
+              -- ,t1.asset_type
+              -- ,t1.bpkb_ownership
+              -- ,t1.bpkb_status
+              -- ,t1.brand
+              -- ,t1.stnk_status
+              -- ,t1.tax_status
+              -- ,t1.vehicle_category
+              -- ,t1.vehicle_category_nunique
+              
+              ,CASE   WHEN description_nunique > 1 THEN TRUE
+                      ELSE FALSE
+              END AS description_changed
+              ,CASE   WHEN manufacturing_nunique > 1 THEN TRUE
+                      ELSE FALSE
+              END AS manufacturing_changed
+              ,COUNT(CASE WHEN next_production > manufacturing_year THEN 1 END) OVER(PARTITION BY t1.asset_code ORDER BY t1.created_timestamp) AS manufacturing_newer
+              ,COUNT(CASE WHEN next_production < manufacturing_year THEN 1 END) OVER(PARTITION BY t1.asset_code ORDER BY t1.created_timestamp) AS manufacturing_older
+              ,t1.manufacturing_year
+              
+              ,t2.* EXCEPT (asset_code,agreement_number,asset_seq_no)
+              ,t3.otr_ema_v0_m3
+              ,t3.otr_ema_v0_m6
+              ,t3.otr_ema_v0_y1
+              ,t3.otr_ema_v1_m3
+              ,t3.otr_ema_v1_m6
+              ,t3.otr_ema_v1_y1
+              ,t4.otr_ewm_base_m6
+              ,t4.otr_ewm_fast_m6
+              ,t4.otr_ewm_slow_m6
+              ,t4.otr_ewm_base_y1
+              ,t4.otr_ewm_fast_y1
+              ,t4.otr_ewm_slow_y1
+              ,t5.asset_count
+              ,t5.contract_count
+              ,t0.event_timestamp
+      FROM    ranked_asset t0
+      LEFT JOIN one_representation t1
+      ON      t0.asset_code = t1.asset_code
+      AND     t0.agreement_number = t1.agreement_number
+      AND     t0.asset_seq_no = t1.asset_seq_no -- 1m 17s
+      LEFT JOIN rolling_feature t2
+      ON      t0.asset_code = t2.asset_code
+      AND     t0.agreement_number = t2.agreement_number
+      AND     t0.asset_seq_no = t2.asset_seq_no -- 1m 24s
+      LEFT JOIN ema_feature t3
+      ON      t0.asset_code = t3.asset_code
+      AND     t0.row_idx = t3.row_idx -- 1m 42s
+      -- AND     t0.event_timestamp = t3.event_timestamp
+      LEFT JOIN ewm_feature t4
+      ON      t0.asset_code = t4.asset_code
+      AND     t0.agreement_number = t4.agreement_number
+      AND     t0.asset_seq_no = t4.asset_seq_no -- 1m 39s
+      -- AND     t0.event_timestamp = t4.event_timestamp
+      LEFT JOIN   (
+                      SELECT  asset_code
+                              ,COUNT(DISTINCT asset_id) AS asset_count
+                              ,COUNT(DISTINCT agreement_number) AS contract_count
+                      FROM    unified_asset3
+                      GROUP BY asset_code
+                  ) t5 -- 1m 29s 
+      ON      t0.asset_code = t5.asset_code
+  )
+  SELECT  *
+  FROM    final_joined_view;
