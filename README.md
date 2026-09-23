@@ -357,6 +357,24 @@
     </li>
     </ul>
   </li>
+  <li>
+    <strong><a href="feature_search/function_tools/feature_registrations">feature_registrations Folder</a></strong>
+    <br>
+    This folder contains code files that are used by the agents for feature registration, there are two steps of feature registrations:
+    <ul>
+      <li><a href = "feature_search/function_tools/feature_registrations/validations">validations</a>
+        <br>
+        In validation, there are four main steps before getting to writing step:
+        <ul>
+          <li><a href ="feature_search/function_tools/feature_registrations/validations/validate_parameters.py">validate_parameters.py</a> : Check whether all necessary parameters exist in user query</li>
+          <li><a href ="feature_search/function_tools/feature_registrations/validations/validate_entity.py">validate_entity.py</a> : Check whether if the entity exists in the system</li>
+          <li><a href ="feature_search/function_tools/feature_registrations/validations/validate_feature_keyword.py">validate_feature_keyword.py</a> : Check whether the [feature_name,entity] already exist in the system to prevent duplicate value</li>
+          <li><a href = "feature_search/function_tools/feature_registrations/validations/validate_feature_embeddings.py">validate_feature_embeddings.py</a> : Check whether there are similar features semantically with want-to-register-feature</li>
+        </ul>
+      </li>
+      <li><a href = "feature_search/function_tools/feature_registrations/writing">writing</a></li>
+    </ul>
+  </li>
 
 
 
