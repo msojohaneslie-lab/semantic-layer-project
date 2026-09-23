@@ -129,17 +129,6 @@
   </li>
   
   <li>
-     <strong><a href="feature_search/index_dictionary/field_index.json"> field_index.json</a></strong>
-      <br>
-      This JSON file contains indexes for feature related information
-      such as the feature name, the entity of the feature, the data type, description, and business logic. This index is used for
-      <h4>Feature Registration (Validation Step)</h4>
-      <ul>
-        <li>Check whether want-to-register feature: [feature_name,entity] exists in the system </li>
-      </ul>
-  </li>
-  
-  <li>
     <strong><a href="feature_search/index_dictionary/feature_view_sql_structure_index.json"> feature_view_sql_structure_index.json</a></strong>
       <br>
       This JSON file contains the whole SQL structure for each YAML. This index is used for:
@@ -176,25 +165,25 @@
          <li><a href = "feature_search/index_dictionary/unused_Index/feature_semantic_index.json">feature_semantic_index.json</a>
           <br>
           This file contains the embeddings of feature description + business logic. The index also contains useful metadata such as
-          entity of the feature, the feature view, the business logic and description themselves. The embeddings were migrated to Open-             source ChromaDB Vector Database
+          entity of the feature, the feature view, the business logic and description themselves. The embeddings were migrated to Open-source ChromaDB Vector Database
         </li>
       </ul>
       <ul>
         <li><a href = "feature_search/index_dictionary/unused_Index/feature_view_embeddings.json">feature_view_embeddings.json</a>
           <br>
-          This file contains the embeddings of feature view description. The file is not used anymore due to lack of information that can           be easily processed or analyzed
+          This file contains the embeddings of feature view description. The file is not used anymore due to lack of information that can  be easily processed or analyzed
         </li>
       </ul>
       <ul>
         <li><a href = "feature_search/index_dictionary/unused_Index/feature_view_embeddings_entity_based.json">feature_view_embeddings_entity_based</a>
           <br>
-          This file contains the embeddings of feature view description. The index was based on the entity for each feature view. The   file          is not              used anymore due to lack of information that can be easily processed or analyzed
+          This file contains the embeddings of feature view description. The index was based on the entity for each feature view. The  file  is not used anymore due to lack of information that can be easily processed or analyzed
         </li>
       </ul>
       <ul>
         <li><a href = "feature_search/index_dictionary/unused_Index/field_embeddings.json">field_embeddings.json</a>
           <br>
-          This file contains the embeddings of feature description + business logic. The file is not used anymore due to lack of                    information           that can be easily processed or analyzed
+          This file contains the embeddings of feature description + business logic. The file is not used anymore due to lack of  information  that can be easily processed or analyzed
         </li>
       </ul>
   </li>
@@ -206,10 +195,179 @@
 <li>
   <h4><a href = "feature_search/index_extraction">Index Extraction</a></h4>
   <p>This folder contains the code file for extracting indexes or embeddings</p>
-  <h4>Parser Files:</h5>
+  <h4>Index Extractor Files:</h4>
+  <ul>
+    <li><strong><a href="feature_search/index_extraction/extract_entities_index.py">extract_entities_index.py</a></strong>
+      <br>
+      This code file is used to extract entities information in form of indexes based on entity name. The index contains necessary entity information such as the join key / feature_field, the description, and the business logic. The indexID is based on the entity name, where the result is saved in <a href = "feature_search/index_dictionary/entities_index.json">entities_index.json</a> file 
+    </li>
+    <li><strong><a href="feature_search/index_extraction/extract_features_index.py">extract_features_index.py</a></strong>
+      <br>
+      This code file is used to extract feature view information in form of indexes based on feature view name. The index contains necessary feature view information such as the entity, ttl(time-to-live),domain,confidentiality, and feature name. Specifically for feature view name and feature name, additional indexes were added which are the separated name rather than use '_' as the separator between words. The indexID is based on the feature view name, where the result is saved in <a href="feature_search/index_dictionary/feature_index.json">feature_index.json</a> file 
+    </li>
+    <li><strong><a href="feature_search/index_extraction/extract_terminology.py">extract_terminology.py</a></strong>
+      <br>
+      This code file is used to extract companies terminology or jargons using the LLM agent. In this case gemini-3.5-flash-lite llm  model was used to extract the possible jargons. Later the extracted jargons will be normalized such as making it case insesitive, remove '_', etc, before being saved in  <a href ="feature_search/index_dictionary/terminology_index.json">terminology_index.json</a> file 
+    </li>
+    <li><strong><a href="feature_search/index_extraction/field_extractions.py">field_extractions.py</a></strong>
+      <br>
+      This code file is used to extract features information in form of indexes based on feature name. The index contains necessary feature information such as the type,description, and the business logic. The indexID is based on the feature name, where the result is saved in <a href = "feature_search/index_dictionary/field_index.json">field_index.json</a> file 
+    </li>
+    <li>
+      <strong><a href="feature_search/index_extraction/extract_sql_for_edit_yaml.py">extract_sql_for_edit_yaml.py</a></strong>
+      <br>
+      This code file is used to extract YAML whole SQL structure using the SQLGlot parser. The result is saved in <a href = "feature_search/index_dictionary/feature_view_sql_structure_index.json">feature_view_sql_structure_index.json</a> file 
+    </li>
+      <li>
+      <strong><a href="feature_search/index_extraction/unused_index_extractors"> unused_index_extractors Folder</a></strong>
+      <br>
+      This folder contains historical/legacy index extractors which could be useful in future development. 
+      <h4>File Explanations:</h4> 
+      <ul>
+         <li><a href = "feature_search/index_extraction/unused_index_extractors/extract_entity_embeddings.py">extract_entity_embeddings.py</a>
+         <br>
+         This file embeds the entity description + business logic. The used embedding model was 'gemini-embedding-01' model. The extractor is no longer being used, since it has been migrated to open-source ChromaDB vector database
+         </li>
+      </ul>
+      <ul>
+         <li><a href = "feature_search/index_extraction/unused_index_extractors/extract_feature_view_embeddings.py">extract_feature_view_embeddings.py</a>
+         <br>
+         This file embeds the feature view description. The used embedding model was 'gemini-embedding-01' model. The index was created based on the entity of the feature view. The extractor is no longer being used, since it lacks of features or elements that can be easily analyzed or processed
+         </li>
+     </ul>
+     <ul>
+         <li><a href = "feature_search/index_extraction/unused_index_extractors/extract_features_embeddings.py">extract_features_embeddings.py</a>
+         <br>
+        This file embeds the feature description + business logic. The index also contains useful metadata such as
+          entity of the feature, the feature view, the business logic and description themselves. The index is not used anymore since, the process has been migrated to ChromaDB Vector Database
+         </li>
+    </ul>
+    <ul>
+         <li><a href = "feature_search/index_extraction/unused_index_extractors/extract_field_embeddings">extract_field_embeddings</a>
+         <br>
+        This file embeds the feature description + business logic. The index is not used anymore since it lacks of features or elements that can be easily analyzed or processed
+         </li>
+    </ul>
+    </li>
+  </li>
 </li>
+
+
 <li>
   <h4><a href = "feature_search/function_tools">Feature Functions</a></h4>
+   <h4>This folder contains the main features of the agents which include feature registration,feature information retrieval, and entitiy information retrieval</h4>
+  <h4>Feature Information Retrieval:</h5>
+  <ul>
+  <li>
+    <strong><a href="feature_search/function_tools/feature_to_elements">feature_to_elements Folder</a></strong>
+    <br>
+    This folder contains code files that are used by the agents for feature-to-elements conversation, there are three main files:
+    <ul>
+      <li>
+        <strong><a href="feature_search/function_tools/feature_to_elements/feature_view_info.py">feature_view_info.py</a></strong>
+        <br>
+        This code provides function that will be used by the agent to retrieve feature view information such as entity, description, ttl, and features name. It uses  <strong><a href="feature_search/index_dictionary/feature_index.json">feature_index.json</a>Index </strong> as its searching dictionary
+        There are four types of 'modes' where LLM can choose and decide when running this function:
+        <ul>
+          <li>description: If users ask about feature view descriptions</li>
+          <li>entity: If users ask about what entity does a feature view have</li>
+          <li>ttl: If users ask about what is the ttl (time-to-live) of a feature view</li>
+          <li>feature_fields: If users ask about which features exist in asked feature view</li>
+        </ul>
+      </li>
+      <li>
+        <strong><a href="feature_search/function_tools/feature_to_elements/feature_info.py">feature_info.py</a></strong>
+        <br>
+        This code provides function that will be used by the agent to retrieve feature information such as its description, business logic, and data type. It uses  <strong><a href="feature_search/index_dictionary/feature_index.json">feature_index.json</a>Index </strong> as its searching dictionary
+        There are four  types of 'modes' where LLM can choose and decide when running this function:
+        <ul>
+          <li>description: If users ask about feature descriptions</li>
+          <li>business_logic: If users ask about the business logic of asked features</li>
+          <li>type: If users ask about what is the data type of asked features</li>
+          <li>all: If users ask detailed information of the asked features</li>
+        </ul>
+    </li>
+    <li>
+        <strong><a href="feature_search/function_tools/feature_to_elements/feature_sql.py">feature_sql.py</a></strong>
+        <br>
+        This code provides function that will be used by the agent to retrieve feature SQL. It uses  <strong><a href="feature_search/SQL_parser/field_sql_index.json">field_sql_index.json</a>Index </strong> as its searching dictionary
+        The agent will check through the index to get the SQL structure for the searched features, and will generate the SQL by using the structure it gets from the index
+      Note: For future development, it will use <a href = "feature_search/SQL_parser/reconstructed_sql.json">reconstructed_sql.json</a> as its searching index (After its validated)
+    </li>
+    </ul>
+  </li>
+  <li>
+    <strong><a href="feature_search/function_tools/elements_to_features">elements_to_features Folder</a></strong>
+    <br>
+    This folder contains code files that are used by the agents for elements-to-features conversation, there are three main files:
+    <ul>
+      <li>
+        <strong><a href="feature_search/function_tools/elements_to_features/by_feature_view_info.py">by_feature_view_info.py</a></strong>
+        <br>
+        This code provides function that will be used by the agent to search feature view by the elements such as ttl, description, entity, and feature fields. It uses  <strong><a href="feature_search/index_dictionary/feature_index.json">feature_index.json</a>Index </strong> as its keyword searching dictionary and feature_views_descriptions chromaDB collection as its semantic searching dictionary which use cosine-similarity to check the similarity
+        There are four types of 'modes' where LLM can choose and decide when running this function:
+        <ul>
+          <li>description: If users provide information in form of description text and ask whether that feature view exists or not</li>
+          <li>entity: If users provide entities and ask which feature views use that entities</li>
+          <li>ttl: If users provide ttl and ask which feature views has that ttl(s)</li>
+          <li>feature_fields: If users provide features and ask which feature views store that features</li>
+        </ul>
+      </li>
+      <li>
+        <strong><a href="feature_search/function_tools/elements_to_features/by_feature_field_info.py">by_feature_field_info.py</a></strong>
+        <br>
+        This code provides function that will be used by the agent to search feature by the elements such as description and business logic. It uses feature_description_bl_collection chromaDB collection as its semantic searching dictionary. 
+    </li>
+    <li>
+        <strong><a href="feature_search/function_tools/elements_to_features/by_feature_field_sql.py">by_feature_field_sql.py</a></strong>
+        <br>
+        This code provides function that finds similarity between the user given query SQL with the vector embeddings. It uses  <strong><a href="feature_search/SQL_parser/sql_embeddings.json">sql_embeddings.json</a>Index </strong> as its semantic searching dictionary.
+        The agent will check using cosine-similarity to check whether similar feature SQL exists
+      Note: For future development, it will use sql_embeddings_collection ChromaDB Collection as its searching index (After its validated)
+    </li>
+    </ul>
+  </li>
+   <li>
+    <strong><a href="feature_search/function_tools/entity_information">entity_information Folder</a></strong>
+    <br>
+    This folder contains code files that are used by the agents for entities-to-elements conversation, there are two main files:
+    <ul>
+      <li>
+        <strong><a href="feature_search/function_tools/entity_information/entity_to_elements.py">entity_to_elements.py</a></strong>
+        <br>
+        This code provides function that will be used by the agent to retrieve entity information such as the join key, description, and business logic. It uses  <strong><a href="feature_search/index_dictionary/entities_index.json">entities_index.json</a>Index </strong> as its keyword searching dictionary.
+        There are four types of 'modes' where LLM can choose and decide when running this function:
+        <ul>
+          <li>description: If users ask about feature descriptions</li>
+          <li>business_logic: If users ask about the business logic of asked features</li>
+          <li>type: If users ask about what is the data type of asked features</li>
+          <li>field_name: If users ask what is the join key of asked entities</li>
+        </ul>
+      </li>
+      <li>
+        <strong><a href="feature_search/function_tools/entity_information/elements_to_entity.py">elements_to_entity.py</a></strong>
+        <br>
+        This code provides function that will be used by the agent to search entities by the elements such as description, business logic, and join key. It uses entities_description_bl_collection chromaDB collection as its semantic searching dictionary and <strong><a href = "feature_search/index_dictionary/field_index.json"></a>field_index.json</strong> Index as its keyword searching dictionary. 
+         There are three types of 'modes' where LLM can choose and decide when running this function:
+        <ul>
+          <li>type: If users provide the data types and ask which entities have provided datatype</li>
+          <li>description: If users provide description /  business logic to check whether similar entities exist or not</li>
+          <li>field: If users provide the join key and ask which entities have provided join key</li>
+        </ul>
+    </li>
+    </ul>
+  </li>
+   <li>
+    <strong><a href="feature_search/function_tools/entity_information">entity_information Folder</a></strong>
+    <br>
+    This folder contains code files that are used by the agents for entities-to-elements conversation, there are two main files:
+   </li>
+
+
+
+  
+  </ul>
+  
 </li>
 <li>
   <h4><a href = "feature_search/chromadb">Vector Embeddings</a></h4>
