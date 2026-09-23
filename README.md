@@ -205,6 +205,8 @@
 
 <li>
   <h4><a href = "feature_search/index_extraction">Index Extraction</a></h4>
+  <p>This folder contains the code file for extracting indexes or embeddings</p>
+  <h4>Parser Files:</h5>
 </li>
 <li>
   <h4><a href = "feature_search/function_tools">Feature Functions</a></h4>
