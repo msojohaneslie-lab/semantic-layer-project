@@ -9,7 +9,7 @@ import os
 
 
 # CONFIG
-BASE_DIR = Path(__file__).resolve().parents[1]
+BASE_DIR = Path(__file__).resolve().parents[2]
 
 YAML_FOLDER = BASE_DIR / "yaml_list"
 

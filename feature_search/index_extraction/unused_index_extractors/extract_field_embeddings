@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 # SETUP
 # --------------------------------
 
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).parents[2]
 
 load_dotenv(BASE_DIR / ".env")
 
