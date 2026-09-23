@@ -357,15 +357,9 @@
     </li>
     </ul>
   </li>
-   <li>
-    <strong><a href="feature_search/function_tools/entity_information">entity_information Folder</a></strong>
-    <br>
-    This folder contains code files that are used by the agents for entities-to-elements conversation, there are two main files:
-   </li>
 
 
 
-  
   </ul>
   
 </li>
