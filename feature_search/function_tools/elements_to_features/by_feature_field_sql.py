@@ -8,7 +8,7 @@ from google.genai import types
 
 client = genai.Client()
 
-with open("feature_search/SQL_parser/sql_embeddings4.json", "r", encoding="utf-8") as file:
+with open("feature_search/SQL_parser/sql_embeddings.json", "r", encoding="utf-8") as file:
     sql_embeddings = json.load(file)
 
 def search_sql_embeddings(query_vector,top_k=5,threshold=0.70):

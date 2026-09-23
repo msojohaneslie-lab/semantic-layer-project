@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Optional
 
 
-BASE_DIR = Path(__file__).resolve().parents[2]
+BASE_DIR = Path(__file__).resolve().parents[3]
 YAML_FOLDER = BASE_DIR / "yaml_list"
 
 def create_feature_view_yaml(

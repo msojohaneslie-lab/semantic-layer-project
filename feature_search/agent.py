@@ -2,7 +2,7 @@ from google.adk.agents.llm_agent import Agent
 from typing import Optional
 from google import genai
 import mlflow
-from .function_tools.feature_registrations.write_new_feature_view import create_feature_view_yaml
+from .function_tools.feature_registrations.writing.write_new_feature_view import create_feature_view_yaml
 from .function_tools.feature_registrations.writing.write_feature_field_existing_yaml import add_feature_field
 from .function_tools.feature_registrations.writing.sql_edit_planner import plan_yaml_edit
 from .function_tools.feature_registrations.writing.write_sql_existing_yaml import apply_edit_plan
