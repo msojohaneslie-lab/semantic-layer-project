@@ -1,4 +1,4 @@
-from feature_search.SQL_parser.embbed_sql import normalize_sql
+from feature_search.SQL_parser.embed_sql import normalize_sql
 from google import genai
 import json
 import yaml

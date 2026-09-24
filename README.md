@@ -8,6 +8,7 @@ By unifying vector-based semantic search, deterministic index lookups, and autom
 
 <h2>Core Features</h2>
 <h3>1. Feature Information Retrieval</h3>
+<img src="Diagram_sources\Feature Retrieval.png" alt="feature_retrieval_graph">
 <li><h3>feature-to-elements</h3>
   <p>
 feature-to-elements conversation meanns that users <strong>know</strong> the feature name but seek information regarding that feature elements. For example:</p>
@@ -55,6 +56,7 @@ There are necessary procedures that need to be checked for validations, and many
 </ul>
 
 <h2>System Overview</h2>
+<img src="Diagram_sources\System Inference.png" alt="system_inference_graph">
 
 <h2><a href="feature_search">Directory Explanatory</a></h2>
 <h3>Folder Definitions</h3>

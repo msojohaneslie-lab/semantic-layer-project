@@ -6,7 +6,7 @@ import json
 import yaml
 
 
-BASE_DIR = Path(__file__).resolve().parents[1]
+BASE_DIR = Path(__file__).resolve().parents[2]
 
 
 
