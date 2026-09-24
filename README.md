@@ -347,7 +347,7 @@
       <li>
         <strong><a href="feature_search/function_tools/entity_information/elements_to_entity.py">elements_to_entity.py</a></strong>
         <br>
-        This code provides function that will be used by the agent to search entities by the elements such as description, business logic, and join key. It uses entities_description_bl_collection chromaDB collection as its semantic searching dictionary and <strong><a href = "feature_search/index_dictionary/field_index.json"></a>field_index.json</strong> Index as its keyword searching dictionary. 
+        This code provides function that will be used by the agent to search entities by the elements such as description, business logic, and join key. It uses entities_description_bl_collection chromaDB collection as its semantic searching dictionary and <strong><a href = "feature_search/index_dictionary/field_index.json">field_index.json</a></strong> Index as its keyword searching dictionary. 
          There are three types of 'modes' where LLM can choose and decide when running this function:
         <ul>
           <li>type: If users provide the data types and ask which entities have provided datatype</li>
@@ -373,22 +373,73 @@
         </ul>
       </li>
       <li><a href = "feature_search/function_tools/feature_registrations/writing">writing</a></li>
-    </ul>
+      <br>
+      In writing, there are two options:
+      <ul>
+        <li>Write New YAML : If entity does not have any YAML files or users choose to make new YAML
+            <ul>
+                  <li><a href = "feature_search/function_tools/feature_registrations/writing/write_new_feature_view.py">write_new_feature_view.py</a> : Write new YAML file which requires additional parameters such as feature view name, source type, tags, and discriptions</li>
+            </ul>
+        </li>
+        <li>
+            Write Existing YAML: If users choose to write new feature in existing YAML
+          <ul>
+            <li><a href = "feature_search/function_tools/feature_registrations/writing/write_feature_field_existing_yaml.py">write_feature_field_existing_yaml.py</a> : Add the new feature to the existing YAML, including the description and business logic</li>
+            <li><a href = "feature_search/function_tools/feature_registrations/writing/sql_edit_planner.py">sql_edit_planner.py</a> : LLM will decide how to change the SQL structure (LLM will return a change plan). Uses <a href = "feature_search/index_dictionary/feature_view_sql_structure_index.json">feature_view_sql_structure_index.json</a> index</li>
+            <li><a href = "feature_search/function_tools/feature_registrations/writing/write_sql_existing_yaml.py">write_sql_existing_yaml.py</a> : Python will receive the change plan, then execute it to change the SQL in the YAML</li>
+          </ul>
+        </li>
+      </ul>
   </li>
-
-
-
   </ul>
-  
 </li>
+<li><a href = "feature_search/function_tools/global_function">global_function Folder</a>
+<br>
+This folder contains functions that are reused in many code files:
+<ul>
+  <li><a href = "feature_search/function_tools/global_function/terminology_check.py">terminology_check.py</a> : Provides the function to check terminology in user query. Uses <a href = "feature_search/index_dictionary/terminology_index.json">terminology_index.json</a>index</li>
+  <li><a href = "feature_search/function_tools/global_function/cosine_similarity.py">cosine_similarity.py</a> : To calculate similarity between vectors. <strong> Not used anymore since ChromaDB provides the calculation</strong></li>
+  <li><a href = "feature_search/function_tools/global_function/read_json.py">read_json.py</a> : To read json file (index files)</li>
+</ul>
+</li>
+
+
+    
 <li>
   <h4><a href = "feature_search/chromadb">Vector Embeddings</a></h4>
+  <br>
+  This folder contains the code files for embedding vectors to ChromaDB Vector Database, and the vector itself in form of collection
+  There are four main functions and two additional files for testing files.
+  <ul>
+    <li>Main Functions:
+    <ul>
+      <li><a href = "feature_search/chromadb/feature_view_description_collection.py">feature_view_description_collection.py</a> : Embeds the feature view description and saved in <strong>feature_views_descriptions</strong> ChromaDB Collection</li>
+      <li><a href = "feature_search/chromadb/feature_descriptions_bl_collection.py">feature_descriptions_bl_collection.py</a> : Embeds the feature description + business logic and saved in <strong>feature_description_bl_collection</strong> ChromaDB Collection</li>
+      <li><a href = "feature_search/chromadb/entitiy_description_bl_collection.py">entitiy_description_bl_collection.py</a> : Embeds the entity description + business logic and saved in <strong>entities_description_bl_collection</strong> ChromaDB Collection</li>
+      <li><a href = "feature_search/chromadb/feature_sql_semantic_collection.py">feature_sql_semantic_collection.py</a> : Embeds the re-constructed SQL and saved in <strong>sql_embeddings_collection</strong>ChromaDB Collection <strong>Note: This file has not been ran, hence the collection has not existed yet</strong> </li>
+    </ul>
+    </li>
+  </ul>
 </li>
 <li>
-  <h4><a href = "feature_search/yaml_list">YAML Files</a></h4>
+  <h4><a href = "feature_search/yaml_list">YAML Files</a> : This folder contains the existing feature view YAML Files (The semantic layer)</h4>
+  <strong>Note, these files are dummy files, not actually exist in the system:</strong>
+  <ul>
+    <li><a href = "feature_search/yaml_list/testing.yaml">testing.yaml</a></li>
+    <li><a href = "feature_search/yaml_list/testing2.yaml">testing2.yaml</a></li>
+    <li><a href = "feature_search/yaml_list/testing3.yaml">testing3.yaml</a></li>
+    <li><a href = "feature_search/yaml_list/testing_customer.yaml">testing_customer.yaml</a></li>
+    <li><a href = "feature_search/yaml_list/testing_for_life.yaml">testing_for_life.yaml</a></li>
+  </ul>
 </li>
 <li>
-  <h4><a href = "feature_search/entities">Entity Files</a></h4>
+  <h4><a href = "feature_search/entities">Entity Files</a> : This folder contains the existing entity/dimension YAML Files</h4>
+  <strong>Note, these files are dummy files, not actually exist in the system:</strong>
+   <ul>
+    <li><a href = "feature_search/entities/testing.yaml">testing.yaml</a></li>
+    <li><a href = "feature_search/entities/testing_customer.yaml">testing_customer.yaml</a></li>
+  </ul>
+
 </li>
 
 
