@@ -1,4 +1,61 @@
 <h1>Semantic Layer Project</h1>
+<h2>Project Overview</h2>
+<br>
+The Semantic Layer AI Assistant is an intelligent agent designed to bridge the gap between complex data infrastructure and end-users. It serves as an automated co-pilot that simplifies how data teams and business stakeholders interact with the organization's semantic layer.
+<br>
+<br>
+By unifying vector-based semantic search, deterministic index lookups, and automated code generation, the assistant handles two core workflows: retrieving and explaining existing features and registering new features/entities into the semantic layer.
+
+<h2>Core Features</h2>
+<h3>1. Feature Information Retrieval</h3>
+<li><h3>feature-to-elements</h3>
+  <p>
+feature-to-elements conversation meanns that users <strong>know</strong> the feature name but seek information regarding that feature elements. For example:</p>
+  <ul>
+    <li>What is the <strong>business</strong> logic of <strong>featureA</strong>?</li>
+    <li>Can you tell me what is the data type of <strong>featureB</strong>?</li>
+    <li>What is <strong>featureC</strong>?</li>
+  </ul>
+</li>
+<li><h3>elements-to-feature</h3>
+<p>
+elements-to-features conversation means that users know the elements regarding the feature but ask whether that feature exist or not within the system. For example:</p>
+<ul>
+  <li>Which <strong>features</strong> have <strong>product entity</strong>?</li>
+  <li>Do we have a <strong>feature</strong> where it <strong>describes the total sum of this month revenue</strong>?</li>
+  <li>Do we have feature that has <strong>this SQL</strong>?</li>
+</ul>
+</li>
+<li><h3>entity-to-elements</h3>
+<p>
+entity-to-elements conversation meanns that users <strong>know</strong> the entity name but seek information regarding that entity elements. For example:</p>
+<ul>
+  <li>What is the join key of <strong>entityA</strong>?</li>
+  <li>What is <strong>entityB</strong>?</li>
+  <li>Can you tell me the business logic of <strong>entityC</strong></li>
+</ul>
+</li>
+<li><h3>elements-to-entity</h3>
+<br>
+elements-to-entity conversation means that users know the elements regarding the entity but ask whether that entity exist or not within the system. For example:
+  <ul>
+    <li>Which <strong>entity</strong> has <strong> customerID as it's Join key</strong>?</li>
+    <li> Do we have <strong>entity</strong> that is described <strong>as an unique identifier for product</strong>?</li>
+  </ul>
+</li>
+
+<h3>2. Feature Registrations</h3>
+<br>
+Feature Registration means that whenever users want to register a new feature into a system. For examples:
+<ul>
+<li>I want to register a feature</li>
+<li>I want to register new feature</li>
+<br>
+There are necessary procedures that need to be checked for validations, and many steps for the registration execution
+</ul>
+
+<h2>System Overview</h2>
+
 <h2><a href="feature_search">Directory Explanatory</a></h2>
 <h3>Folder Definitions</h3>
 
