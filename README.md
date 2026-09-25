@@ -56,7 +56,7 @@ Feature Registration means that whenever users want to register a new feature in
 There are necessary procedures that need to be checked for validations, and many steps for the registration execution
 </ul>
 
-<h2>System Overview</h2>
+<h2>System Inference</h2>
 <img src="Diagram_sources\System Inference.png" alt="system_inference_graph">
 
 <h2><a href="feature_search">Directory Explanatory</a></h2>
