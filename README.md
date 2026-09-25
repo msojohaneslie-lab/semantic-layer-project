@@ -46,6 +46,7 @@ elements-to-entity conversation means that users know the elements regarding the
 </li>
 
 <h3>2. Feature Registrations</h3>
+<img src="Diagram_sources\feature registration flowchart.png" alt="feature_registration_flowchart">
 <br>
 Feature Registration means that whenever users want to register a new feature into a system. For examples:
 <ul>
