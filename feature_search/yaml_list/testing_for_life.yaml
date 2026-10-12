@@ -12,7 +12,7 @@ feature_fields:
   description: I am tired, please make this right
   business_logic: haha + hihi
 tags:
-- domain: testing
+  domain: testing
   confidentiality: public
 sql: |-
   WITH cte_level_1 AS (

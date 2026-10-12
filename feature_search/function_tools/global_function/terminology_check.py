@@ -70,7 +70,7 @@ def expand_terminology(query: str):
         if not definition:
             continue
 
-        replacement = f"{original_term}/{definition}"
+        replacement = f"{original_term} or {definition}"
 
         expanded_query = pattern.sub(
             replacement,

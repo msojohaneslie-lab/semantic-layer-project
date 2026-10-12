@@ -127,28 +127,46 @@ def search_feature_view_info(value: str, info: str):
     
             HERE HOW TO CHOOSE INFO:
             1. info == description: Only used when users ask for descriptions for certain features
-                Example:
+                Examples:
                 -) Can you explain what is featureA?
                 -) What is featureA
                 -) What is the definition of featureB
                 -) Explain featureA and featureB
     
             2. info == entity: Only used when users ask for what entities the features use
-                Example:
+                Examples:
                 -) "What entity does feature A use?"
                 -) "What is the entity for feature_a?"
                 -) "Which entity belongs to contract_basic_info?"
     
             3. info == ttl: Only used when users ask for what are the ttl the features have
-                Example:
+                Examples:
                 -) "What is the ttl for feature_a?"
                 -) "feature a, what is the ttl?"
                 -) "How about feature a, what is the ttl?
     
             4. info == feature_fields: Only used when users ask what feature_fields do the features contain
+                Examples:
                 -) What feature fields featureA contains?
                 -) featureA and featureB have what feature_fields?
                 -) What feature fields does featureA contain?
+            
+            5. info == domain: Only used when users ask what is the domain of the feature view
+                Examples:
+                -) What is the domain for feature view A?
+                -) Which domain is used in featureViewB?
+                -) Apa domain yang dipakai di feature view C
+            
+            6. info == confidentiality: Only used when users ask what is the confidentiality type of the feature view
+                Examples:
+                -) What is the confidentiality of feature view A?
+                -) Apa tingkat confidentiality dari feature View B?
+            
+            7. info == tags: Only used when users ask what are the tags for certain feature view
+                Examples:
+                -) What are the tags for featureViewA?
+                -) Sebutkan semua tags yang ada di feature view B
+                NOTE: for this mode, it will return both confidentiality and domain, not the 'tags' itself
         """
     return run_tool(
         get_feature_view_info,
@@ -279,26 +297,37 @@ def search_features_view_by(value: str, info: str):
      This tools is for when users give information such as ttl, description, entities to ask which features contain that information.
         HERE HOW TO CHOOSE INFO:
             1. info == description: Used when users give information and ask whether the features with similar descriptions exist or not
-                Example:
+                Examples:
                 -) Do we have features where {Description explanation} description exists?
                 -) {Description explanation}, do we have feature with similar descriptions?
                 
             2. info == entity: Only used when users give entities and ask which features have those entities
-                Example:
+                Examples:
                 -) What features have entityA entity?
                 -) Which features have entityA or entityB entity?
                 -) EntityA exists in what features?
     
             3. info == ttl: Only used when users give the ttl, and ask which features have those ttl(s)
-                Example:
+                Examples:
                 -) What features have 20 years ttl?
                 -) Which features have 3600 days ttl?
                 -) 30 years or 45 years, which features have those ttl(s)?
     
             4. info == field: Only used when users give feature_fields / fields, and ask which features have those fields/feature_fields
+                Examples:
                 -) fieldsA and fieldsB exist in what features? 
                 -) Which features have fieldC and feature_fieldsD?
                 -) What features have fieldC and feature_fieldsD?
+            
+            5. info == domain: Only used when users give domain, and ask which feature views using that domain
+               Examples:
+                -) Which feature views use customer domain?
+                -) Feature views mana yang menggunakan customer atau contract domains?
+            
+            6. info == confidentiality: Only used when users give confidentiality information, and ask which feature views has that confidentiality level
+               Examples:
+                -) Which feature views have public level confidentiality?
+                -) Feature views mana yang mempunyai public level confidentiality?
     """
     return run_tool(
         get_features_views_by,

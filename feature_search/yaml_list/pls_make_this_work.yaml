@@ -8,5 +8,5 @@ feature_fields:
   description: integer
   business_logic: CAST(SPLIT_PART(collateral_id, '-', 3) AS INT)
 tags:
-- asset_code
+  domain: asset_code
 sql: XDXDXD

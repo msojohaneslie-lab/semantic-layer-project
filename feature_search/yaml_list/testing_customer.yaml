@@ -41,7 +41,7 @@ feature_fields:
   description: buat testing
   business_logic: SUM(A) + B
 tags:
-- domain: testing
+  domain: testing
 sql: "WITH cteA AS (\n  SELECT\n    SUM(M + B + G) AS test123,\n    MAX(walawe) AS\
   \ walawe,\n    COALESCE(testing67, 0) AS another_testing_kappa,\n    SUM(ROUND(hihi,\
   \ 2)) + MAX(haha) AS akuaku,\n    MAX(mbg) - MIN(mbg) AS dang_ding_dung_deng_dong\n\

@@ -20,7 +20,7 @@ feature_fields:
   description: walaw walaw we
   business_logic: "MIN(67_attr) - (\n        SUM(69attr) * 0.67\n      ) AS walawe2"
 tags:
-- domain: testing
+  domain: testing
   confidentiality: public
 sql: |-
   WITH cte_level_1 AS (

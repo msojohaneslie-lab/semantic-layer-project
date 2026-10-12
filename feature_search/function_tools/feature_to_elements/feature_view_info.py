@@ -5,7 +5,7 @@ import yaml
 from pathlib import Path
 
 #Load indexing
-with open("feature_search/index_dictionary/feature_index.json", "r", encoding="utf-8") as file:
+with open("feature_search/index_dictionary/feature_index2.json", "r", encoding="utf-8") as file:
     feature_index = json.load(file)
 
 BASE_DIR = Path(__file__).parents[2]
@@ -65,6 +65,29 @@ def get_feature_view_info(value: str, info: str):
 
         elif info == "feature_fields":
             results[feature] = [field.get("name", "") for field in data.get("feature_fields", [])]
+
+        elif info == "tags":
+            tags = data.get("tags", {}) or {}
+
+            if isinstance(tags, dict):
+                results[feature] = {
+                    "domain": tags.get("domain", ""),
+                    "confidentiality": tags.get("confidentiality", "")
+                }
+            else:
+                results[feature] = {
+                    "domain": "",
+                    "confidentiality": ""
+                }
+                
+        elif info == 'domain':
+            tags = data.get("tags", {}) or {}
+            results[feature] = {"domain": tags.get("domain","")}
+
+        elif info == 'confidentiality':
+            tags = data.get("tags", {}) or {}
+            results[feature] = {"confidentiality": tags.get("confidentiality","")}
+
 
         else:
             results[feature] = (f"Unknown information type '{info}'.")

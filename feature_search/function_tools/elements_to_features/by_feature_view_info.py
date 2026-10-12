@@ -6,7 +6,7 @@ from google import genai
 import chromadb
 
 #Load indexing
-with open("feature_search/index_dictionary/feature_index.json", "r", encoding="utf-8") as file:
+with open("feature_search/index_dictionary/feature_index2.json", "r", encoding="utf-8") as file:
     feature_index = json.load(file)
 
 #Load feature descriptions embeddings
@@ -65,17 +65,20 @@ def search_features_by_description(query: str):
 def get_features_views_by(value: str, info: str):
     value = value.lower().strip()
     info = info.lower().strip()
-
+    
     #Users provide entities
     if info == "entity":
         values = re.split(r"\s*(?:,|\bor\b|\band\b)\s*",value)
         values = [v.strip() for v in values if v.strip()]
 
         results = {}
-        
         for entity in values:
             files = feature_index["entity"].get(entity,[])
-
+            if not files:
+                files = feature_index["entity_seperated"].get(entity,[])
+                if not files:
+                    files = "NO_MATCH"
+        
             results[entity] = files
 
         return {
@@ -90,7 +93,43 @@ def get_features_views_by(value: str, info: str):
             "query": value,
             "features": matches 
             }
+    elif info == 'domain':
+        values = re.split(
+            r"\s*(?:,|\bor\b|\band\b)\s*",
+            value,
+            flags = re.IGNORECASE
+            )
+        domains = [domain.strip().lower() for domain in values if domain.strip()]
+        results = {}
+        for domain in domains:
+            files = feature_index["domain"].get(domain,[])
+            if not files:
+                files = feature_index["domain_seperated"].get(domain,[])
+                if not files:
+                    files = "NO_MATCH"
+            results[domain] = files
+          
+        return{
+            "requested_domain" : value,
+            "results": results
+        } 
 
+    elif info == 'confidentiality':
+        values = re.split(
+            r"\s*(?:,|\bor\b|\band\b)\s*",
+            value,
+            flags = re.IGNORECASE
+            )
+        confidentiality = [confidentiality.strip() for confidentiality in values if confidentiality.strip()]
+        results = {}
+        for element in confidentiality:
+            files = feature_index["confidentiality"].get(element,[])
+            results[element] = files
+        return{
+            "confidentiality" : value,
+            "results": results
+        } 
+            
     #Users provide features_field
     elif info == "field":
         values = re.split(

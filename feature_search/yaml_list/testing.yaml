@@ -16,6 +16,6 @@ feature_fields:
   description: buat testing
   business_logic: SUM(A) + B
 tags:
-- Domain: testing
+  domain: testing
 sql: "WITH p AS (\n  SELECT\n    *\n  FROM zzz\n)\nSELECT\n  tenor,\n  bbbbb AS bbbbb\n\
   FROM p"

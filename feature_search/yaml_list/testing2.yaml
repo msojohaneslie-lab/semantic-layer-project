@@ -20,7 +20,7 @@ feature_fields:
   description: I want to test new feature
   business_logic: 67 + 76
 tags:
-- domain: testing
+  domain: testing
   confidentiality: public
 sql: |-
   WITH p AS (
