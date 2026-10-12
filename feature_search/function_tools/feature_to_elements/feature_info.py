@@ -1,86 +1,94 @@
+
 import re
 import json
-import yaml
 from pathlib import Path
 
-#Load indexing
-with open("feature_search/index_dictionary/feature_index.json", "r", encoding="utf-8") as file:
-    feature_index = json.load(file)
 
-BASE_DIR = Path(__file__).parents[2]
-YAML_FOLDER = BASE_DIR / "yaml_list"
+# LOAD FIELD INDEX
+BASE_DIR = Path(__file__).resolve().parents[2]
 
-def get_feature_field_info(value: str, info: str):
-    value = value.lower().strip()
-    info = info.lower().strip()
+INDEX_FILE = (BASE_DIR/ "index_dictionary"/ "field_index.json")
 
+with open(INDEX_FILE, "r", encoding="utf-8") as file:
+    field_index = json.load(file)
+
+
+# NORMALIZE FIELD NAME
+def normalize_field_name(name: str) -> str:
+    name = name.strip().lower()
+    name = re.sub(r"[_-]+", " ", name)
+    name = re.sub(r"\s+", " ", name)
+
+    return name
+
+
+# GET FEATURE FIELD INFO
+def get_feature_field_info(value: str, info: str, feature_view: str = None):
+    info = info.strip().lower()
+    # Split multiple field names
     fields = re.split(
         r"\s*(?:,|\bor\b|\band\b)\s*",
-        value
+        value,
+        flags=re.IGNORECASE
     )
 
     fields = [field.strip() for field in fields if field.strip()]
+
     results = {}
     not_found = []
-    
-    #Process all fields
-    for field_name in fields: 
+    normalized_feature_view = (normalize_field_name(feature_view) if feature_view else None)
 
-        files = feature_index["field_exact"].get(field_name, [])
+    # Process each requested field
+    for field_name in fields:
 
-        if not files:
-            files = feature_index["field_seperated"].get(field_name,[])
+        normalized_name = normalize_field_name(field_name)
 
-        field_results = []
+        # Direct lookup using normalized field name
+        files = field_index.get(normalized_name, [])
 
-        #If field does not exist
+        # Field does not exist
         if not files:
             not_found.append(field_name)
             continue
 
-        #Open necessary YAML
-        filename = files[0]
-        yaml_path = YAML_FOLDER / filename
+        field_results = []
 
-        with open(yaml_path,"r", encoding="utf-8") as file:
-            data = yaml.safe_load(file)
-
-           
-        #Get the feature_fields
-        for field in data.get("feature_fields", []):
-
-            if field.get("name", "").lower() != field_name:
-                continue
-
+        # Process every matching field entry
+        for entry in files:
+            if normalized_feature_view:
+                if normalize_field_name(entry.get("feature_view","")) != normalized_feature_view:
+                    continue
+                
             result = {
-                "field": field.get("name", "")
+                "field": normalized_name,
+                "feature_view": entry.get("feature_view"),
+                "normalized_feature_view": normalize_field_name(entry.get("feature_view","")),
+                "entity": entry.get("entity"),
+                "file": entry.get("file"),
             }
 
-                
-            #Get requested info
+            # Requested information
             if info == "description":
-                result["description"] = field.get("description","")
+                result["description"] = entry.get("description", "")
 
             elif info == "business_logic":
-                result["business_logic"] = field.get("business_logic", "")
+                result["business_logic"] = entry.get("business_logic", "")
 
             elif info == "type":
-                result["type"] = field.get("type","")
+                result["type"] = entry.get("type", "")
 
             elif info == "all":
-                result["type"] = field.get("type", "")
-                result["description"] = field.get("description", "")
-                result["business_logic"] = field.get("business_logic","")
+                result["type"] = entry.get("type", "")
+                result["description"] = entry.get("description", "")
+                result["business_logic"] = entry.get("business_logic", "")
 
             else:
                 result["error"] = (f"Unknown information type '{info}'.")
-
             field_results.append(result)
-
         results[field_name] = field_results
 
     return {
         "results": results,
-        "info" : info,
-        "not_found" : not_found
-        }
+        "info": info,
+        "not_found": not_found
+    }

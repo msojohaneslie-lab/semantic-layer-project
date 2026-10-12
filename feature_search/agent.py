@@ -36,7 +36,7 @@ client = genai.Client()
 
 #Controller
 MAX_EMPTY_RESULTS = 2
-MAX_TOOL_CALLS = 7
+MAX_TOOL_CALLS = 30
 
 search_state = {
     "empty_count": 0,
@@ -196,44 +196,82 @@ def search_entity_info(value: str, info: str):
     )
 
 @mlflow.trace
-def search_feature_field_info(value: str, info: str):
-    """
-          This tools is for when users ask SPECIFIC information about feature fields.
-  
-          HERE HOW TO CHOOSE INFO:
-          1. info == description: Only used when users ask for descriptions for certain fields / feature fields. 
-              Example:
-              -) Can you explain what is fieldA?
-              -) What is feature_fieldA?
-              -) What is the definition of feature_fieldB?
-              -) Explain feature_fieldA and field_b?
-          
-          2. info == business_logic: Only used when users ask for business logic for certain fields / feature fields. 
-              Example:
-              -) What is the business logic for feature_fieldA?
-              -) Can you tell me what is the business logic for fieldB?
-              -) Explain the business logic for feature_fieldA and fieldB
-              -) How about the business logic for fieldA?
-          
-          3. info == type: Only used when users ask the data type for the requested feature fields / fields.
-              Example:
-              -) What is the data type for feature_fieldA
-              -) What is the type for fieldB
-              -) Can you tell me what is the datatype for fieldC and fieldA
-  
-          4. info == all: Used ONLY WHEN users ask for ALL information (description, business logic, and type) for certain feature fields / fields. 
-              Example:
-              -) Can I have the full information for feature_fieldA?
-              -) Explain what is fieldB with its type and business logic
-              -) (Any other requests similarly that ask for complete information)
 
-      """
+def search_feature_field_info(
+    value: str,
+    info: str,
+    feature_view: str = None
+):
+    """
+    This tool retrieves specific information about feature fields
+    from the field index.
+
+    PARAMETERS:
+
+    1. value:
+       The field name or field names requested by the user.
+       If multiple fields are requested, preserve them in this parameter.
+
+    2. info:
+       Choose exactly one of the following:
+
+       - "description":
+         When the user asks for a field's description,
+         definition, meaning, or explanation.
+
+       - "business_logic":
+         When the user explicitly asks for the business logic
+         of one or more fields.
+
+       - "type":
+         When the user asks for the data type of one or more fields.
+
+       - "all":
+         ONLY when the user requests all information, complete
+         information, or multiple information types such as
+         description, business logic, and type.
+
+    3. feature_view:
+       The feature view name, ONLY if the user explicitly
+       identifies a feature view to search within.
+       Otherwise, use None.
+
+       Do not confuse a field name with a feature view name.
+
+    EXAMPLES:
+
+    User: "What is the definition of fieldA?"
+    Parameters:
+        value="fieldA"
+        info="description"
+        feature_view=None
+
+    User: "What is the business logic for fieldA and fieldB?"
+    Parameters:
+        value="fieldA and fieldB"
+        info="business_logic"
+        feature_view=None
+
+    User: "What is the type of fieldA from feature view B?"
+    Parameters:
+        value="fieldA"
+        info="type"
+        feature_view="B"
+
+    User: "Give me all information about fieldA from feature view B."
+    Parameters:
+        value="fieldA"
+        info="all"
+        feature_view="B"
+    """
 
     return run_tool(
         get_feature_field_info,
         value,
-        info
+        info,
+        feature_view
     )
+
 
 @mlflow.trace
 def search_features_view_by(value: str, info: str):

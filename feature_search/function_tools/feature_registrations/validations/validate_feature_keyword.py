@@ -1,15 +1,22 @@
 from ...global_function.read_json import load_json_file
 from pathlib import Path
 from typing import Optional 
+import re
 
 BASE_DIR = Path(__file__).resolve().parents[3]
 FIELD_INDEX_FILE = BASE_DIR /"index_dictionary"/"field_index.json"
 
+def normalize_field_name(name: str) -> str:
+    name = name.strip().lower()
+    name = re.sub(r"[_-]+", " ", name)
+    name = re.sub(r"\s+", " ", name)
+
+    return name
 
 def check_exact_field_duplicate(field_name: str, entity: str,):
     field_index = load_json_file(FIELD_INDEX_FILE)
 
-    existing_fields = field_index.get(field_name,[])
+    existing_fields = field_index.get(normalize_field_name(field_name),[])
 
     exact_matches = []
     for existing in existing_fields:
@@ -32,7 +39,7 @@ def validate_exact_feature_duplicate(field_name: str,field_type: str,description
                 "entity": entity,
                 "existing_features": [
                     {
-                        "feature": item.get("feature"),
+                        "feature": item.get("feature_view"),
                         "entity": item.get("entity"),
                         "type": item.get("type"),
                         "file": item.get("file")

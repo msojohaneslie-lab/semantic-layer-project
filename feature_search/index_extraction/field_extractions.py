@@ -3,15 +3,19 @@ from pathlib import Path
 
 import yaml
 
+def normalize_field_name(name: str) -> str:
+    return name.strip().lower().replace("_", " ")
 
 # ============================================================
 # PATHS
 # ============================================================
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parents[1]
 
 YAML_FOLDER = BASE_DIR / "yaml_list"
-OUTPUT_FILE = BASE_DIR / "field_index.json"
+OUTPUT_FILE = BASE_DIR / "field_index2.json"
+
+
 
 
 # ============================================================
@@ -46,9 +50,9 @@ def build_field_index():
         # Feature name
         # ----------------------------------------------------
 
-        feature_name = data.get("name")
+        feature_view_name = data.get("name")
 
-        if not feature_name:
+        if not feature_view_name:
             print(f"[SKIP] No feature name: {yaml_file}")
             skipped_files += 1
             continue
@@ -95,11 +99,14 @@ def build_field_index():
 
             field_name = field.get("name")
 
-            if not field_name:
+            if not isinstance(field_name, str) or not field_name.strip():
                 continue
 
+            normalized_field_name = normalize_field_name(field_name)
+
             field_entry = {
-                "feature": feature_name,
+                "feature_view": feature_view_name,
+                "normalized_feature_view": normalize_field_name(feature_view_name),
                 "entity": entity,
                 "type": field.get("type"),
                 "description": field.get("description"),
@@ -111,10 +118,10 @@ def build_field_index():
             # Add field
             # ------------------------------------------------
 
-            if field_name not in field_index:
-                field_index[field_name] = []
+            if normalized_field_name not in field_index:
+                field_index[normalized_field_name] = []
 
-            field_index[field_name].append(field_entry)
+            field_index[normalized_field_name].append(field_entry)
 
             processed_fields += 1
 
